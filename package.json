@@ -1,0 +1,80 @@
+{
+  "name": "speedo",
+  "version": "0.1.0",
+  "author": "Christian Bromann <christian@saucelabs.com>",
+  "description": "Simple performance testing tool using SauceLabs",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/saucelabs/speedo#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saucelabs/speedo.git"
+  },
+  "keywords": [
+    "saucelabs",
+    "frontend",
+    "performance",
+    "testing",
+    "webdriver",
+    "perf",
+    "devtools",
+    "browser",
+    "speedIndex"
+  ],
+  "bugs": {
+    "url": "https://github.com/saucelabs/speedo/issues"
+  },
+  "main": "build/index.js",
+  "scripts": {
+    "build": "run-s clean compile",
+    "clean": "rm -rf ./build ./coverage",
+    "compile": "babel src -d build",
+    "eslint": "eslint ./src ./test",
+    "release": "npm run release:patch",
+    "release:patch": "NODE_ENV=production np patch",
+    "release:minor": "NODE_ENV=production np minor",
+    "release:major": "NODE_ENV=production np major",
+    "test": "run-s eslint test:unit",
+    "test:unit": "jest --coverage",
+    "watch": "npm run compile -- --watch"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-function-bind": "^7.0.0",
+    "@babel/plugin-proposal-optional-catch-binding": "^7.2.0",
+    "@babel/plugin-syntax-export-default-from": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.1.0",
+    "babel-plugin-source-map-support": "^2.0.1",
+    "codecov": "^3.0.0",
+    "eslint": "^4.7.2",
+    "eslint-plugin-import": "^2.8.0",
+    "jest": "^24.1.0",
+    "np": "^2.18.2",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^2.6.2",
+    "source-map-support": "^0.5.9"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/tests/**/*.test.js"
+    ],
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 95,
+        "functions": 96,
+        "lines": 96,
+        "statements": 96
+      }
+    },
+    "testEnvironment": "node"
+  }
+}
