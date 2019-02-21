@@ -1,4 +1,3 @@
-import assert from 'assert'
 import { remote } from 'webdriverio'
 
 export default async function runPerformanceTest (username, accessKey, url, jobName, buildName, logDir) {
@@ -19,18 +18,7 @@ export default async function runPerformanceTest (username, accessKey, url, jobN
     const sessionId = browser.sessionId
 
     await browser.url(url)
-    const { result, details } = await browser.assertPerformance(jobName, ['speedIndex'])
-
-    const resultDetails = []
-    for (const [metric, { actual, lowerLimit, upperLimit }] of Object.entries(details)) {
-        if (actual > lowerLimit && actual < upperLimit) {
-            continue
-        }
-
-        resultDetails.push(`Expected ${metric} to be between ${lowerLimit} and ${upperLimit} but was actually ${actual}`)
-    }
-    assert.equal(result, 'pass', `Performance assertions failed!\n${resultDetails.join('\n')}`)
-
+    const result = await browser.assertPerformance(jobName, ['speedIndex'])
     await browser.deleteSession()
-    return sessionId
+    return { sessionId, result }
 }
