@@ -16,6 +16,7 @@ export default async function runPerformanceTest (username, accessKey, url, jobN
             extendedDebugging: true
         }
     })
+    const sessionId = browser.sessionId
 
     await browser.url(url)
     const { result, details } = await browser.assertPerformance(jobName, ['speedIndex'])
@@ -31,5 +32,5 @@ export default async function runPerformanceTest (username, accessKey, url, jobN
     assert.equal(result, 'pass', `Performance assertions failed!\n${resultDetails.join('\n')}`)
 
     await browser.deleteSession()
-    return browser.sessionId
+    return sessionId
 }
