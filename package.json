@@ -1,6 +1,6 @@
 {
   "name": "speedo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Christian Bromann <christian@saucelabs.com>",
   "description": "Simple performance testing tool using SauceLabs",
   "license": "Apache-2.0",
@@ -24,6 +24,9 @@
     "url": "https://github.com/saucelabs/speedo/issues"
   },
   "main": "build/index.js",
+  "bin": {
+    "speedo": "./bin/speedo.js"
+  },
   "scripts": {
     "build": "run-s clean compile",
     "clean": "rm -rf ./build ./coverage",
