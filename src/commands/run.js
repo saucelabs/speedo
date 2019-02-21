@@ -1,3 +1,4 @@
+import fs from 'fs'
 import tmp from 'tmp'
 import path from 'path'
 import yargs from 'yargs'
@@ -86,5 +87,19 @@ export const handler = async (argv) => {
     /**
      * download performance logs
      */
-    await user.downloadJobAsset(jobId, 'performance.json', path.join(logDir, 'performance.json'))
+    const performanceLog = JSON.parse(await user.downloadJobAsset(
+        jobId,
+        'performance.json',
+        path.join(logDir, 'performance.json')))
+
+    /**
+     * download trace file if requested
+     */
+    if (argv.traceLogs) {
+        const loaderId = performanceLog[0].loaderId
+        await user.downloadJobAsset(
+            jobId,
+            `_tracelog_${loaderId}.json.gz`,
+            path.join(logDir, 'trace.json'))
+    }
 }

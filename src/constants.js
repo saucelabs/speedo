@@ -29,6 +29,10 @@ export const CLI_PARAMS = [{
     alias: 'l',
     name: 'logDir',
     description: 'directory to store logs from testrun'
+}, {
+    alias: 't',
+    name: 'traceLogs',
+    description: 'if set runner downloads tracing logs for further investigations'
 }]
 
 export const ERROR_MISSING_CREDENTIALS = `
