@@ -1,11 +1,12 @@
 import assert from 'assert'
 import { remote } from 'webdriverio'
 
-export default async function runPerformanceTest (username, accessKey, url, jobName, buildName) {
+export default async function runPerformanceTest (username, accessKey, url, jobName, buildName, logDir) {
     const browser = await remote({
         user: username,
         key: accessKey,
         logLevel: 'trace',
+        outputDir: logDir,
         capabilities: {
             browserName: 'chrome',
             platform: 'Windows 10',
@@ -30,4 +31,5 @@ export default async function runPerformanceTest (username, accessKey, url, jobN
     assert.equal(result, 'pass', `Performance assertions failed!\n${resultDetails.join('\n')}`)
 
     await browser.deleteSession()
+    return browser.sessionId
 }

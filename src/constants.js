@@ -25,6 +25,10 @@ export const CLI_PARAMS = [{
     alias: 's',
     name: 'site',
     description: 'url of webpage you want to test'
+}, {
+    alias: 'l',
+    name: 'logDir',
+    description: 'directory to store logs from testrun'
 }]
 
 export const ERROR_MISSING_CREDENTIALS = `

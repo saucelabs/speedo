@@ -1,3 +1,5 @@
+import tmp from 'tmp'
+import path from 'path'
 import yargs from 'yargs'
 import SauceLabs from 'saucelabs'
 
@@ -22,6 +24,10 @@ export const handler = async (argv) => {
         console.error(ERROR_MISSING_CREDENTIALS)
         return process.exit(1)
     }
+
+    const logDir = argv.logDir
+        ? path.resolve(process.cwd(), argv.logDir)
+        : tmp.dirSync().name
 
     /**
      * check if job already exists
@@ -48,9 +54,9 @@ export const handler = async (argv) => {
     if (job.jobs.length < REQUIRED_TESTS_FOR_BASELINE_COUNT) {
         const testCnt = REQUIRED_TESTS_FOR_BASELINE_COUNT - job.jobs.length
         await Promise.all([...Array(testCnt)].map(
-            () => runPerformanceTest(username, accessKey, argv.site, jobName, buildName)))
+            () => runPerformanceTest(username, accessKey, argv.site, jobName, buildName, logDir)))
     }
 
     // run single test
-    await runPerformanceTest(username, accessKey, argv.site, jobName, buildName)
+    await runPerformanceTest(username, accessKey, argv.site, jobName, buildName, logDir)
 }
