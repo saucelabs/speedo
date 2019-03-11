@@ -18,6 +18,16 @@ export const CLI_PARAMS = [{
     name: 'key',
     description: 'your Sauce Labs user key'
 }, {
+    alias: 'p',
+    name: 'platformName',
+    description: 'the platform the performance test should run in (e.g. "Windows 10")',
+    default: 'Windows 10'
+}, {
+    alias: 'bv',
+    name: 'browserVersion',
+    description: 'the browser version of Chrome the performance test should run in (e.g. "latest")',
+    default: 'latest'
+}, {
     alias: 'n',
     name: 'name',
     description: 'name of your performance test'

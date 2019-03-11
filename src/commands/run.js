@@ -61,7 +61,7 @@ export const handler = async (argv) => {
 
         const testCnt = REQUIRED_TESTS_FOR_BASELINE_COUNT - job.jobs.length
         await Promise.all([...Array(testCnt)].map(
-            () => runPerformanceTest(username, accessKey, argv.site, jobName, buildName, logDir)))
+            () => runPerformanceTest(username, accessKey, argv, jobName, buildName, logDir)))
     }
 
     /**
@@ -69,7 +69,8 @@ export const handler = async (argv) => {
      */
     status.succeed()
     status.start('Run performance test...')
-    const { result, sessionId } = await runPerformanceTest(username, accessKey, argv.site, jobName, buildName, logDir)
+    const { result, sessionId } = await runPerformanceTest(
+        username, accessKey, argv.site, argv, jobName, buildName, logDir)
     status.succeed()
 
     /**

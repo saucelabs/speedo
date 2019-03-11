@@ -1,6 +1,7 @@
 import { remote } from 'webdriverio'
 
-export default async function runPerformanceTest (username, accessKey, url, jobName, buildName, logDir) {
+export default async function runPerformanceTest (username, accessKey, argv, name, build, logDir) {
+    const { site, platform, version } = argv
     const browser = await remote({
         user: username,
         key: accessKey,
@@ -8,17 +9,17 @@ export default async function runPerformanceTest (username, accessKey, url, jobN
         outputDir: logDir,
         capabilities: {
             browserName: 'chrome',
-            platform: 'Windows 10',
-            name: jobName,
-            build: buildName,
-            version: 'latest',
+            platform,
+            name,
+            build,
+            version,
             extendedDebugging: true
         }
     })
     const sessionId = browser.sessionId
 
-    await browser.url(url)
-    const result = await browser.assertPerformance(jobName, ['speedIndex'])
+    await browser.url(site)
+    const result = await browser.assertPerformance(name, ['speedIndex'])
     await browser.deleteSession()
     return { sessionId, result }
 }
