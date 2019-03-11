@@ -1,11 +1,9 @@
 export const USAGE = `
-Speedo CLI runner
-
-Usage: speedo run [options]`
+Speedo CLI runner`
 
 export const EPILOG = 'Copyright 2019 © Sauce Labs'
 
-export const CLI_PARAMS = [{
+export const COMMON_CLI_PARAMS = [{
     alias: 'h',
     name: 'help',
     description: 'prints speedo help menu'
@@ -18,24 +16,6 @@ export const CLI_PARAMS = [{
     name: 'key',
     description: 'your Sauce Labs user key'
 }, {
-    alias: 'p',
-    name: 'platformName',
-    description: 'the platform the performance test should run in (e.g. "Windows 10")',
-    default: 'Windows 10'
-}, {
-    alias: 'bv',
-    name: 'browserVersion',
-    description: 'the browser version of Chrome the performance test should run in (e.g. "latest")',
-    default: 'latest'
-}, {
-    alias: 'n',
-    name: 'name',
-    description: 'name of your performance test'
-}, {
-    alias: 's',
-    name: 'site',
-    description: 'url of webpage you want to test'
-}, {
     alias: 'l',
     name: 'logDir',
     description: 'directory to store logs from testrun'
@@ -44,6 +24,30 @@ export const CLI_PARAMS = [{
     name: 'traceLogs',
     description: 'if set runner downloads tracing logs for further investigations'
 }]
+
+export const RUN_CLI_PARAMS ={
+    platformName: {
+        alias: 'p',
+        description: 'the platform the performance test should run in (e.g. "Windows 10")',
+        default: 'Windows 10'
+    },
+    browserVersion: {
+        alias: 'v',
+        description: 'the browser version of Chrome the performance test should run in (e.g. "latest")',
+        default: 'latest'
+    },
+    name: {
+        alias: 'n',
+        description: 'name of your performance test'
+    }
+}
+
+export const ANALYZE_CLI_PARAMS = {
+    name: {
+        alias: 'n',
+        description: 'name of a specific test within given build to analyze'
+    }
+}
 
 export const ERROR_MISSING_CREDENTIALS = `
 Your Sauce credentials are missing!

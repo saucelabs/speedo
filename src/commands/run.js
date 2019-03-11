@@ -6,10 +6,11 @@ import SauceLabs from 'saucelabs'
 
 import runPerformanceTest from '../runner'
 import { printResult, waitFor } from '../utils'
-import { ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT } from '../constants'
+import { ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT, RUN_CLI_PARAMS } from '../constants'
 
 export const command = 'run [params...] <site>'
-export const desc = 'Run performance tests on website'
+export const desc = 'Run performance tests on any website.'
+export const builder = RUN_CLI_PARAMS
 
 export const handler = async (argv) => {
     const username = process.env.SAUCE_USERNAME || argv.user
@@ -70,7 +71,7 @@ export const handler = async (argv) => {
     status.succeed()
     status.start('Run performance test...')
     const { result, sessionId } = await runPerformanceTest(
-        username, accessKey, argv.site, argv, jobName, buildName, logDir)
+        username, accessKey, argv, jobName, buildName, logDir)
     status.succeed()
 
     /**
