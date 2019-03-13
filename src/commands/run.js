@@ -53,6 +53,7 @@ export const handler = async (argv) => {
             username,
             { name: jobName, limit: 10 }
         )
+        status.succeed()
     } catch (e) {
         status.fail(`Couldn't fetch job: ${e.stack}`)
         return process.exit(1)
@@ -62,18 +63,17 @@ export const handler = async (argv) => {
      * create baseline if not enough tests have been executed
      */
     if (job.jobs.length < REQUIRED_TESTS_FOR_BASELINE_COUNT) {
-        status.succeed()
         status.start(`Couldn't find baseline for job with name ${jobName}, creating baseline...`)
 
         const testCnt = REQUIRED_TESTS_FOR_BASELINE_COUNT - job.jobs.length
         await Promise.all([...Array(testCnt)].map(
-            () => runPerformanceTest(username, accessKey, argv, jobName, buildName, logDir)))
+            () => runPerformanceTest(username, accessKey, argv, jobName, undefined, logDir)))
+        status.succeed()
     }
 
     /**
      * run single test
      */
-    status.succeed()
     status.start('Run performance test...')
     const { result, sessionId } = await runPerformanceTest(
         username, accessKey, argv, jobName, buildName, logDir)
@@ -104,6 +104,7 @@ export const handler = async (argv) => {
             sessionId,
             'performance.json',
             path.join(logDir, 'performance.json'))
+        status.succeed()
     } catch (e) {
         status.fail(`Couldn't download performance results due to: ${e.stack}`)
         return process.exit(1)
@@ -113,7 +114,6 @@ export const handler = async (argv) => {
      * download trace file if requested
      */
     if (argv.traceLogs) {
-        status.succeed()
         status.start('Download trace logs...')
 
         const loaderId = performanceLog[0].loaderId
@@ -122,7 +122,18 @@ export const handler = async (argv) => {
             `_tracelog_${loaderId}.json.gz`,
             path.join(logDir, 'trace.json'))
     }
-    status.succeed()
+
+    /**
+     * update job if performance check fails
+     */
+    try {
+        status.start('Updating job status...')
+        await user.updateJob(username, sessionId, { passed: result.result === 'pass' })
+        status.succeed()
+    } catch (e) {
+        status.fail(`Couldn't update job due to: ${e.stack}`)
+        status.stopAndPersist({ text: 'continuing ...' })
+    }
 
     status.stopAndPersist({
         text: `Stored performance logs in ${logDir}`,
