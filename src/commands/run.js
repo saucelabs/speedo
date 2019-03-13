@@ -5,7 +5,7 @@ import yargs from 'yargs'
 import SauceLabs from 'saucelabs'
 
 import runPerformanceTest from '../runner'
-import { printResult, waitFor } from '../utils'
+import { printResult, waitFor, getMetricParams, getJobUrl } from '../utils'
 import { ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT, RUN_CLI_PARAMS } from '../constants'
 
 export const command = 'run [params...] <site>'
@@ -16,7 +16,8 @@ export const handler = async (argv) => {
     const username = process.env.SAUCE_USERNAME || argv.user
     const accessKey = process.env.SAUCE_ACCESS_KEY || argv.key
     const jobName = argv.name || `Performance test for ${argv.site}`
-    const buildName = `${jobName} - ${(new Date()).toString()}`
+    const buildName = argv.build || `${jobName} - ${(new Date()).toString()}`
+    const metrics = getMetricParams(argv)
 
     /**
      * check if username and access key are available
@@ -37,7 +38,11 @@ export const handler = async (argv) => {
     /**
      * check if job already exists
      */
-    const user = new SauceLabs(username, accessKey)
+    const user = new SauceLabs({
+        user: username,
+        key: accessKey,
+        region: argv.region
+    })
 
     /**
      * find if job already exists
@@ -92,11 +97,17 @@ export const handler = async (argv) => {
     /**
      * download performance logs
      */
-    status.start('Download performance logs...')
-    const performanceLog = JSON.parse(await user.downloadJobAsset(
-        sessionId,
-        'performance.json',
-        path.join(logDir, 'performance.json')))
+    let performanceLog
+    try {
+        status.start('Download performance logs...')
+        performanceLog = await user.downloadJobAsset(
+            sessionId,
+            'performance.json',
+            path.join(logDir, 'performance.json'))
+    } catch (e) {
+        status.fail(`Couldn't download performance results due to: ${e.stack}`)
+        return process.exit(1)
+    }
 
     /**
      * download trace file if requested
@@ -118,10 +129,10 @@ export const handler = async (argv) => {
         symbol: '📃'
     })
 
-    printResult(result, performanceLog[0])
+    printResult(result, performanceLog[0], metrics)
 
     status.stopAndPersist({
-        text: `Check out job at https://app.${user.host}/tests/${sessionId}`,
+        text: `Check out job at ${getJobUrl(argv, sessionId)}`,
         symbol: '👀'
     })
     process.exit(result.result === 'pass' ? 0 : 1)

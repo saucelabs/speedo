@@ -3,6 +3,19 @@ Speedo CLI runner`
 
 export const EPILOG = 'Copyright 2019 © Sauce Labs'
 
+export const PERFORMANCE_METRICS = [
+    'firstPaint', 'firstContentfulPaint', 'firstMeaningfulPaint', 'domContentLoaded',
+    'timeToFirstInteractive', 'load', 'speedIndex', 'perceptualSpeedIndex', 'timeToFirstByte',
+    'pageWeight', 'pageWeightEncoded'
+]
+
+const METRIC_PARAM = {
+    alias: 'm',
+    name: 'metric',
+    description: 'metric that you want to check (multiple possible)',
+    default: 'load'
+}
+
 export const COMMON_CLI_PARAMS = [{
     alias: 'h',
     name: 'help',
@@ -15,6 +28,11 @@ export const COMMON_CLI_PARAMS = [{
     alias: 'k',
     name: 'key',
     description: 'your Sauce Labs user key'
+}, {
+    alias: 'r',
+    name: 'region',
+    description: 'your Sauce Labs datacenter region, the following regions are available: `us-west-1` (short `us`), `eu-central-1` (short `eu`)',
+    default: 'us'
 }, {
     alias: 'l',
     name: 'logDir',
@@ -36,17 +54,31 @@ export const RUN_CLI_PARAMS ={
         description: 'the browser version of Chrome the performance test should run in (e.g. "latest")',
         default: 'latest'
     },
+    build: {
+        alias: 'b',
+        description: 'name of the build you want to run your performance test in'
+    },
     name: {
         alias: 'n',
         description: 'name of your performance test'
-    }
+    },
+    metric: METRIC_PARAM
 }
 
 export const ANALYZE_CLI_PARAMS = {
     name: {
         alias: 'n',
         description: 'name of a specific test within given build to analyze'
-    }
+    },
+    orderIndex: {
+        alias: 'o',
+        description: 'number of page you have opened in that test (requires to specify a test name with -n)'
+    },
+    pageUrl: {
+        alias: 'u',
+        description: 'url of page in the test you want to analyze (requires to specify a test name with -n)'
+    },
+    metric: METRIC_PARAM
 }
 
 export const ERROR_MISSING_CREDENTIALS = `
