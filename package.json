@@ -25,7 +25,7 @@
   },
   "main": "build/index.js",
   "bin": {
-    "speedo": "./bin/speedo.js"
+    "speedo": "./bin/speedo"
   },
   "scripts": {
     "build": "run-s clean compile",
