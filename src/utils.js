@@ -38,35 +38,35 @@ export const printResult = function (result, performanceLog, metrics, log = cons
     }
 
     if (result.result === 'pass') {
-        return log(`\nResult: ${result.result} ${result.result === 'pass' ? '✅' : '❌'}\n`)
+        return log(`\nResult: ${result.result} ✅\n`)
     }
 
-    return log(`\nPerformance assertions failed!\n${resultDetails.join('\n')}\n`)
+    return log(`\nPerformance assertions failed! ❌\n${resultDetails.join('\n')}\n`)
 }
 
 /**
  * wait for a specific condition to happen and return result
  */
-export const waitFor = function (query, condition) {
+export const waitFor = function (query, condition, interval = JOB_COMPLETED_INTERVAL, timeout = JOB_COMPLETED_TIMEOUT) {
     if (typeof query !== 'function' || typeof condition !== 'function') {
         throw Error('Expect query and condition to by typeof function')
     }
 
     return new Promise((resolve, reject) => {
-        const timeout = setTimeout(
+        const timeoutId = setTimeout(
             () => reject(new Error('job couldn\'t shutdown')),
-            JOB_COMPLETED_TIMEOUT)
+            timeout)
 
-        const interval = setInterval(async () => {
+        const intervalId = setInterval(async () => {
             const result = await query()
             if (!condition(result)) {
                 return
             }
 
-            clearTimeout(timeout)
-            clearInterval(interval)
+            clearTimeout(timeoutId)
+            clearInterval(intervalId)
             return resolve(result)
-        }, JOB_COMPLETED_INTERVAL)
+        }, interval)
     })
 }
 
@@ -76,7 +76,7 @@ export const waitFor = function (query, condition) {
  * @return {String[]}      list of provided metrics if valid otherwise throws an error
  */
 export const getMetricParams = function (argv) {
-    const metrics = !Array.isArray(argv.metric) ? [argv.metric] : argv.metric
+    const metrics = (argv.metric && !Array.isArray(argv.metric) ? [argv.metric] : argv.metric) || []
 
     /**
      * validate provided metrics

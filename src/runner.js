@@ -3,7 +3,7 @@ import { remote } from 'webdriverio'
 import { getMetricParams } from './utils'
 
 export default async function runPerformanceTest (username, accessKey, argv, name, build, logDir) {
-    const { site, platform, version } = argv
+    const { site, platformName: platform, browserVersion: version } = argv
     const metrics = getMetricParams(argv)
     const browser = await remote({
         user: username,
