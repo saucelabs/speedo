@@ -5,6 +5,7 @@ const performanceLog = {
     firstContentfulPaint: 200,
     firstMeaningfulPaint: 222,
     load: 321,
+    IdontexistMetric: 42,
     speedIndex: 10,
     pageWeight: 1000
 }
@@ -12,7 +13,7 @@ const performanceLog = {
 test('printResult when test passes', () => {
     const log = jest.fn()
     const result = { result: 'pass', details: {} }
-    printResult(result, { value: { metrics: performanceLog } } , ['speedIndex', 'load', 'timeToFirstByte'], log)
+    printResult(result, { metrics: performanceLog } , ['speedIndex', 'load', 'timeToFirstByte'], log)
     expect(log).toBeCalledWith('\nPerformance Results\n===================')
     expect(log).toBeCalledWith('timeToFirstByte: 123')
     expect(log).toBeCalledWith('load: 321')
@@ -29,7 +30,7 @@ test('printResult', () => {
         details: { speedIndex: { actual: 10, lowerLimit: 3, upperLimit: 7 } }
     }
 
-    printResult(result, { value: { metrics: performanceLog } } , ['speedIndex', 'load'], log)
+    printResult(result, { metrics: performanceLog } , ['speedIndex', 'load'], log)
     expect(log).toBeCalledWith('\nPerformance Results\n===================')
     expect(log).toBeCalledWith('load: 321')
     expect(log).toBeCalledWith('speedIndex: 10')

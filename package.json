@@ -81,6 +81,7 @@
     "testEnvironment": "node"
   },
   "dependencies": {
+    "change-case": "^3.1.0",
     "ora": "^3.1.0",
     "ordinal": "^1.0.2",
     "saucelabs": "^2.1.1",

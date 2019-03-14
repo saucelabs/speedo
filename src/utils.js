@@ -13,19 +13,21 @@ export const printResult = function (result, performanceLog, metrics, log = cons
     log('\nPerformance Results\n===================')
 
     /**
-     * sort displayed metrics based on
+     * filter out non performance metrics and sort displayed metrics based on
      * - asserted metrics first
      * - order of occurence (TTFB < load)
      */
-    const resultsSorted = Object.entries(performanceLog.value.metrics).sort((a, b) => {
-        if (metrics.includes(a[0]) && !metrics.includes(b[0])) {
-            return -1
-        } else if (!metrics.includes(a[0]) && metrics.includes(b[0])) {
-            return 1
-        }
+    const resultsSorted = Object.entries(performanceLog.metrics)
+        .filter(([metricName]) => PERFORMANCE_METRICS.includes(metricName))
+        .sort((a, b) => {
+            if (metrics.includes(a[0]) && !metrics.includes(b[0])) {
+                return -1
+            } else if (!metrics.includes(a[0]) && metrics.includes(b[0])) {
+                return 1
+            }
 
-        return PERFORMANCE_METRICS.indexOf(a[0]) - PERFORMANCE_METRICS.indexOf(b[0])
-    })
+            return PERFORMANCE_METRICS.indexOf(a[0]) - PERFORMANCE_METRICS.indexOf(b[0])
+        })
 
     for (const [metric, value] of resultsSorted) {
         const output = `${metric}: ${value}`

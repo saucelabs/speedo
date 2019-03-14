@@ -1,9 +1,11 @@
+import fs from 'fs'
 import tmp from 'tmp'
 import ora from 'ora'
 import path from 'path'
 import yargs from 'yargs'
 import ordinal from 'ordinal'
 import SauceLabs from 'saucelabs'
+import changeCase from 'change-case'
 
 import runPerformanceTest from '../runner'
 import { printResult, waitFor, getMetricParams, getJobUrl } from '../utils'
@@ -126,10 +128,26 @@ export const handler = async (argv) => {
     let performanceLog
     try {
         status.start('Download performance logs...')
-        performanceLog = await user.downloadJobAsset(
-            sessionId,
-            'performance.json',
-            path.join(logDir, 'performance.json'))
+        const perfMetrics = await user.getPerformanceMetrics(sessionId)
+        performanceLog = perfMetrics.items.map((item) => ({
+            sessionId: item.job_id,
+            url: item.page_url,
+            orderIndex: item.order_index,
+            loaderId: item.load_id,
+            metrics: Object.entries(item.metric_data).reduce((obj, [metricName, metricValue]) => {
+                obj[changeCase.camelCase(metricName)] = metricValue
+                return obj
+            }, {})
+        }))
+
+        /**
+         * store data log dir
+         */
+        fs.writeFileSync(
+            path.join(logDir, 'performance.json'),
+            JSON.stringify(performanceLog, null, 4)
+        )
+
         status.succeed()
     } catch (e) {
         status.fail(`Couldn't download performance results due to: ${e.stack}`)
