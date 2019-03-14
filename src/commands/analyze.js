@@ -71,10 +71,15 @@ export const handler = async (argv) => {
     let performanceResults = null
     try {
         for (const job of buildJobs) {
-            const perfTests = await user.assertPerformanceRegression(job.id, {
+            const m = await user.getPerformanceMetrics(job.id, {
                 metricNames: metrics
             })
-            console.log(perfTests)
+            const baseline = await user.getBaselineHistory(job.id, {
+                metricNames: metrics,
+                orderIndex: 0,
+                limit: 1
+            })
+            console.log(JSON.stringify({m, baseline}, null, 4))
         }
     } catch (e) {
         status.fail(`Couldn't fetch performance results: ${e.stack}`)
