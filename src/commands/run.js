@@ -2,6 +2,7 @@ import tmp from 'tmp'
 import ora from 'ora'
 import path from 'path'
 import yargs from 'yargs'
+import ordinal from 'ordinal'
 import SauceLabs from 'saucelabs'
 
 import runPerformanceTest from '../runner'
@@ -75,8 +76,33 @@ export const handler = async (argv) => {
      * run single test
      */
     status.start('Run performance test...')
-    const { result, sessionId } = await runPerformanceTest(
+    let { result, sessionId } = await runPerformanceTest(
         username, accessKey, argv, jobName, buildName, logDir)
+
+    /**
+     * retry performance test
+     */
+    const retriedJobs = []
+    if (result.result !== 'pass' && argv.retry) {
+        for (let retry = 1; retry <= argv.retry; ++retry) {
+            retriedJobs.push(sessionId)
+            status.text = `Run performance test (${ordinal(retry)} retry)...`
+
+            const retriedResult = await runPerformanceTest(
+                username, accessKey, argv, jobName, buildName, logDir)
+
+            result = retriedResult.result
+            sessionId = retriedResult.sessionId
+
+            /**
+             * continue command if job has finally passed
+             */
+            if (result.result === 'pass') {
+                break
+            }
+        }
+    }
+
     status.succeed()
 
     /**
@@ -146,5 +172,16 @@ export const handler = async (argv) => {
         text: `Check out job at ${getJobUrl(argv, sessionId)}`,
         symbol: '👀'
     })
+
+    /**
+     * displayed retried jobs that failed
+     */
+    if (retriedJobs.length) {
+        console.log( // eslint-disable-line no-console
+            '\nFailed Performance Tests that were rerun:\n' +
+            retriedJobs.map(id => getJobUrl(argv, id)).join('\n')
+        )
+    }
+
     process.exit(result.result === 'pass' ? 0 : 1)
 }

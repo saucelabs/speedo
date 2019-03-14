@@ -70,7 +70,11 @@ export const RUN_CLI_PARAMS ={
         alias: 'n',
         description: 'name of your performance test'
     },
-    metric: METRIC_PARAM
+    metric: METRIC_PARAM,
+    retry: {
+        description: 'amount of retries for failing performance tests',
+        default: 0
+    }
 }
 
 export const ANALYZE_CLI_PARAMS = {

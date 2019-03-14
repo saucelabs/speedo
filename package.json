@@ -82,6 +82,7 @@
   },
   "dependencies": {
     "ora": "^3.1.0",
+    "ordinal": "^1.0.2",
     "saucelabs": "^2.1.1",
     "tmp": "0.0.33",
     "webdriverio": "^5.6.0",
