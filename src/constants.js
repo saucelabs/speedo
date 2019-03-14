@@ -4,9 +4,17 @@ Speedo CLI runner`
 export const EPILOG = 'Copyright 2019 © Sauce Labs'
 
 export const PERFORMANCE_METRICS = [
-    'firstPaint', 'firstContentfulPaint', 'firstMeaningfulPaint', 'domContentLoaded',
-    'timeToFirstInteractive', 'load', 'speedIndex', 'perceptualSpeedIndex', 'timeToFirstByte',
-    'pageWeight', 'pageWeightEncoded'
+    'timeToFirstByte',
+    'firstPaint',
+    'firstContentfulPaint',
+    'firstMeaningfulPaint',
+    'domContentLoaded',
+    'timeToFirstInteractive',
+    'load',
+    'speedIndex',
+    'perceptualSpeedIndex',
+    'pageWeight',
+    'pageWeightEncoded'
 ]
 
 const METRIC_PARAM = {

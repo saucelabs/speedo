@@ -4,23 +4,29 @@ import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS } fr
 
 /**
  * print results of cli run
+ * @param  {Object}   result            result of performance assertion
+ * @param  {Object}   performanceLog    performance data of performance run
+ * @param  {String[]} metrics           asserted metrices
+ * @param  {Function} [log=console.log] log method (for testing purposes)
  */
-/* eslint-disable no-console */
-export const printResult = function (result, performanceLog, metrics, log = console.log) {
+export const printResult = function (result, performanceLog, metrics, log = console.log) { // eslint-disable-line no-console
     log('\nPerformance Results\n===================')
 
-    const resultsSorted = Object.entries(performanceLog.value.metrics)
-        .sort((a, b) => {
-            if (metrics.includes(a[0]) && metrics.includes(b[0])) {
-                return 0
-            }
-
-            if (metrics.includes(a[0]) && !metrics.includes(b[0])) {
-                return -1
-            }
-
+    /**
+     * sort displayed metrics based on
+     * - asserted metrics first
+     * - order of occurence (TTFB < load)
+     */
+    const resultsSorted = Object.entries(performanceLog.value.metrics).sort((a, b) => {
+        if (metrics.includes(a[0]) && !metrics.includes(b[0])) {
+            return -1
+        } else if (!metrics.includes(a[0]) && metrics.includes(b[0])) {
             return 1
-        })
+        }
+
+        return PERFORMANCE_METRICS.indexOf(a[0]) - PERFORMANCE_METRICS.indexOf(b[0])
+    })
+
     for (const [metric, value] of resultsSorted) {
         const output = `${metric}: ${value}`
         log(metrics.includes(metric) ? output : chalk.gray(output))
@@ -37,7 +43,6 @@ export const printResult = function (result, performanceLog, metrics, log = cons
 
     return log(`\nPerformance assertions failed!\n${resultDetails.join('\n')}\n`)
 }
-/* eslint-enable no-console */
 
 /**
  * wait for a specific condition to happen and return result
