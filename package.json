@@ -1,6 +1,6 @@
 {
   "name": "speedo",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Christian Bromann <christian@saucelabs.com>",
   "description": "Simple performance testing tool using SauceLabs",
   "license": "Apache-2.0",
