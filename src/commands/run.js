@@ -128,7 +128,11 @@ export const handler = async (argv) => {
     let performanceLog
     try {
         status.start('Download performance logs...')
-        const perfMetrics = await user.getPerformanceMetrics(sessionId)
+        const perfMetrics = await waitFor(
+            () => user.getPerformanceMetrics(sessionId),
+            (performanceMetrics) => performanceMetrics.items.length !== 0,
+            'Couldn\'t receive any performance metrics'
+        )
         performanceLog = perfMetrics.items.map((item) => ({
             sessionId: item.job_id,
             url: item.page_url,

@@ -52,14 +52,20 @@ export const printResult = function (result, performanceLog, metrics, log = cons
 /**
  * wait for a specific condition to happen and return result
  */
-export const waitFor = function (query, condition, interval = JOB_COMPLETED_INTERVAL, timeout = JOB_COMPLETED_TIMEOUT) {
+export const waitFor = function (
+    query,
+    condition,
+    errorMessage = 'job couldn\'t shutdown',
+    interval = JOB_COMPLETED_INTERVAL,
+    timeout = JOB_COMPLETED_TIMEOUT
+) {
     if (typeof query !== 'function' || typeof condition !== 'function') {
         throw Error('Expect query and condition to by typeof function')
     }
 
     return new Promise((resolve, reject) => {
         const timeoutId = setTimeout(
-            () => reject(new Error('job couldn\'t shutdown')),
+            () => reject(new Error(errorMessage)),
             timeout)
 
         const intervalId = setInterval(async () => {
