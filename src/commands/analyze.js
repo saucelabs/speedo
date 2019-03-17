@@ -2,8 +2,8 @@ import ora from 'ora'
 import yargs from 'yargs'
 import SauceLabs from 'saucelabs'
 
-import { getMetricParams } from '../utils'
-import { ERROR_MISSING_CREDENTIALS, ANALYZE_CLI_PARAMS } from '../constants'
+import { getMetricParams, getJobUrl, analyzeReport, waitFor } from '../utils'
+import { ERROR_MISSING_CREDENTIALS, ANALYZE_CLI_PARAMS, PERFORMANCE_METRICS } from '../constants'
 
 export const command = 'analyze [params...] <build>'
 export const desc = 'Analyze results of prerun performance tests.'
@@ -40,6 +40,7 @@ export const handler = async (argv) => {
             // fetch the last 5 builds and hope the desired one is in there
             { limit: 5, subaccounts: false }
         )
+        status.succeed()
     } catch (e) {
         status.fail(`Couldn't fetch builds: ${e.stack}`)
         return process.exit(1)
@@ -51,11 +52,18 @@ export const handler = async (argv) => {
         return process.exit(1)
     }
 
-    status.succeed()
     status.start(`Fetch jobs from build "${argv.build}"`)
     let buildJobs = null
     try {
         buildJobs = (await user.listBuildJobs(build.id, { full: true })).jobs
+        status.succeed()
+
+        /**
+         * filter jobs based on name if provided
+         */
+        if (argv.name) {
+            buildJobs = buildJobs.filter((job) => job.name === argv.name)
+        }
     } catch (e) {
         status.fail(`Couldn't fetch job from build with name "${argv.build}": ${e.stack}`)
         return process.exit(1)
@@ -66,27 +74,78 @@ export const handler = async (argv) => {
         buildJobs = specificJobs
     }
 
-    status.succeed()
     status.start(`Analyze performance of ${buildJobs.length} jobs`)
-    let performanceResults = null
+    let performanceResults = []
     try {
         for (const job of buildJobs) {
-            const m = await user.getPerformanceMetrics(job.id, {
-                metricNames: metrics
-            })
-            const baseline = await user.getBaselineHistory(job.id, {
-                metricNames: metrics,
-                orderIndex: 0,
-                limit: 1
-            })
-            console.log(JSON.stringify({m, baseline}, null, 4))
+            const jobResult = {
+                id: job.id,
+                name: job.name,
+                url: getJobUrl(argv, job.id),
+                results: []
+            }
+
+            const performanceMetrics = await waitFor(
+                () => user.getPerformanceMetrics(job.id),
+                (performanceMetrics) => performanceMetrics.items.length !== 0
+            )
+
+            /**
+             * filter by order index if given
+             */
+            if (typeof argv.orderIndex === 'number') {
+                performanceMetrics.items = performanceMetrics.items.filter(
+                    (perfMetric) => perfMetric.order_index === argv.orderIndex)
+            }
+
+            /**
+             * filter by page url if given
+             */
+            if (argv.pageUrl) {
+                performanceMetrics.items = performanceMetrics.items.filter(
+                    (perfMetric) => perfMetric.page_url === argv.pageUrl)
+            }
+
+            for (const pageLoadMetric of performanceMetrics.items) {
+                const results = {}
+                const baselineHistory = await user.getBaselineHistory(job.id, {
+                    metricNames: PERFORMANCE_METRICS,
+                    orderIndex: pageLoadMetric.order_index
+                })
+
+                for (const [metricName, baseline] of Object.entries(baselineHistory)) {
+                    const capturedValue = pageLoadMetric.metric_data[metricName]
+                    const result = {
+                        metric: metricName,
+                        passed: true,
+                        value: capturedValue,
+                        baseline: baseline[0]
+                    }
+
+                    if (metrics.includes(metricName) && (baseline[0].u < capturedValue || baseline[0].l > capturedValue)) {
+                        result.passed = false
+                    }
+
+                    results[metricName] = result
+                }
+
+                jobResult.results.push({
+                    orderIndex: pageLoadMetric.order_index,
+                    url:  pageLoadMetric.page_url,
+                    passed: !Object.values(results).find((r) => !r.passed),
+                    metrics: results
+                })
+            }
+
+            jobResult.passed = !Object.values(jobResult.results).find((r) => !r.passed),
+            performanceResults.push(jobResult)
         }
+        status.succeed()
     } catch (e) {
         status.fail(`Couldn't fetch performance results: ${e.stack}`)
         return process.exit(1)
     }
 
-    status.succeed()
-    // console.log(JSON.stringify(results, null, 4))
-
+    analyzeReport(performanceResults, metrics)
+    process.exit(performanceResults.find((result) => !result.passed) ? 1 : 0)
 }

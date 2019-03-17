@@ -24,6 +24,13 @@ const METRIC_PARAM = {
     default: 'load'
 }
 
+const ALL_PARAM = {
+    name: 'all',
+    description: 'check on all metrics',
+    default: false,
+    type: 'boolean'
+}
+
 export const COMMON_CLI_PARAMS = [{
     alias: 'h',
     name: 'help',
@@ -71,9 +78,11 @@ export const RUN_CLI_PARAMS ={
         description: 'name of your performance test'
     },
     metric: METRIC_PARAM,
+    all: ALL_PARAM,
     retry: {
         description: 'amount of retries for failing performance tests',
-        default: 0
+        default: 0,
+        type: 'number'
     }
 }
 
@@ -90,7 +99,8 @@ export const ANALYZE_CLI_PARAMS = {
         alias: 'u',
         description: 'url of page in the test you want to analyze (requires to specify a test name with -n)'
     },
-    metric: METRIC_PARAM
+    metric: METRIC_PARAM,
+    all: ALL_PARAM
 }
 
 export const ERROR_MISSING_CREDENTIALS = `
