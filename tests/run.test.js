@@ -30,7 +30,7 @@ test('run should fail if no auth is provided', async () => {
 })
 
 test('fails when jobs can not be fetched', async () => {
-    fixtures.listJobsResult = Promise.reject(new Error('buh'))
+    fixtures.listJobs = Promise.reject(new Error('buh'))
     await handler({ user: 'foo', key: 'bar', metric: ['load', 'speedIndex'] })
     expect(ora().fail).toBeCalledTimes(1)
     expect(ora().fail.mock.calls[0][0]).toContain('Couldn\'t fetch job')
@@ -38,7 +38,7 @@ test('fails when jobs can not be fetched', async () => {
 })
 
 test('should create a new baseline if run with no jobs', async () => {
-    fixtures.listJobsResult = { jobs: [] }
+    fixtures.listJobs = { jobs: [] }
     await handler({ user: 'foo', key: 'bar', site: 'mypage', metric: ['load', 'speedIndex'] })
     expect(process.exit).toBeCalledWith(0)
     expect(ora().start)

@@ -87,6 +87,7 @@ export const handler = async (argv) => {
 
             const performanceMetrics = await waitFor(
                 () => user.getPerformanceMetrics(job.id),
+                /* istanbul ignore next */
                 (performanceMetrics) => performanceMetrics.items.length !== 0
             )
 

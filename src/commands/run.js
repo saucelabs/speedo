@@ -114,6 +114,7 @@ export const handler = async (argv) => {
         status.start('Wait for job to finish...')
         await waitFor(
             () => user.getJob(username, sessionId),
+            /* istanbul ignore next */
             (jobDetails) => jobDetails.status === 'complete'
         )
         status.succeed()
@@ -130,6 +131,7 @@ export const handler = async (argv) => {
         status.start('Download performance logs...')
         const perfMetrics = await waitFor(
             () => user.getPerformanceMetrics(sessionId),
+            /* istanbul ignore next */
             (performanceMetrics) => performanceMetrics.items.length !== 0,
             'Couldn\'t receive any performance metrics'
         )
