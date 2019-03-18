@@ -1,0 +1,13 @@
+coverage
+docs
+logs
+node_modules
+src
+tests
+
+*.tgz
+/*.js
+*.yml
+*.editorconfig
+*.gitignore
+*.eslintignore
