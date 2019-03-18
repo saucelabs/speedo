@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`analyzeReport 1`] = `
+Array [
+  Array [
+    "
+Performance Results
+===================",
+  ],
+  Array [
+    "
+✅ SUCCESS: my performance test:",
+  ],
+  Array [
+    "╔═══╤═════════════════════════╤══════════════════════════════╗
+║ # │ Url                     │ Metrics                      ║
+╟───┼─────────────────────────┼──────────────────────────────╢
+║ 0 │ https://www.amazon.com/ │ [1mload[22m: 4.9s                   ║
+║   │                         │ [1mspeedIndex[22m: 2s               ║
+║   │                         │ [1mpageWeight[22m: 5.23 MB          ║
+║   │                         │ [90mtimeToFirstByte: 693ms[39m       ║
+║   │                         │ [90mfirstPaint: 1.4s[39m             ║
+║   │                         │ [90mfirstContentfulPaint: 1.4s[39m   ║
+║   │                         │ [90mfirstMeaningfulPaint: 1.7s[39m   ║
+║   │                         │ [90mdomContentLoaded: 3s[39m         ║
+║   │                         │ [90mtimeToFirstInteractive: 3s[39m   ║
+║   │                         │ [90mperceptualSpeedIndex: 2.2s[39m   ║
+║   │                         │ [90mpageWeightEncoded: 595 kB[39m    ║
+╟───┼─────────────────────────┼──────────────────────────────╢
+║ 1 │ https://www.yahoo.com/  │ [1mload[22m: 9.8s                   ║
+║   │                         │ [1mspeedIndex[22m: 1.3s             ║
+║   │                         │ [1mpageWeight[22m: 4.1 MB           ║
+║   │                         │ [90mtimeToFirstByte: 502ms[39m       ║
+║   │                         │ [90mfirstPaint: 1.2s[39m             ║
+║   │                         │ [90mfirstContentfulPaint: 1.7s[39m   ║
+║   │                         │ [90mfirstMeaningfulPaint: 2s[39m     ║
+║   │                         │ [90mdomContentLoaded: 3.1s[39m       ║
+║   │                         │ [90mtimeToFirstInteractive: 3.1s[39m ║
+║   │                         │ [90mperceptualSpeedIndex: 2s[39m     ║
+║   │                         │ [90mpageWeightEncoded: 528 kB[39m    ║
+╚═══╧═════════════════════════╧══════════════════════════════╝
+",
+    "👀 Check out job at https://app.saucelabs.com/tests/83d526a5d20040a7b854a2cbef64c067",
+  ],
+  Array [
+    "
+❌ FAILURE: Performance test for http://saucelabs.com:",
+  ],
+  Array [
+    "╔═══╤═══════════════════════╤═══════════════════════════════════════╗
+║ # │ Url                   │ Metrics                               ║
+╟───┼───────────────────────┼───────────────────────────────────────╢
+║ 0 │ http://saucelabs.com/ │ [1mload[22m: 9s                              ║
+║   │                       │ [1mspeedIndex[22m: 6.3s [31m(2.2s over baseline)[39m ║
+║   │                       │ [1mpageWeight[22m: 2.95 MB                   ║
+║   │                       │ [90mtimeToFirstByte: 4.5s[39m                 ║
+║   │                       │ [90mfirstPaint: 5.8s[39m                      ║
+║   │                       │ [90mfirstContentfulPaint: 5.8s[39m            ║
+║   │                       │ [90mfirstMeaningfulPaint: 5.8s[39m            ║
+║   │                       │ [90mdomContentLoaded: 8s[39m                  ║
+║   │                       │ [90mtimeToFirstInteractive: 8s[39m            ║
+║   │                       │ [90mperceptualSpeedIndex: 6.7s[39m            ║
+║   │                       │ [90mpageWeightEncoded: 1.65 MB[39m            ║
+╚═══╧═══════════════════════╧═══════════════════════════════════════╝
+",
+    "👀 Check out job at https://app.saucelabs.com/tests/34c90b830852468baddd8ec79ec1e786",
+  ],
+  Array [
+    "",
+  ],
+]
+`;
+
+exports[`analyzeReport 2`] = `
+Array [
+  Array [
+    "
+Performance Results
+===================",
+  ],
+  Array [
+    "
+❌ FAILURE: your query did not seem to match any result!
+",
+  ],
+]
+`;
+
+exports[`printResult 1`] = `
+Array [
+  Array [
+    "
+Performance Results
+===================",
+  ],
+  Array [
+    "load: 321ms",
+  ],
+  Array [
+    "speedIndex: 10ms",
+  ],
+  Array [
+    "[90mtimeToFirstByte: 123ms[39m",
+  ],
+  Array [
+    "[90mfirstContentfulPaint: 200ms[39m",
+  ],
+  Array [
+    "[90mfirstMeaningfulPaint: 222ms[39m",
+  ],
+  Array [
+    "[90mpageWeight: 1 kB[39m",
+  ],
+  Array [
+    "
+Performance assertions failed! ❌
+Expected speedIndex to be between 3ms and 7ms but was actually 10ms
+",
+  ],
+]
+`;
+
+exports[`printResult when test passes 1`] = `
+Array [
+  Array [
+    "
+Performance Results
+===================",
+  ],
+  Array [
+    "timeToFirstByte: 123ms",
+  ],
+  Array [
+    "load: 321ms",
+  ],
+  Array [
+    "speedIndex: 10ms",
+  ],
+  Array [
+    "[90mfirstContentfulPaint: 200ms[39m",
+  ],
+  Array [
+    "[90mfirstMeaningfulPaint: 222ms[39m",
+  ],
+  Array [
+    "[90mpageWeight: 1 kB[39m",
+  ],
+  Array [
+    "
+Result: pass ✅
+",
+  ],
+]
+`;

@@ -1,0 +1,16 @@
+[
+    {
+        "id": "83d526a5d20040a7b854a2cbef64c067",
+        "name": "my performance test",
+        "url": "https://app.saucelabs.com/tests/83d526a5d20040a7b854a2cbef64c067",
+        "results": [],
+        "passed": true
+    },
+    {
+        "id": "34c90b830852468baddd8ec79ec1e786",
+        "name": "Performance test for http://saucelabs.com",
+        "url": "https://app.saucelabs.com/tests/34c90b830852468baddd8ec79ec1e786",
+        "results": [],
+        "passed": false
+    }
+]

@@ -1,3 +1,3 @@
 export default {
-    dirSync: jest.fn().mockReturnValue('/some/tmpDir')
+    dirSync: jest.fn().mockReturnValue({ name: '/some/tmpDir' })
 }

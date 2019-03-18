@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should run successfully 1`] = `
+Array [
+  Array [],
+  Array [
+    "Run performance test...",
+  ],
+  Array [
+    "Wait for job to finish...",
+  ],
+  Array [
+    "Download performance logs...",
+  ],
+  Array [
+    "Updating job status...",
+  ],
+]
+`;
+
+exports[`should run successfully 2`] = `
+Array [
+  Array [
+    Object {
+      "symbol": "📃",
+      "text": "Stored performance logs in /some/tmpDir",
+    },
+  ],
+  Array [
+    Object {
+      "symbol": "👀",
+      "text": "Check out job at https://saucelabs.com/tests/foobar",
+    },
+  ],
+]
+`;
+
+exports[`should store tracelogs if path provided 1`] = `
+Array [
+  Array [
+    "foobar123",
+    "_tracelog_3b879028728e33d3e1e7789128c5ad6ad1371278.json.gz",
+    "/foo/bar/trace.json",
+  ],
+]
+`;

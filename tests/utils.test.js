@@ -1,4 +1,6 @@
-import { printResult, waitFor, getMetricParams, getJobUrl } from '../src/utils'
+import performanceResults from './__fixtures__/performance.json'
+import performanceResultsWithInvalidQuery from './__fixtures__/invalidQuery.json'
+import { printResult, waitFor, getMetricParams, getJobUrl, analyzeReport } from '../src/utils'
 
 const performanceLog = {
     timeToFirstByte: 123,
@@ -14,13 +16,7 @@ test('printResult when test passes', () => {
     const log = jest.fn()
     const result = { result: 'pass', details: {} }
     printResult(result, { metrics: performanceLog } , ['speedIndex', 'load', 'timeToFirstByte'], log)
-    expect(log).toBeCalledWith('\nPerformance Results\n===================')
-    expect(log).toBeCalledWith('timeToFirstByte: 123')
-    expect(log).toBeCalledWith('load: 321')
-    expect(log).toBeCalledWith('speedIndex: 10')
-    expect(log).toBeCalledWith('\u001b[90mfirstMeaningfulPaint: 222\u001b[39m')
-    expect(log).toBeCalledWith('\u001b[90mpageWeight: 1000\u001b[39m')
-    expect(log).toBeCalledWith('\nResult: pass ✅\n')
+    expect(log.mock.calls).toMatchSnapshot()
 })
 
 test('printResult', () => {
@@ -31,12 +27,7 @@ test('printResult', () => {
     }
 
     printResult(result, { metrics: performanceLog } , ['speedIndex', 'load'], log)
-    expect(log).toBeCalledWith('\nPerformance Results\n===================')
-    expect(log).toBeCalledWith('load: 321')
-    expect(log).toBeCalledWith('speedIndex: 10')
-    expect(log).toBeCalledWith('\u001b[90mtimeToFirstByte: 123\u001b[39m')
-    expect(log).toBeCalledWith('\u001b[90mpageWeight: 1000\u001b[39m')
-    expect(log).toBeCalledWith('\nPerformance assertions failed! ❌\nExpected speedIndex to be between 3 and 7 but was actually 10\n')
+    expect(log.mock.calls).toMatchSnapshot()
 })
 
 test('waitFor should throw if parameters are not functions', () => {
@@ -80,8 +71,9 @@ test('waitFor times out if condition is never met', async () => {
         return _i
     }
 
-    await expect(waitFor(query, condition, 10, 50))
-        .rejects.toEqual(new Error('job couldn\'t shutdown'))
+    const customError = new Error('Error: uups')
+    await expect(waitFor(query, condition, 'Error: uups', 10, 50))
+        .rejects.toEqual(customError)
 })
 
 test('getMetricParams', () => {
@@ -102,4 +94,14 @@ test('getJobUrl', () => {
         .toEqual('https://app.eu-central-1.saucelabs.com/tests/foobar')
     expect(getJobUrl({ region: 'what?' }, 'foobar'))
         .toEqual('https://app.saucelabs.com/tests/foobar')
+})
+
+test('analyzeReport', () => {
+    const log = jest.fn()
+    analyzeReport(performanceResults , ['speedIndex', 'load', 'pageWeight'], log)
+    expect(log.mock.calls).toMatchSnapshot()
+
+    log.mockClear()
+    analyzeReport(performanceResultsWithInvalidQuery , ['speedIndex', 'load', 'pageWeight'], log)
+    expect(log.mock.calls).toMatchSnapshot()
 })
