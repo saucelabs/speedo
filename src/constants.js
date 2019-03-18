@@ -83,6 +83,10 @@ export const RUN_CLI_PARAMS ={
         description: 'amount of retries for failing performance tests',
         default: 0,
         type: 'number'
+    },
+    tunnelIdentifier: {
+        alias: 'i',
+        description: 'identifier for Sauce Connect tunnel to run performance tests for local hosted apps'
     }
 }
 
