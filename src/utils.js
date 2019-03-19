@@ -33,7 +33,7 @@ export const printResult = function (result, performanceLog, metrics, log = cons
         })
 
     for (const [metric, value] of resultsSorted) {
-        const output = `${metric}: ${formatMetric[metric](value)}`
+        const output = `${metric}: ${formatMetric[metric](value || 0)}`
         log(metrics.includes(metric) ? output : chalk.gray(output))
     }
 
