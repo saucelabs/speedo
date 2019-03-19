@@ -157,7 +157,7 @@ pipeline {
 }
 ```
 
-Or when using GitLab CI/CD pipelines:
+Or when using [GitLab CI/CD](https://docs.gitlab.com/ee/ci/pipelines.html) pipelines:
 
 ```yaml
 variables:
