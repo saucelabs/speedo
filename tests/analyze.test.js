@@ -6,10 +6,13 @@ import { handler } from '../src/commands/analyze'
 import runPerformanceTest from '../src/runner'
 import { waitFor, getMetricParams, getJobUrl, analyzeReport } from '../src/utils'
 import { PERFORMANCE_METRICS_FAILING, PERFORMANCE_METRICS_MULTIPLE } from './__fixtures__/performance'
+import { BUILD_WITH_MANY_JOBS } from './__fixtures__/builds'
 
 jest.mock('../src/runner')
 jest.mock('../src/utils')
 jest.mock('fs')
+
+jest.useFakeTimers()
 
 const processExit = ::process.exit
 
@@ -77,7 +80,7 @@ test('should fail command if performance results do not pass', async () => {
 })
 
 test('should fail if asserting second order index', async () => {
-    fixtures.getPerformanceMetrics = PERFORMANCE_METRICS_MULTIPLE
+    fixtures.getPerformanceMetrics = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
     await handler({
         user: 'foo',
         key: 'bar',
@@ -89,7 +92,7 @@ test('should fail if asserting second order index', async () => {
 })
 
 test('should pass if asserting first page url', async () => {
-    fixtures.getPerformanceMetrics = PERFORMANCE_METRICS_MULTIPLE
+    fixtures.getPerformanceMetrics = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
     await handler({
         user: 'foo',
         key: 'bar',
@@ -98,13 +101,31 @@ test('should pass if asserting first page url', async () => {
     })
     expect(process.exit).toBeCalledWith(0)
     expect(analyzeReport.mock.calls).toMatchSnapshot()
+    expect(ora().warn).toBeCalledTimes(0)
+})
+
+test('should display warning if too many tests are tested', async () => {
+    fixtures.listBuildJobs = BUILD_WITH_MANY_JOBS
+    fixtures.getPerformanceMetrics = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
+    getMetricParams.mockImplementation(() => [...Array(11)].map((item, i) => `metric${i}`))
+    await handler({
+        user: 'foo',
+        key: 'bar',
+        build: 'random build 1',
+        pageUrl: 'http://saucelabs-fast.com/'
+    })
+    expect(setTimeout).toBeCalledTimes(3)
+    expect(ora().warn).toBeCalledTimes(1)
+    expect(ora().warn.mock.calls).toMatchSnapshot()
 })
 
 afterEach(() => {
     process.exit = processExit
     ora.mockClear()
     ora().fail.mockClear()
+    ora().warn.mockClear()
     ora().start.mockClear()
     ora().stopAndPersist.mockClear()
     resetSauceLabsFixtures()
+    setTimeout.mockClear()
 })

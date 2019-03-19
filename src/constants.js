@@ -115,3 +115,17 @@ provide them as parameter`
 export const REQUIRED_TESTS_FOR_BASELINE_COUNT = 10
 export const JOB_COMPLETED_TIMEOUT = 20000
 export const JOB_COMPLETED_INTERVAL = 1000
+
+export const MOOD_MAKER_TIMEOUT = 10000
+export const MOOD_MAKER_MESSAGES = [
+    ' ... hold tight 🏋️‍  almost there!',
+    ' ... this crazy, we are adding more engines 🚀',
+    ' ... mooooaaaaar engines 🚀 🚀 🚀 🚀 🚀 🚀 🚀 🚀 🚀'
+]
+
+export const ASSERTION_AMOUNT_WARNING_COUNT = 1 * 5 * PERFORMANCE_METRICS.length // 1 job with 5 urls, testing all metrics
+export const ASSERTION_AMOUNT_WARNING_MESSAGE = 'We are now asserting %s ' +
+    'different metrics for %s page loads across %s tests. This is quite a lot! ' +
+    'You might want to consider reducing the set of metrics and amount of ' +
+    'pages you want to check for. Read more about best practices on performance ' +
+    'testing on Sauce Labs at: https://saucelabs.com/products/web-testing/sauce-performance-beta.'
