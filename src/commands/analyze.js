@@ -94,12 +94,15 @@ export const handler = async (argv) => {
     let reportMoodMaker = ''
     try {
         const moodTimeout = setTimeout(
+            /* istanbul ignore next */
             () => (reportMoodMaker = MOOD_MAKER_MESSAGES.shift()),
             MOOD_MAKER_TIMEOUT)
         const superMoodTimeout = setTimeout(
+            /* istanbul ignore next */
             () => (reportMoodMaker = MOOD_MAKER_MESSAGES.shift()),
             MOOD_MAKER_TIMEOUT * 2)
         const extremMoodTimeout = setTimeout(
+            /* istanbul ignore next */
             () => (reportMoodMaker = MOOD_MAKER_MESSAGES.shift()),
             MOOD_MAKER_TIMEOUT * 4)
 
