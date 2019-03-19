@@ -19,3 +19,16 @@ test('runPerformanceTest', async () => {
     expect(result).toMatchSnapshot()
     expect(remote.mock.calls).toMatchSnapshot()
 })
+
+test('runPerformanceTest without args', async () => {
+    const result = await runPerformanceTest(
+        'myuser',
+        'mykey',
+        {},
+        'testname',
+        'buildname',
+        '/some/dir'
+    )
+    expect(result).toMatchSnapshot()
+    expect(remote.mock.calls).toMatchSnapshot()
+})

@@ -38,3 +38,59 @@ Array [
   ],
 ]
 `;
+
+exports[`runPerformanceTest without args 1`] = `
+Object {
+  "result": Object {
+    "value": Object {
+      "metrics": Object {
+        "load": 321,
+        "pageWeight": 1000,
+        "speedIndex": 10,
+        "timeToFirstByte": 123,
+      },
+    },
+  },
+  "sessionId": "foobarSession",
+}
+`;
+
+exports[`runPerformanceTest without args 2`] = `
+Array [
+  Array [
+    Object {
+      "capabilities": Object {
+        "browserName": "chrome",
+        "build": "buildname",
+        "extendedDebugging": true,
+        "name": "testname",
+        "platform": "Playstation",
+        "tunnelIdentifier": "foobar",
+        "version": 123,
+      },
+      "key": "mykey",
+      "logLevel": "trace",
+      "outputDir": "/some/dir",
+      "region": "eu",
+      "user": "myuser",
+    },
+  ],
+  Array [
+    Object {
+      "capabilities": Object {
+        "browserName": "chrome",
+        "build": "buildname",
+        "extendedDebugging": true,
+        "name": "testname",
+        "platform": undefined,
+        "version": undefined,
+      },
+      "key": "mykey",
+      "logLevel": "trace",
+      "outputDir": "/some/dir",
+      "region": undefined,
+      "user": "myuser",
+    },
+  ],
+]
+`;
