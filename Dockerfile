@@ -9,3 +9,4 @@ RUN npm run build
 ENV PATH $PATH:/speedo/bin
 
 ENTRYPOINT ["speedo"]
+CMD ["--help"]
