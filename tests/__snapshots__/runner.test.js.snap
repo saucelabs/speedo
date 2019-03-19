@@ -26,6 +26,7 @@ Array [
         "extendedDebugging": true,
         "name": "testname",
         "platform": "Playstation",
+        "tunnelIdentifier": "foobar",
         "version": 123,
       },
       "key": "mykey",

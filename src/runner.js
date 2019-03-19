@@ -21,7 +21,7 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
             browserName: 'chrome',
             platform,
             version,
-            'sauce:options': sauceOptions
+            ...sauceOptions
         }
     })
 

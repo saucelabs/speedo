@@ -9,7 +9,8 @@ test('runPerformanceTest', async () => {
         {
             region: 'eu',
             platformName: 'Playstation',
-            browserVersion: 123
+            browserVersion: 123,
+            tunnelIdentifier: 'foobar'
         },
         'testname',
         'buildname',
