@@ -150,11 +150,35 @@ pipeline {
                 docker { image 'saucelabs:speedo' }
             }
             steps {
-                sh 'speedo run https://google.com -u ${SAUCE_USERNAME} -k $SAUCE_ACCESS_KEY -b ${BUILD_NUMBER}'
+                sh 'speedo run https://google.com -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} -b ${BUILD_NUMBER}'
             }
         }
     }
 }
+```
+
+Or when using GitLab CI/CD pipelines:
+
+```yaml
+variables:
+  SPEEDO_IMAGE: saucelabs/speedo
+
+stages:
+  - lint
+  - test
+  - performance
+  - deploy
+
+# ...
+
+# run performance tests
+performance:
+  stage: performance
+  image: $SPEEDO_IMAGE
+  script:
+    - speedo run https://google.com -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY -b $BUILD_NUMBER
+
+# ...
 ```
 
 ***
