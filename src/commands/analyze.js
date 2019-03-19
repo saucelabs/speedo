@@ -119,7 +119,7 @@ export const handler = async (argv) => {
                     const result = {
                         metric: metricName,
                         passed: true,
-                        value: capturedValue,
+                        value: capturedValue || 0,
                         baseline: baseline[0]
                     }
 

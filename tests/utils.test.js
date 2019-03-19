@@ -1,6 +1,7 @@
 import performanceResults from './__fixtures__/performance.json'
 import performanceResultsWithInvalidQuery from './__fixtures__/invalidQuery.json'
 import { printResult, waitFor, getMetricParams, getJobUrl, analyzeReport } from '../src/utils'
+import { PERFORMANCE_METRICS } from '../src/constants'
 
 const performanceLog = {
     timeToFirstByte: 123,
@@ -79,6 +80,8 @@ test('waitFor times out if condition is never met', async () => {
 test('getMetricParams', () => {
     expect(getMetricParams({}))
         .toEqual([])
+    expect(getMetricParams({ all: true }))
+        .toEqual(PERFORMANCE_METRICS)
     expect(getMetricParams({ metric: 'load' }))
         .toEqual(['load'])
     expect(getMetricParams({ metric: ['load', 'speedIndex'] }))

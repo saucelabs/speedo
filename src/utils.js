@@ -12,7 +12,7 @@ import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS } fr
  * @param  {String[]} metrics           asserted metrices
  * @param  {Function} [log=console.log] log method (for testing purposes)
  */
-export const printResult = function (result, performanceLog, metrics, log = console.log) { // eslint-disable-line no-console
+export const printResult = function (result, performanceLog, metrics, /* istanbul ignore next */ log = console.log) { // eslint-disable-line no-console
     log('\nPerformance Results\n===================')
 
     /**
@@ -33,7 +33,7 @@ export const printResult = function (result, performanceLog, metrics, log = cons
         })
 
     for (const [metric, value] of resultsSorted) {
-        const output = `${metric}: ${formatMetric[metric](value)}`
+        const output = `${metric}: ${formatMetric[metric](value || 0)}`
         log(metrics.includes(metric) ? output : chalk.gray(output))
     }
 
@@ -135,7 +135,7 @@ export const formatMetric = {
  * @param  {String[]} metrics           asserted metrices
  * @param  {Function} [log=console.log] log method (for testing purposes)
  */
-export const analyzeReport = function (jobResults, metrics, log = console.log) { // eslint-disable-line no-console
+export const analyzeReport = function (jobResults, metrics, /* istanbul ignore next */ log = console.log) { // eslint-disable-line no-console
     log('\nPerformance Results\n===================')
 
     if (Math.max(...jobResults.map((r) => r.results.length)) === 0) {

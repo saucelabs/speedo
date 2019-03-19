@@ -3,8 +3,13 @@ import { remote } from 'webdriverio'
 import { getMetricParams } from './utils'
 
 export default async function runPerformanceTest (username, accessKey, argv, name, build, logDir) {
-    const { site, platformName: platform, browserVersion: version } = argv
+    const { site, platformName: platform, browserVersion: version, tunnelIdentifier } = argv
     const metrics = getMetricParams(argv)
+    const sauceOptions = {
+        name, build, extendedDebugging: true,
+        ...(tunnelIdentifier ? { tunnelIdentifier } : {})
+    }
+
     const browser = await remote({
         user: username,
         key: accessKey,
@@ -14,12 +19,11 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
         capabilities: {
             browserName: 'chrome',
             platform,
-            name,
-            build,
             version,
-            extendedDebugging: true
+            ...sauceOptions
         }
     })
+
     const sessionId = browser.sessionId
 
     await browser.url(site)

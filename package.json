@@ -78,7 +78,12 @@
         "statements": 98
       }
     },
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/tests/__fixtures__/"
+    ]
   },
   "dependencies": {
     "change-case": "^3.1.0",
