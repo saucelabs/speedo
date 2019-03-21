@@ -128,6 +128,59 @@ node /test/performance/login.perf.test.js && sleep 5 && speedo analyze $BUILD_ID
 
 The command requires to pass in the build that the performance test was running in. With the `orderIndex` parameter you define which page load needs to be analyzed. If you don't pass it in it will analyze all page loads which can make your test more flaky. Similar as to `run` you can apply more parameter to this command. See a list with all of them by calling `$ speedo analyze --help`.
 
+## Docker Integration
+
+If you run your CI/CD pipeline based on Docker (e.g. [Jenkins Pipelines](https://jenkins.io/doc/book/pipeline/docker/)) you can also use Speedo as a Docker container. Just define the container name and have the speedo command available in the stage, e.g.:
+
+```
+pipeline {
+    agent none
+    stages {
+        stage('Linting') {
+            ...
+        }
+        stage('Unit Tests') {
+            ...
+        }
+        stage('Functional Tests') {
+            ...
+        }
+        stage('Performance Tests') {
+            agent {
+                docker { image 'saucelabs:speedo' }
+            }
+            steps {
+                sh 'speedo run https://google.com -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} -b ${BUILD_NUMBER}'
+            }
+        }
+    }
+}
+```
+
+Or when using [GitLab CI/CD](https://docs.gitlab.com/ee/ci/pipelines.html) pipelines:
+
+```yaml
+variables:
+  SPEEDO_IMAGE: saucelabs/speedo
+
+stages:
+  - lint
+  - test
+  - performance
+  - deploy
+
+# ...
+
+# run performance tests
+performance:
+  stage: performance
+  image: $SPEEDO_IMAGE
+  script:
+    - speedo run https://google.com -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY -b $BUILD_NUMBER
+
+# ...
+```
+
 ***
 
 <p align="center">Copyright 2019 © Sauce Labs</p>
