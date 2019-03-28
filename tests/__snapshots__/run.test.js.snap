@@ -39,7 +39,7 @@ exports[`should store tracelogs if path provided 1`] = `
 Array [
   Array [
     "foobar123",
-    "_tracelog_3b879028728e33d3e1e7789128c5ad6ad1371278.json.gz",
+    "_tracelog_10285BFC9E231DFB7E269641B3CC670.json.gz",
     "/foo/bar/trace.json",
   ],
 ]
