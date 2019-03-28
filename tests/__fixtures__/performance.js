@@ -36,6 +36,7 @@ export const PERFORMANCE_METRICS_PASSING = {
         order_index: 0,
         job_creation_time: '2019-03-15T19:21:21Z',
         load_id: '3b879028728e33d3e1e7789128c5ad6ad1371278',
+        loader_id: '10285BFC9E231DFB7E269641B3CC670',
         regime_acknowledge: null
     }]
 }
@@ -78,6 +79,7 @@ export const PERFORMANCE_METRICS_MULTIPLE = {
         order_index: 0,
         job_creation_time: '2019-03-15T19:21:21Z',
         load_id: '3b879028728e33d3e1e7789128c5ad6ad1371278',
+        loader_id: '10285BFC9E231DFB7E269641B3CC670',
         regime_acknowledge: null
     }, {
         job_id: '12340b830852468baddd8ec79ec1e786',
@@ -116,6 +118,7 @@ export const PERFORMANCE_METRICS_MULTIPLE = {
         order_index: 1,
         job_creation_time: '2019-03-15T19:21:21Z',
         load_id: '12349028728e33d3e1e7789128c5ad6ad1371278',
+        loader_id: '10285BFC9E231DFB7E269641B3CC670',
         regime_acknowledge: null
     }]
 }
@@ -158,6 +161,7 @@ export const PERFORMANCE_METRICS_FAILING = {
         order_index: 0,
         job_creation_time: '2019-03-15T19:21:21Z',
         load_id: '3b879028728e33d3e1e7789128c5ad6ad1371278',
+        loader_id: '10285BFC9E231DFB7E269641B3CC670',
         regime_acknowledge: null
     }]
 }
