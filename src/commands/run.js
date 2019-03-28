@@ -139,7 +139,7 @@ export const handler = async (argv) => {
             sessionId: item.job_id,
             url: item.page_url,
             orderIndex: item.order_index,
-            loaderId: item.load_id,
+            loaderId: item.loader_id,
             metrics: Object.entries(item.metric_data).reduce((obj, [metricName, metricValue]) => {
                 obj[changeCase.camelCase(metricName)] = metricValue
                 return obj
