@@ -147,7 +147,7 @@ pipeline {
         }
         stage('Performance Tests') {
             agent {
-                docker { image 'saucelabs:speedo' }
+                docker { image 'quay.io/saucelabs/speedo' }
             }
             steps {
                 sh 'speedo run https://google.com -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} -b ${BUILD_NUMBER}'
@@ -161,7 +161,7 @@ Or when using [GitLab CI/CD](https://docs.gitlab.com/ee/ci/pipelines.html) pipel
 
 ```yaml
 variables:
-  SPEEDO_IMAGE: saucelabs/speedo
+  SPEEDO_IMAGE: quay.io/saucelabs/speedo
 
 stages:
   - lint

@@ -6,6 +6,11 @@ import prettyBytes from 'pretty-bytes'
 import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS } from './constants'
 
 /**
+ * disable colors in tests
+ */
+const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
+
+/**
  * print results of cli run
  * @param  {Object}   result            result of performance assertion
  * @param  {Object}   performanceLog    performance data of performance run
@@ -34,7 +39,7 @@ export const printResult = function (result, performanceLog, metrics, /* istanbu
 
     for (const [metric, value] of resultsSorted) {
         const output = `${metric}: ${formatMetric[metric](value || 0)}`
-        log(metrics.includes(metric) ? output : chalk.gray(output))
+        log(metrics.includes(metric) ? output : ctx.gray(output))
     }
 
     const resultDetails = []
@@ -131,52 +136,43 @@ export const formatMetric = {
 
 /**
  * print results of cli analyze command
- * @param  {Object}   jobResults        performance data
+ * @param  {Object}   jobResult         performance data
  * @param  {String[]} metrics           asserted metrices
  * @param  {Function} [log=console.log] log method (for testing purposes)
  */
-export const analyzeReport = function (jobResults, metrics, /* istanbul ignore next */ log = console.log) { // eslint-disable-line no-console
+export const analyzeReport = function (jobResult, metrics, /* istanbul ignore next */ log = console.log) { // eslint-disable-line no-console
     log('\nPerformance Results\n===================')
+    log(`\n${jobResult.passed ? '✅ SUCCESS:' : '❌ FAILURE:'} ${jobResult.name}:`)
 
-    if (Math.max(...jobResults.map((r) => r.results.length)) === 0) {
-        return log('\n❌ FAILURE: your query did not seem to match any result!\n')
+    const data = []
+    data.push(['#', 'Url', 'Metrics'])
+
+    for (const pageResult of jobResult.results.sort((a, b) => a.orderIndex > b.orderIndex)) {
+        const orderIndex = pageResult.orderIndex
+        const url = pageResult.url
+        const metricsOutput = Object.values(pageResult.metrics)
+            .sort((a, b) => {
+                if (metrics.includes(a.metric) && !metrics.includes(b.metric)) {
+                    return -1
+                } else if (!metrics.includes(a.metric) && metrics.includes(b.metric)) {
+                    return 1
+                }
+
+                return PERFORMANCE_METRICS.indexOf(a.metric) - PERFORMANCE_METRICS.indexOf(b.metric)
+            })
+            .map(({ metric, value, baseline, passed }) => metrics.includes(metric)
+                ? `${ctx.bold(metric)}: ${formatMetric[metric](value)} ${passed
+                    ? ''
+                    : baseline.u < value
+                        ? ctx.red(`(${formatMetric[metric](value - baseline.u)} over baseline)`)
+                        : ctx.red(`(${formatMetric[metric](baseline.l - value)} under baseline)`)
+                }`
+                : ctx.gray(`${metric}: ${formatMetric[metric](value)}`)
+            )
+            .join('\n')
+
+        data.push([orderIndex, url, metricsOutput])
     }
 
-    for (const result of jobResults) {
-        log(`\n${result.passed ? '✅ SUCCESS:' : '❌ FAILURE:'} ${result.name}:`)
-
-        const data = []
-        data.push(['#', 'Url', 'Metrics'])
-
-        for (const pageResult of result.results.sort((a, b) => a.orderIndex > b.orderIndex)) {
-            const orderIndex = pageResult.orderIndex
-            const url = pageResult.url
-            const metricsOutput = Object.values(pageResult.metrics)
-                .sort((a, b) => {
-                    if (metrics.includes(a.metric) && !metrics.includes(b.metric)) {
-                        return -1
-                    } else if (!metrics.includes(a.metric) && metrics.includes(b.metric)) {
-                        return 1
-                    }
-
-                    return PERFORMANCE_METRICS.indexOf(a.metric) - PERFORMANCE_METRICS.indexOf(b.metric)
-                })
-                .map(({ metric, value, baseline, passed }) => metrics.includes(metric)
-                    ? `${chalk.bold(metric)}: ${formatMetric[metric](value)} ${passed
-                        ? ''
-                        : baseline.u < value
-                            ? chalk.red(`(${formatMetric[metric](value - baseline.u)} over baseline)`)
-                            : chalk.red(`(${formatMetric[metric](baseline.l - value)} under baseline)`)
-                    }`
-                    : chalk.gray(`${metric}: ${formatMetric[metric](value)}`)
-                )
-                .join('\n')
-
-            data.push([orderIndex, url, metricsOutput])
-        }
-
-        log(table(data), `👀 Check out job at ${result.url}`)
-    }
-
-    log('')
+    log(table(data), `👀 Check out job at ${jobResult.url}\n`)
 }

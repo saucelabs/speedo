@@ -38,7 +38,7 @@
     "release:major": "np major",
     "prepublish": "npm prune && run-s build",
     "test": "run-s eslint test:unit",
-    "test:unit": "jest --coverage --no-color",
+    "test:unit": "jest --coverage",
     "watch": "npm run compile -- --watch"
   },
   "devDependencies": {

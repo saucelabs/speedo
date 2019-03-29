@@ -6,7 +6,6 @@ import { handler } from '../src/commands/analyze'
 import runPerformanceTest from '../src/runner'
 import { waitFor, getMetricParams, getJobUrl, analyzeReport } from '../src/utils'
 import { PERFORMANCE_METRICS_FAILING, PERFORMANCE_METRICS_MULTIPLE } from './__fixtures__/performance'
-import { BUILD_WITH_MANY_JOBS } from './__fixtures__/builds'
 
 jest.mock('../src/runner')
 jest.mock('../src/utils')
@@ -33,30 +32,25 @@ test('run should fail if no auth is provided', async () => {
     expect(yargs.showHelp).toBeCalledTimes(1)
 })
 
-test('fails when builds can not be fetched', async () => {
-    fixtures.listBuilds = Promise.reject(new Error('buh'))
-    await handler({ user: 'foo', key: 'bar', metric: ['load', 'speedIndex'] })
-    expect(ora().fail).toBeCalledTimes(1)
-    expect(ora().fail.mock.calls[0][0]).toContain('Couldn\'t fetch builds')
+test('should fail if no job was found', async () => {
+    fixtures.listJobs = Promise.resolve({ jobs: [] })
+    await handler({ user: 'foo', key: 'bar', jobName: 'foobar' })
     expect(process.exit).toBeCalledTimes(1)
+    expect(ora().fail.mock.calls[0][0])
+        .toContain('Couldn\'t fetch job with name "foobar": Error: job not found')
 })
 
-test('fails if build id can not be found', async () => {
-    await handler({ user: 'foo', key: 'bar', build: 'I do not exist' })
+test('should fail if job had an error', async () => {
+    fixtures.listJobs = Promise.resolve({ jobs: [{ error: true }] })
+    await handler({ user: 'foo', key: 'bar', jobName: 'barfoo' })
     expect(process.exit).toBeCalledTimes(1)
-    expect(ora().fail.mock.calls[0][0]).toContain('Couldn\'t find build with name "I do not exist"')
-})
-
-test('fails if it can not fetch build jobs', async () => {
-    fixtures.listBuildJobs = Promise.reject(new Error('buh'))
-    await handler({ user: 'foo', key: 'bar', build: 'random build 1' })
-    expect(process.exit).toBeCalledTimes(1)
-    expect(ora().fail.mock.calls[0][0]).toContain('Couldn\'t fetch job from build with name "random build 1"')
+    expect(ora().fail.mock.calls[0][0])
+        .toContain('Couldn\'t fetch job with name "barfoo": Error: job failed or did\'t complete or failed')
 })
 
 test('should fail if it can not fetch performance metrics', async () => {
     fixtures.getPerformanceMetrics = Promise.reject(new Error('buhhu'))
-    await handler({ user: 'foo', key: 'bar', build: 'random build 1' })
+    await handler({ user: 'foo', key: 'bar' })
     expect(process.exit).toBeCalledTimes(1)
     expect(ora().fail.mock.calls[0][0]).toContain('Couldn\'t fetch performance results: Error: buhhu')
 })
@@ -102,21 +96,6 @@ test('should pass if asserting first page url', async () => {
     expect(process.exit).toBeCalledWith(0)
     expect(analyzeReport.mock.calls).toMatchSnapshot()
     expect(ora().warn).toBeCalledTimes(0)
-})
-
-test('should display warning if too many tests are tested', async () => {
-    fixtures.listBuildJobs = BUILD_WITH_MANY_JOBS
-    fixtures.getPerformanceMetrics = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
-    getMetricParams.mockImplementation(() => [...Array(11)].map((item, i) => `metric${i}`))
-    await handler({
-        user: 'foo',
-        key: 'bar',
-        build: 'random build 1',
-        pageUrl: 'http://saucelabs-fast.com/'
-    })
-    expect(setTimeout).toBeCalledTimes(3)
-    expect(ora().warn).toBeCalledTimes(1)
-    expect(ora().warn.mock.calls).toMatchSnapshot()
 })
 
 afterEach(() => {
