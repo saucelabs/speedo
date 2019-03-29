@@ -25,9 +25,9 @@ If you call `speedo -h` you find the following help menu:
 Speedo CLI runner
 
 Commands:
-  speedo analyze [params...] <build>  Analyze results of prerun performance
-                                      tests.
-  speedo run [params...] <site>       Run performance tests on any website.
+  speedo analyze [params...] <jobName>  Analyze results of prerun performance
+                                        tests.
+  speedo run [params...] <site>         Run performance tests on any website.
 
 Options:
   --version        Show version number                                 [boolean]
@@ -100,8 +100,7 @@ const { remote } = require('webdriverio');
             platform: 'macOS 10.13',
             version: 'latest',
             extendedDebugging: true,
-            name: 'my login performance test',
-            build: process.env.BUILD_ID
+            name: 'my login performance test'
         }
     })
 
@@ -123,10 +122,10 @@ const { remote } = require('webdriverio');
 Ensure that you define a unique name for your performance test so we can maintain a stable baseline for it. Within your CI/CD you can now call the script and analyze the performance of the second opened page. To ensure that our platform can calculcate the data we add a 5 second pause in between running the test and analyzing it:
 
 ```sh
-node /test/performance/login.perf.test.js && sleep 5 && speedo analyze $BUILD_ID --orderIndex 1
+node /test/performance/login.perf.test.js && sleep 5 && speedo analyze "my login performance test" --orderIndex 1
 ```
 
-The command requires to pass in the build that the performance test was running in. With the `orderIndex` parameter you define which page load needs to be analyzed. If you don't pass it in it will analyze all page loads which can make your test more flaky. Similar as to `run` you can apply more parameter to this command. See a list with all of them by calling `$ speedo analyze --help`.
+The command requires to pass in the job name of the performance test. With the `orderIndex` parameter you define which page load needs to be analyzed. If you don't pass it in it will analyze all page loads which can make your test more flaky. Similar as to `run` you can apply more parameter to this command. See a list with all of them by calling `$ speedo analyze --help`.
 
 ## Docker Integration
 
