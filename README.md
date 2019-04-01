@@ -125,7 +125,7 @@ Ensure that you define a unique name for your performance test so we can maintai
 node /test/performance/login.perf.test.js && sleep 5 && speedo analyze "my login performance test" --orderIndex 1
 ```
 
-The command requires to pass in the job name of the performance test. With the `orderIndex` parameter you define which page load needs to be analyzed. If you don't pass it in it will analyze all page loads which can make your test more flaky. Similar as to `run` you can apply more parameter to this command. See a list with all of them by calling `$ speedo analyze --help`.
+The command requires passing in the job name of the performance test. With the `orderIndex` parameter you can define which page load needs to be analyzed. If not passed in, it will analyze all page loads which can make tests more flaky. Similar to `run` you can apply more parameters to this command. See the full list by calling `$ speedo analyze --help`.
 
 ## Docker Integration
 

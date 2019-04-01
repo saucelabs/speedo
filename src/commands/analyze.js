@@ -50,7 +50,7 @@ export const handler = async (argv) => {
          * error out if job didn't complete
          */
         if (job.error) {
-            throw new Error('job failed or did\'t complete or failed')
+            throw new Error('job failed or did\'t complete')
         }
 
         status.succeed()
