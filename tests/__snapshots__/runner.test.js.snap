@@ -23,6 +23,7 @@ Array [
       "capabilities": Object {
         "browserName": "chrome",
         "build": "buildname",
+        "capturePerformance": true,
         "extendedDebugging": true,
         "name": "testname",
         "platform": "Playstation",
@@ -62,6 +63,7 @@ Array [
       "capabilities": Object {
         "browserName": "chrome",
         "build": "buildname",
+        "capturePerformance": true,
         "extendedDebugging": true,
         "name": "testname",
         "platform": "Playstation",
@@ -80,6 +82,7 @@ Array [
       "capabilities": Object {
         "browserName": "chrome",
         "build": "buildname",
+        "capturePerformance": true,
         "extendedDebugging": true,
         "name": "testname",
         "platform": undefined,

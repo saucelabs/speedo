@@ -6,7 +6,7 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
     const { site, platformName: platform, browserVersion: version, tunnelIdentifier } = argv
     const metrics = getMetricParams(argv)
     const sauceOptions = {
-        name, build, extendedDebugging: true,
+        name, build, extendedDebugging: true, capturePerformance: true,
         ...(tunnelIdentifier ? { tunnelIdentifier } : {})
     }
 
