@@ -100,6 +100,7 @@ const { remote } = require('webdriverio');
             platform: 'macOS 10.13',
             version: 'latest',
             extendedDebugging: true,
+            capturePerformance: true,
             name: 'my login performance test'
         }
     })
