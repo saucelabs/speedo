@@ -40,47 +40,7 @@ Performance Results
 ║   │                         │ pageWeightEncoded: 528 kB    ║
 ╚═══╧═════════════════════════╧══════════════════════════════╝
 ",
-    "👀 Check out job at https://app.saucelabs.com/tests/83d526a5d20040a7b854a2cbef64c067",
-  ],
-  Array [
-    "
-❌ FAILURE: Performance test for http://saucelabs.com:",
-  ],
-  Array [
-    "╔═══╤═══════════════════════╤═══════════════════════════════════════╗
-║ # │ Url                   │ Metrics                               ║
-╟───┼───────────────────────┼───────────────────────────────────────╢
-║ 0 │ http://saucelabs.com/ │ load: 9s                              ║
-║   │                       │ speedIndex: 6.3s (2.2s over baseline) ║
-║   │                       │ pageWeight: 2.95 MB                   ║
-║   │                       │ timeToFirstByte: 4.5s                 ║
-║   │                       │ firstPaint: 5.8s                      ║
-║   │                       │ firstContentfulPaint: 5.8s            ║
-║   │                       │ firstMeaningfulPaint: 5.8s            ║
-║   │                       │ domContentLoaded: 8s                  ║
-║   │                       │ timeToFirstInteractive: 8s            ║
-║   │                       │ perceptualSpeedIndex: 6.7s            ║
-║   │                       │ pageWeightEncoded: 1.65 MB            ║
-╚═══╧═══════════════════════╧═══════════════════════════════════════╝
-",
-    "👀 Check out job at https://app.saucelabs.com/tests/34c90b830852468baddd8ec79ec1e786",
-  ],
-  Array [
-    "",
-  ],
-]
-`;
-
-exports[`analyzeReport 2`] = `
-Array [
-  Array [
-    "
-Performance Results
-===================",
-  ],
-  Array [
-    "
-❌ FAILURE: your query did not seem to match any result!
+    "👀 Check out job at https://app.saucelabs.com/tests/83d526a5d20040a7b854a2cbef64c067
 ",
   ],
 ]

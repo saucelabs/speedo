@@ -216,12 +216,3 @@ export const BUILD_JOBS = {
     }],
     truncated: false
 }
-
-export const BUILD_WITH_MANY_JOBS = {
-    jobs: [
-        ...BUILD_JOBS.jobs,
-        ...BUILD_JOBS.jobs,
-        ...BUILD_JOBS.jobs
-    ],
-    truncated: false
-}

@@ -1,5 +1,4 @@
 import performanceResults from './__fixtures__/performance.json'
-import performanceResultsWithInvalidQuery from './__fixtures__/invalidQuery.json'
 import { printResult, waitFor, getMetricParams, getJobUrl, analyzeReport } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
@@ -102,9 +101,5 @@ test('getJobUrl', () => {
 test('analyzeReport', () => {
     const log = jest.fn()
     analyzeReport(performanceResults , ['speedIndex', 'load', 'pageWeight'], log)
-    expect(log.mock.calls).toMatchSnapshot()
-
-    log.mockClear()
-    analyzeReport(performanceResultsWithInvalidQuery , ['speedIndex', 'load', 'pageWeight'], log)
     expect(log.mock.calls).toMatchSnapshot()
 })
