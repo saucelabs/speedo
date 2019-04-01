@@ -72,6 +72,13 @@ test('should fail if performance logs can not be fetched', async () => {
     expect(ora().fail.mock.calls[0][0]).toContain('Couldn\'t download performance results due to: Error: buhhu')
 })
 
+test('should continue if fetching trace logs fails', async () => {
+    fixtures.downloadJobAsset = Promise.reject(new Error('buhhu'))
+    await handler({ user: 'foo', key: 'bar', site: 'mypage', metric: ['load', 'speedIndex'], traceLogs: true })
+    expect(process.exit).toBeCalledWith(0)
+    expect(ora().fail.mock.calls[0][0]).toContain('Couldn\'t fetch trace logs: Error: buhhu')
+})
+
 test('should store tracelogs if path provided', async () => {
     await handler({
         user: 'foo',

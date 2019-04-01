@@ -167,10 +167,17 @@ export const handler = async (argv) => {
         status.start('Download trace logs...')
 
         const loaderId = performanceLog[0].loaderId
-        await user.downloadJobAsset(
-            sessionId,
-            `_tracelog_${loaderId}.json.gz`,
-            path.join(logDir, 'trace.json'))
+        try {
+            await user.downloadJobAsset(
+                sessionId,
+                `_tracelog_${loaderId}.json.gz`,
+                path.join(logDir, 'trace.json'))
+            status.succeed()
+        } catch (e) {
+            console.log('IAM');
+            status.fail(`Couldn't fetch trace logs: ${e.stack}`)
+            status.stopAndPersist({ text: 'continuing ...' })
+        }
     }
 
     /**

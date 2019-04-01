@@ -58,3 +58,5 @@ export const TEST_DETAIL = {
     id: '123',
     status: 'complete'
 }
+
+export const JOB_ASSET = '{"job": "asset"}'
