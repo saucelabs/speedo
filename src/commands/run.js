@@ -174,7 +174,6 @@ export const handler = async (argv) => {
                 path.join(logDir, 'trace.json'))
             status.succeed()
         } catch (e) {
-            console.log('IAM');
             status.fail(`Couldn't fetch trace logs: ${e.stack}`)
             status.stopAndPersist({ text: 'continuing ...' })
         }
