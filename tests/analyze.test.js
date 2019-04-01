@@ -45,7 +45,7 @@ test('should fail if job had an error', async () => {
     await handler({ user: 'foo', key: 'bar', jobName: 'barfoo' })
     expect(process.exit).toBeCalledTimes(1)
     expect(ora().fail.mock.calls[0][0])
-        .toContain('Couldn\'t fetch job with name "barfoo": Error: job failed or did\'t complete or failed')
+        .toContain('Couldn\'t fetch job with name "barfoo": Error: job failed or did\'t complete')
 })
 
 test('should fail if it can not fetch performance metrics', async () => {
