@@ -7,8 +7,6 @@ Speedo [![Build Status](https://travis-ci.com/saucelabs/speedo.svg?token=px5tFza
 
 Sauce Labs provides a [Frontend Performance Testing](https://wiki.saucelabs.com/display/DOCS/Getting+Started+with+Front+End+Performance+Testing) offering that allows you to check for crucial performance regression on your website. `Speedo` is a simple to use CLI tool that allows you to integrate this into your CI/CD pipeline. All you need to do is download and run it.
 
-> Note: This feature is currently in beta and available for Enterprise plans only. For more information about other benefits that are included with Enterprise plans, [check out our Pricing page](https://saucelabs.com/pricing).
-
 ## Download
 
 To download the tool you have to have Node.js installed on your machine. After you have installed it, run:
