@@ -87,6 +87,9 @@ export const RUN_CLI_PARAMS ={
     tunnelIdentifier: {
         alias: 'i',
         description: 'identifier for Sauce Connect tunnel to run performance tests for local hosted apps'
+    },
+    parentTunnel: {
+        description: 'username of parent running Sauce Connect tunnel'
     }
 }
 
