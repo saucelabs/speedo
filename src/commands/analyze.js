@@ -123,7 +123,7 @@ export const handler = async (argv) => {
             })
         }
 
-        jobResult.passed = Object.values(jobResult.results).find((r) => !r.passed)
+        jobResult.passed = !Object.values(jobResult.results).find((r) => !r.passed)
         status.succeed()
     } catch (e) {
         status.fail(`Couldn't fetch performance results: ${e.stack}`)
@@ -131,5 +131,5 @@ export const handler = async (argv) => {
     }
 
     analyzeReport(jobResult, metrics)
-    process.exit(jobResult.passed ? 1 : 0)
+    process.exit(jobResult.passed ? 0 : 1)
 }
