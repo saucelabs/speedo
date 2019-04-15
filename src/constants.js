@@ -13,7 +13,6 @@ export const PERFORMANCE_METRICS = [
     'load',
     'speedIndex',
     'perceptualSpeedIndex',
-    'pageWeight',
     'pageWeightEncoded'
 ]
 
