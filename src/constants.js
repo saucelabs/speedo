@@ -13,8 +13,16 @@ export const PERFORMANCE_METRICS = [
     'load',
     'speedIndex',
     'perceptualSpeedIndex',
+    'pageWeight',
     'pageWeightEncoded'
 ]
+
+export const PERFORMANCE_IGNORED_METRICS = [
+    'pageWeight',
+    'requestsCount'
+]
+
+export const BASELINE_METRICS = PERFORMANCE_METRICS.filter((metric) => !PERFORMANCE_IGNORED_METRICS.includes(metric))
 
 const METRIC_PARAM = {
     alias: 'm',

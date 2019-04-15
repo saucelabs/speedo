@@ -67,6 +67,9 @@ Performance Results
     "firstMeaningfulPaint: 222ms",
   ],
   Array [
+    "pageWeight: 1 kB",
+  ],
+  Array [
     "
 Performance assertions failed! ❌
 Expected speedIndex to be between 3ms and 7ms but was actually 10ms
@@ -96,6 +99,9 @@ Performance Results
   ],
   Array [
     "firstMeaningfulPaint: 222ms",
+  ],
+  Array [
+    "pageWeight: 1 kB",
   ],
   Array [
     "

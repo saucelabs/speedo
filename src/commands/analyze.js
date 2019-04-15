@@ -4,7 +4,7 @@ import SauceLabs from 'saucelabs'
 
 import { getMetricParams, getJobUrl, analyzeReport, waitFor } from '../utils'
 import {
-    ERROR_MISSING_CREDENTIALS, ANALYZE_CLI_PARAMS, PERFORMANCE_METRICS
+    ERROR_MISSING_CREDENTIALS, ANALYZE_CLI_PARAMS, BASELINE_METRICS
 } from '../constants'
 
 export const command = 'analyze [params...] <jobName>'
@@ -95,7 +95,7 @@ export const handler = async (argv) => {
         for (const pageLoadMetric of performanceMetrics.items) {
             const results = {}
             const baselineHistory = await user.getBaselineHistory(job.id, {
-                metricNames: PERFORMANCE_METRICS,
+                metricNames: BASELINE_METRICS,
                 orderIndex: pageLoadMetric.order_index
             })
 
