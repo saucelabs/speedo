@@ -143,21 +143,6 @@
                         "job_id": "83d526a5d20040a7b854a2cbef64c067"
                     }
                 },
-                "pageWeight": {
-                    "metric": "pageWeight",
-                    "passed": true,
-                    "value": 4102578,
-                    "baseline": {
-                        "b": 4102578,
-                        "u": 4102578,
-                        "l": 4102578,
-                        "r": 4102578,
-                        "datetime": "2019-03-17T17:36:22Z",
-                        "new_regime": 0,
-                        "accepted": 0,
-                        "job_id": "83d526a5d20040a7b854a2cbef64c067"
-                    }
-                },
                 "pageWeightEncoded": {
                     "metric": "pageWeightEncoded",
                     "passed": true,
@@ -309,21 +294,6 @@
                         "u": 2170.7188092909014,
                         "l": 2170.7188092909014,
                         "r": 2170.7188092909014,
-                        "datetime": "2019-03-17T17:36:22Z",
-                        "new_regime": 0,
-                        "accepted": 0,
-                        "job_id": "83d526a5d20040a7b854a2cbef64c067"
-                    }
-                },
-                "pageWeight": {
-                    "metric": "pageWeight",
-                    "passed": true,
-                    "value": 5233683,
-                    "baseline": {
-                        "b": 5233683,
-                        "u": 5233683,
-                        "l": 5233683,
-                        "r": 5233683,
                         "datetime": "2019-03-17T17:36:22Z",
                         "new_regime": 0,
                         "accepted": 0,

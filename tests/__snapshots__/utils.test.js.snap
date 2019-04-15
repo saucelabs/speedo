@@ -17,7 +17,6 @@ Performance Results
 ╟───┼─────────────────────────┼──────────────────────────────╢
 ║ 0 │ https://www.amazon.com/ │ load: 4.9s                   ║
 ║   │                         │ speedIndex: 2s               ║
-║   │                         │ pageWeight: 5.23 MB          ║
 ║   │                         │ timeToFirstByte: 693ms       ║
 ║   │                         │ firstPaint: 1.4s             ║
 ║   │                         │ firstContentfulPaint: 1.4s   ║
@@ -29,7 +28,6 @@ Performance Results
 ╟───┼─────────────────────────┼──────────────────────────────╢
 ║ 1 │ https://www.yahoo.com/  │ load: 9.8s                   ║
 ║   │                         │ speedIndex: 1.3s             ║
-║   │                         │ pageWeight: 4.1 MB           ║
 ║   │                         │ timeToFirstByte: 502ms       ║
 ║   │                         │ firstPaint: 1.2s             ║
 ║   │                         │ firstContentfulPaint: 1.7s   ║
@@ -69,9 +67,6 @@ Performance Results
     "firstMeaningfulPaint: 222ms",
   ],
   Array [
-    "pageWeight: 1 kB",
-  ],
-  Array [
     "
 Performance assertions failed! ❌
 Expected speedIndex to be between 3ms and 7ms but was actually 10ms
@@ -101,9 +96,6 @@ Performance Results
   ],
   Array [
     "firstMeaningfulPaint: 222ms",
-  ],
-  Array [
-    "pageWeight: 1 kB",
   ],
   Array [
     "
