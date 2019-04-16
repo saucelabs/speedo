@@ -118,11 +118,12 @@ export const handler = async (argv) => {
             jobResult.results.push({
                 orderIndex: pageLoadMetric.order_index,
                 url:  pageLoadMetric.page_url,
-                passed: !Object.values(results).find((r) => !r.passed),
+                passed: !Object.values(results).find((r) => !r.passed), // pass only if no failing metrics
                 metrics: results
             })
         }
 
+        // pass only if no failing results
         jobResult.passed = !Object.values(jobResult.results).find((r) => !r.passed)
         status.succeed()
     } catch (e) {
