@@ -17,6 +17,8 @@ export const PERFORMANCE_METRICS = [
     'pageWeightEncoded'
 ]
 
+// Following metrics are fairly stable and as result baselines are super narrow
+// so whenever a regression happens users get notified of things that they don't really care
 export const PERFORMANCE_IGNORED_METRICS = [
     'pageWeight',
     'requestsCount'
