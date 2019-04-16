@@ -85,21 +85,6 @@ Array [
               "passed": true,
               "value": 9021.5,
             },
-            "pageWeight": Object {
-              "baseline": Object {
-                "accepted": 0,
-                "b": 2945120,
-                "datetime": "2019-03-17T17:36:22Z",
-                "job_id": "83d526a5d20040a7b854a2cbef64c067",
-                "l": 2945120,
-                "new_regime": 0,
-                "r": 2945120,
-                "u": 2945120,
-              },
-              "metric": "pageWeight",
-              "passed": true,
-              "value": 2945120,
-            },
             "pageWeightEncoded": Object {
               "baseline": Object {
                 "accepted": 0,
@@ -269,21 +254,6 @@ Array [
             "passed": true,
             "value": 9021.5,
           },
-          "pageWeight": Object {
-            "baseline": Object {
-              "accepted": 0,
-              "b": 2945120,
-              "datetime": "2019-03-17T17:36:22Z",
-              "job_id": "83d526a5d20040a7b854a2cbef64c067",
-              "l": 2945120,
-              "new_regime": 0,
-              "r": 2945120,
-              "u": 2945120,
-            },
-            "metric": "pageWeight",
-            "passed": true,
-            "value": 2945120,
-          },
           "pageWeightEncoded": Object {
             "baseline": Object {
               "accepted": 0,
@@ -441,21 +411,6 @@ Array [
               "metric": "load",
               "passed": true,
               "value": 9021.5,
-            },
-            "pageWeight": Object {
-              "baseline": Object {
-                "accepted": 0,
-                "b": 2945120,
-                "datetime": "2019-03-17T17:36:22Z",
-                "job_id": "83d526a5d20040a7b854a2cbef64c067",
-                "l": 2945120,
-                "new_regime": 0,
-                "r": 2945120,
-                "u": 2945120,
-              },
-              "metric": "pageWeight",
-              "passed": true,
-              "value": 2945120,
             },
             "pageWeightEncoded": Object {
               "baseline": Object {
@@ -626,21 +581,6 @@ Array [
             "passed": true,
             "value": 9021.5,
           },
-          "pageWeight": Object {
-            "baseline": Object {
-              "accepted": 0,
-              "b": 2945120,
-              "datetime": "2019-03-17T17:36:22Z",
-              "job_id": "83d526a5d20040a7b854a2cbef64c067",
-              "l": 2945120,
-              "new_regime": 0,
-              "r": 2945120,
-              "u": 2945120,
-            },
-            "metric": "pageWeight",
-            "passed": true,
-            "value": 2945120,
-          },
           "pageWeightEncoded": Object {
             "baseline": Object {
               "accepted": 0,
@@ -798,21 +738,6 @@ Array [
               "metric": "load",
               "passed": true,
               "value": 9021.5,
-            },
-            "pageWeight": Object {
-              "baseline": Object {
-                "accepted": 0,
-                "b": 2945120,
-                "datetime": "2019-03-17T17:36:22Z",
-                "job_id": "83d526a5d20040a7b854a2cbef64c067",
-                "l": 2945120,
-                "new_regime": 0,
-                "r": 2945120,
-                "u": 2945120,
-              },
-              "metric": "pageWeight",
-              "passed": true,
-              "value": 2945120,
             },
             "pageWeightEncoded": Object {
               "baseline": Object {
@@ -990,21 +915,6 @@ Array [
               "passed": true,
               "value": 9021.5,
             },
-            "pageWeight": Object {
-              "baseline": Object {
-                "accepted": 0,
-                "b": 2945120,
-                "datetime": "2019-03-17T17:36:22Z",
-                "job_id": "83d526a5d20040a7b854a2cbef64c067",
-                "l": 2945120,
-                "new_regime": 0,
-                "r": 2945120,
-                "u": 2945120,
-              },
-              "metric": "pageWeight",
-              "passed": true,
-              "value": 2945120,
-            },
             "pageWeightEncoded": Object {
               "baseline": Object {
                 "accepted": 0,
@@ -1174,21 +1084,6 @@ Array [
             "passed": true,
             "value": 9021.5,
           },
-          "pageWeight": Object {
-            "baseline": Object {
-              "accepted": 0,
-              "b": 2945120,
-              "datetime": "2019-03-17T17:36:22Z",
-              "job_id": "83d526a5d20040a7b854a2cbef64c067",
-              "l": 2945120,
-              "new_regime": 0,
-              "r": 2945120,
-              "u": 2945120,
-            },
-            "metric": "pageWeight",
-            "passed": true,
-            "value": 2945120,
-          },
           "pageWeightEncoded": Object {
             "baseline": Object {
               "accepted": 0,
@@ -1346,21 +1241,6 @@ Array [
               "metric": "load",
               "passed": true,
               "value": 9021.5,
-            },
-            "pageWeight": Object {
-              "baseline": Object {
-                "accepted": 0,
-                "b": 2945120,
-                "datetime": "2019-03-17T17:36:22Z",
-                "job_id": "83d526a5d20040a7b854a2cbef64c067",
-                "l": 2945120,
-                "new_regime": 0,
-                "r": 2945120,
-                "u": 2945120,
-              },
-              "metric": "pageWeight",
-              "passed": true,
-              "value": 2945120,
             },
             "pageWeightEncoded": Object {
               "baseline": Object {
@@ -1531,21 +1411,6 @@ Array [
             "passed": true,
             "value": 9021.5,
           },
-          "pageWeight": Object {
-            "baseline": Object {
-              "accepted": 0,
-              "b": 2945120,
-              "datetime": "2019-03-17T17:36:22Z",
-              "job_id": "83d526a5d20040a7b854a2cbef64c067",
-              "l": 2945120,
-              "new_regime": 0,
-              "r": 2945120,
-              "u": 2945120,
-            },
-            "metric": "pageWeight",
-            "passed": true,
-            "value": 2945120,
-          },
           "pageWeightEncoded": Object {
             "baseline": Object {
               "accepted": 0,
@@ -1703,21 +1568,6 @@ Array [
               "metric": "load",
               "passed": true,
               "value": 9021.5,
-            },
-            "pageWeight": Object {
-              "baseline": Object {
-                "accepted": 0,
-                "b": 2945120,
-                "datetime": "2019-03-17T17:36:22Z",
-                "job_id": "83d526a5d20040a7b854a2cbef64c067",
-                "l": 2945120,
-                "new_regime": 0,
-                "r": 2945120,
-                "u": 2945120,
-              },
-              "metric": "pageWeight",
-              "passed": true,
-              "value": 2945120,
             },
             "pageWeightEncoded": Object {
               "baseline": Object {
@@ -1889,21 +1739,6 @@ Array [
               "metric": "load",
               "passed": true,
               "value": 9021.5,
-            },
-            "pageWeight": Object {
-              "baseline": Object {
-                "accepted": 0,
-                "b": 2945120,
-                "datetime": "2019-03-17T17:36:22Z",
-                "job_id": "83d526a5d20040a7b854a2cbef64c067",
-                "l": 2945120,
-                "new_regime": 0,
-                "r": 2945120,
-                "u": 2945120,
-              },
-              "metric": "pageWeight",
-              "passed": true,
-              "value": 2945120,
             },
             "pageWeightEncoded": Object {
               "baseline": Object {
@@ -2091,21 +1926,6 @@ Array [
               "metric": "load",
               "passed": true,
               "value": 9021.5,
-            },
-            "pageWeight": Object {
-              "baseline": Object {
-                "accepted": 0,
-                "b": 2945120,
-                "datetime": "2019-03-17T17:36:22Z",
-                "job_id": "83d526a5d20040a7b854a2cbef64c067",
-                "l": 2945120,
-                "new_regime": 0,
-                "r": 2945120,
-                "u": 2945120,
-              },
-              "metric": "pageWeight",
-              "passed": true,
-              "value": 2945120,
             },
             "pageWeightEncoded": Object {
               "baseline": Object {

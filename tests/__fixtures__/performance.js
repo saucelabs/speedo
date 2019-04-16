@@ -275,18 +275,6 @@ export const BASELINE_HISTORY = {
             job_id: '83d526a5d20040a7b854a2cbef64c067'
         }
     ],
-    pageWeight: [
-        {
-            b: 2945120,
-            u: 2945120,
-            l: 2945120,
-            r: 2945120,
-            datetime: '2019-03-17T17:36:22Z',
-            new_regime: 0,
-            accepted: 0,
-            job_id: '83d526a5d20040a7b854a2cbef64c067'
-        }
-    ],
     pageWeightEncoded: [
         {
             b: 1652947,
