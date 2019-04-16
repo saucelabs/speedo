@@ -26,6 +26,19 @@ export const PERFORMANCE_IGNORED_METRICS = [
 
 export const BASELINE_METRICS = PERFORMANCE_METRICS.filter((metric) => !PERFORMANCE_IGNORED_METRICS.includes(metric))
 
+export const NETWORK_CONDITIONS = [
+    'offline',
+    'GPRS',
+    'Regular 2G',
+    'Good 2G',
+    'Regular 3G',
+    'Good 3G',
+    'Regular 4G',
+    'DSL',
+    'Wifi',
+    'online'
+]
+
 const METRIC_PARAM = {
     alias: 'm',
     name: 'metric',
@@ -88,6 +101,11 @@ export const RUN_CLI_PARAMS ={
     },
     metric: METRIC_PARAM,
     all: ALL_PARAM,
+    throttle: {
+        alias: 't',
+        description: 'throttle network speed for your test (e.g. "Regular 3G")',
+        default: 'Regular 3G'
+    },
     retry: {
         description: 'amount of retries for failing performance tests',
         default: 0,
