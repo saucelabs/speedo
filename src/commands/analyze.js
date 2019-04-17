@@ -26,7 +26,12 @@ export const handler = async (argv) => {
         return process.exit(1)
     }
 
-    const user = new SauceLabs(username, accessKey)
+    const user = new SauceLabs({
+        user: username,
+        key: accessKey,
+        region: argv.region
+    })
+
     const status = ora(`Fetch job "${argv.jobName}" from ${username}`).start()
 
     /**
