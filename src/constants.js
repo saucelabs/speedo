@@ -108,7 +108,6 @@ export const RUN_CLI_PARAMS ={
      * 3) Good 3G is also the lighthouse default
      */
     throttle: {
-        alias: 'tn',
         description: 'throttle network speed for your test (e.g. "Good 3G")',
         default: 'Good 3G'
     },
