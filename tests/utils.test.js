@@ -1,5 +1,5 @@
 import performanceResults from './__fixtures__/performance.json'
-import { printResult, waitFor, getMetricParams, getThrottleParam, getJobUrl, analyzeReport } from '../src/utils'
+import { printResult, waitFor, getMetricParams, getThrottleNetworkParam, getThrottleCpuParam, getJobUrl, analyzeReport } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
 const performanceLog = {
@@ -89,10 +89,21 @@ test('getMetricParams', () => {
         .toThrow()
 })
 
-test('getThrottleParam', () => {
-    expect(getThrottleParam({}))
+test('getThrottleNetworkParam', () => {
+    expect(getThrottleNetworkParam({}))
         .toEqual('Good 3G')
-    expect(() => getThrottleParam({ throttle: 'invalidNetworkState' }))
+    expect(getThrottleNetworkParam({ throttleNetwork: 'Regular 3G' }))
+        .toEqual('Regular 3G')
+    expect(() => getThrottleNetworkParam({ throttleNetwork: 'invalidNetworkCondition' }))
+        .toThrow()
+})
+
+test('getThrottleCpuParam', () => {
+    expect(getThrottleCpuParam({}))
+        .toEqual(4)
+    expect(getThrottleCpuParam({ throttleCpu: 3}))
+        .toEqual(3)
+    expect(() => getThrottleCpuParam({ throttleCpu: 'invalidCpuParam' }))
         .toThrow()
 })
 

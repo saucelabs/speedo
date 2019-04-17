@@ -107,9 +107,13 @@ export const RUN_CLI_PARAMS ={
      * 2) it more realistically simulates real world conditions
      * 3) Good 3G is also the lighthouse default
      */
-    throttle: {
+    throttleNetwork: {
         description: 'throttle network speed for your test (e.g. "Good 3G")',
         default: 'Good 3G'
+    },
+    throttleCpu: {
+        description: 'throttle cpu speed for your test (e.g. "4" for 1/4 speed)',
+        default: 4
     },
     retry: {
         description: 'amount of retries for failing performance tests',

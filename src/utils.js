@@ -110,17 +110,29 @@ export const getMetricParams = function (argv) {
 }
 
 /**
- * validate throttle param
+ * validate throttleNetwork param
  * @param  {Object}   argv cli params
  */
-export const getThrottleParam = function (argv) {
-    const networkCondition = argv.throttle || 'Good 3G'
+export const getThrottleNetworkParam = function (argv) {
+    const networkCondition = argv.throttleNetwork || 'Good 3G'
     if (!NETWORK_CONDITIONS.includes(networkCondition)) {
         throw new Error(
             `You've provided an invalid network state for throttling: ${networkCondition}; ` +
             `only the following network states are available: ${NETWORK_CONDITIONS}`)
     }
     return networkCondition
+}
+
+/**
+ * validate throttleCpu param
+ * @param  {Object}   argv cli params
+ */
+export const getThrottleCpuParam = function (argv) {
+    const cpuRate = argv.throttleCpu || 4
+    if (typeof cpuRate !== 'number') {
+        throw new Error(`You've provided a non-numeric value for cpu throttling: ${cpuRate}`)
+    }
+    return cpuRate
 }
 
 /**
