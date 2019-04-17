@@ -15,8 +15,8 @@ Performance Results
     "╔═══╤═════════════════════════╤══════════════════════════════╗
 ║ # │ Url                     │ Metrics                      ║
 ╟───┼─────────────────────────┼──────────────────────────────╢
-║ 0 │ https://www.amazon.com/ │ load: 4.9s                   ║
-║   │                         │ speedIndex: 2s               ║
+║ 0 │ https://www.amazon.com/ │ ✅ load: 4.9s                ║
+║   │                         │ ✅ speedIndex: 2s            ║
 ║   │                         │ timeToFirstByte: 693ms       ║
 ║   │                         │ firstPaint: 1.4s             ║
 ║   │                         │ firstContentfulPaint: 1.4s   ║
@@ -26,8 +26,8 @@ Performance Results
 ║   │                         │ perceptualSpeedIndex: 2.2s   ║
 ║   │                         │ pageWeightEncoded: 595 kB    ║
 ╟───┼─────────────────────────┼──────────────────────────────╢
-║ 1 │ https://www.yahoo.com/  │ load: 9.8s                   ║
-║   │                         │ speedIndex: 1.3s             ║
+║ 1 │ https://www.yahoo.com/  │ ✅ load: 9.8s                ║
+║   │                         │ ✅ speedIndex: 1.3s          ║
 ║   │                         │ timeToFirstByte: 502ms       ║
 ║   │                         │ firstPaint: 1.2s             ║
 ║   │                         │ firstContentfulPaint: 1.7s   ║
