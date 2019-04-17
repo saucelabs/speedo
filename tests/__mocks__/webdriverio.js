@@ -2,6 +2,7 @@ const driverMock = {
     sessionId: 'foobarSession',
     url: jest.fn(),
     throttleNetwork: jest.fn(),
+    execute: jest.fn(),
     assertPerformance: jest.fn().mockReturnValue(Promise.resolve({
         value: {
             metrics: {
