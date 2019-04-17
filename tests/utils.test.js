@@ -1,5 +1,5 @@
 import performanceResults from './__fixtures__/performance.json'
-import { printResult, waitFor, getMetricParams, getJobUrl, analyzeReport } from '../src/utils'
+import { printResult, waitFor, getMetricParams, getThrottleParam, getJobUrl, analyzeReport } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
 const performanceLog = {
@@ -86,6 +86,13 @@ test('getMetricParams', () => {
     expect(getMetricParams({ metric: ['load', 'speedIndex'] }))
         .toEqual(['load', 'speedIndex'])
     expect(() => getMetricParams({ metric: ['load', 'speedIndex', 'foobar'] }))
+        .toThrow()
+})
+
+test('getThrottleParam', () => {
+    expect(getThrottleParam({}))
+        .toEqual('Good 3G')
+    expect(() => getThrottleParam({ throttle: 'invalidNetworkState' }))
         .toThrow()
 })
 

@@ -2,6 +2,11 @@ import { remote } from 'webdriverio'
 
 import runPerformanceTest from '../src/runner'
 
+beforeEach(async () => {
+    (await remote()).throttleNetwork.mockClear()
+    remote.mockClear()
+})
+
 test('runPerformanceTest', async () => {
     const result = await runPerformanceTest(
         'myuser',
@@ -18,6 +23,7 @@ test('runPerformanceTest', async () => {
     )
     expect(result).toMatchSnapshot()
     expect(remote.mock.calls).toMatchSnapshot()
+    expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(1)
 })
 
 test('runPerformanceTest w/ parentTunnel', async () => {
@@ -37,6 +43,7 @@ test('runPerformanceTest w/ parentTunnel', async () => {
     )
     expect(result).toMatchSnapshot()
     expect(remote.mock.calls).toMatchSnapshot()
+    expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(1)
 })
 
 test('runPerformanceTest without args', async () => {
@@ -50,4 +57,5 @@ test('runPerformanceTest without args', async () => {
     )
     expect(result).toMatchSnapshot()
     expect(remote.mock.calls).toMatchSnapshot()
+    expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(1)
 })

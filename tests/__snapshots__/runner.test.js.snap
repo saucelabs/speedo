@@ -66,25 +66,6 @@ Array [
         "capturePerformance": true,
         "extendedDebugging": true,
         "name": "testname",
-        "platform": "Playstation",
-        "tunnelIdentifier": "foobar",
-        "version": 123,
-      },
-      "key": "mykey",
-      "logLevel": "trace",
-      "outputDir": "/some/dir",
-      "region": "eu",
-      "user": "myuser",
-    },
-  ],
-  Array [
-    Object {
-      "capabilities": Object {
-        "browserName": "chrome",
-        "build": "buildname",
-        "capturePerformance": true,
-        "extendedDebugging": true,
-        "name": "testname",
         "parentTunnel": "foobaz",
         "platform": "Playstation",
         "tunnelIdentifier": "foobar",
@@ -118,45 +99,6 @@ Object {
 
 exports[`runPerformanceTest without args 2`] = `
 Array [
-  Array [
-    Object {
-      "capabilities": Object {
-        "browserName": "chrome",
-        "build": "buildname",
-        "capturePerformance": true,
-        "extendedDebugging": true,
-        "name": "testname",
-        "platform": "Playstation",
-        "tunnelIdentifier": "foobar",
-        "version": 123,
-      },
-      "key": "mykey",
-      "logLevel": "trace",
-      "outputDir": "/some/dir",
-      "region": "eu",
-      "user": "myuser",
-    },
-  ],
-  Array [
-    Object {
-      "capabilities": Object {
-        "browserName": "chrome",
-        "build": "buildname",
-        "capturePerformance": true,
-        "extendedDebugging": true,
-        "name": "testname",
-        "parentTunnel": "foobaz",
-        "platform": "Playstation",
-        "tunnelIdentifier": "foobar",
-        "version": 123,
-      },
-      "key": "mykey",
-      "logLevel": "trace",
-      "outputDir": "/some/dir",
-      "region": "eu",
-      "user": "myuser",
-    },
-  ],
   Array [
     Object {
       "capabilities": Object {

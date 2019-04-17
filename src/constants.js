@@ -26,6 +26,19 @@ export const PERFORMANCE_IGNORED_METRICS = [
 
 export const BASELINE_METRICS = PERFORMANCE_METRICS.filter((metric) => !PERFORMANCE_IGNORED_METRICS.includes(metric))
 
+export const NETWORK_CONDITIONS = [
+    'offline',
+    'GPRS',
+    'Regular 2G',
+    'Good 2G',
+    'Regular 3G',
+    'Good 3G',
+    'Regular 4G',
+    'DSL',
+    'Wifi',
+    'online'
+]
+
 const METRIC_PARAM = {
     alias: 'm',
     name: 'metric',
@@ -88,6 +101,16 @@ export const RUN_CLI_PARAMS ={
     },
     metric: METRIC_PARAM,
     all: ALL_PARAM,
+    /**
+     * the reason we set a throttling default is three-fold
+     * 1) throttling must be active to get firstCPUIdle and firstInteractive metrics
+     * 2) it more realistically simulates real world conditions
+     * 3) Good 3G is also the lighthouse default
+     */
+    throttle: {
+        description: 'throttle network speed for your test (e.g. "Good 3G")',
+        default: 'Good 3G'
+    },
     retry: {
         description: 'amount of retries for failing performance tests',
         default: 0,

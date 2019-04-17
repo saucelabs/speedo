@@ -3,7 +3,7 @@ import { table } from 'table'
 import prettyMs from 'pretty-ms'
 import prettyBytes from 'pretty-bytes'
 
-import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS } from './constants'
+import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS, NETWORK_CONDITIONS } from './constants'
 
 /**
  * disable colors in tests
@@ -107,6 +107,20 @@ export const getMetricParams = function (argv) {
     }
 
     return metrics
+}
+
+/**
+ * validate throttle param
+ * @param  {Object}   argv cli params
+ */
+export const getThrottleParam = function (argv) {
+    const networkCondition = argv.throttle || 'Good 3G'
+    if (!NETWORK_CONDITIONS.includes(networkCondition)) {
+        throw new Error(
+            `You've provided an invalid network state for throttling: ${networkCondition}; ` +
+            `only the following network states are available: ${NETWORK_CONDITIONS}`)
+    }
+    return networkCondition
 }
 
 /**
