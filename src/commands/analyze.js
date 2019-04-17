@@ -118,12 +118,13 @@ export const handler = async (argv) => {
             jobResult.results.push({
                 orderIndex: pageLoadMetric.order_index,
                 url:  pageLoadMetric.page_url,
-                passed: !Object.values(results).find((r) => !r.passed),
+                passed: !Object.values(results).find((r) => !r.passed), // pass only if no failing metrics
                 metrics: results
             })
         }
 
-        jobResult.passed = Object.values(jobResult.results).find((r) => !r.passed)
+        // pass only if no failing results
+        jobResult.passed = !Object.values(jobResult.results).find((r) => !r.passed)
         status.succeed()
     } catch (e) {
         status.fail(`Couldn't fetch performance results: ${e.stack}`)
@@ -131,5 +132,5 @@ export const handler = async (argv) => {
     }
 
     analyzeReport(jobResult, metrics)
-    process.exit(jobResult.passed ? 1 : 0)
+    process.exit(jobResult.passed ? 0 : 1)
 }
