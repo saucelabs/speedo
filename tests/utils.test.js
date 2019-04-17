@@ -91,11 +91,10 @@ test('getMetricParams', () => {
 
 test('getThrottleParam', () => {
     expect(getThrottleParam({}))
-        .toEqual('Regular 3G')
+        .toEqual('Good 3G')
     expect(() => getThrottleParam({ throttle: 'invalidNetworkState' }))
         .toThrow()
 })
-
 
 test('getJobUrl', () => {
     expect(getJobUrl({}, 'foobar'))

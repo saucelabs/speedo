@@ -114,7 +114,7 @@ export const getMetricParams = function (argv) {
  * @param  {Object}   argv cli params
  */
 export const getThrottleParam = function (argv) {
-    const networkCondition = argv.throttle || 'Regular 3G'
+    const networkCondition = argv.throttle || 'Good 3G'
     if (!NETWORK_CONDITIONS.includes(networkCondition)) {
         throw new Error(
             `You've provided an invalid network state for throttling: ${networkCondition}; ` +
