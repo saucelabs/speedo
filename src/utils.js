@@ -187,11 +187,12 @@ export const analyzeReport = function (jobResult, metrics, /* istanbul ignore ne
                 return PERFORMANCE_METRICS.indexOf(a.metric) - PERFORMANCE_METRICS.indexOf(b.metric)
             })
             .map(({ metric, value, baseline, passed }) => metrics.includes(metric)
-                ? `${ctx.bold(metric)}: ${formatMetric[metric](value)} ${passed
-                    ? ''
-                    : baseline.u < value
+                ? `${passed
+                    ? `✅ ${ctx.bold(metric)}: ${formatMetric[metric](value)}`
+                    : `❌ ${ctx.bold(metric)}: ${formatMetric[metric](value)} ${baseline.u < value
                         ? ctx.red(`(${formatMetric[metric](value - baseline.u)} over baseline)`)
                         : ctx.red(`(${formatMetric[metric](baseline.l - value)} under baseline)`)
+                    }`
                 }`
                 : ctx.gray(`${metric}: ${formatMetric[metric](value)}`)
             )
