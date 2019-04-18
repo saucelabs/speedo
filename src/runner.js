@@ -31,7 +31,7 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
 
     await browser.throttleNetwork(networkCondition)
     await browser.execute('sauce:debug', {
-        method: 'Emulation.setCpuThrottlingRate',
+        method: 'Emulation.setCPUThrottlingRate',
         params: { rate: cpuRate }
     })
     await browser.url(site)
