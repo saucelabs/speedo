@@ -21,7 +21,7 @@ beforeEach(() => {
     delete process.env.SAUCE_ACCESS_KEY
 
     getMetricParams.mockImplementation(() => ['speedIndex', 'pageWeight'])
-    getJobUrl.mockImplementation(() => 'https://saucelabs.com/tests/foobar')
+    getJobUrl.mockImplementation(() => 'https://saucelabs.com/performance/foobar')
     waitFor.mockImplementation((condition) => condition())
     runPerformanceTest.mockImplementation(() => ({ sessionId: 'foobar123', result: { result: 'pass' } }))
 })
