@@ -143,7 +143,7 @@ export const getThrottleCpuParam = function (argv) {
  */
 export const getJobUrl = function (argv, sessionId) {
     const hostname = (!argv.region || !argv.region.includes('eu') ? '' : 'eu-central-1.') + 'saucelabs.com'
-    return `https://app.${hostname}/tests/${sessionId}`
+    return `https://app.${hostname}/performance/${sessionId}/0`
 }
 
 export const formatMetric = {

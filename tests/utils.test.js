@@ -109,11 +109,11 @@ test('getThrottleCpuParam', () => {
 
 test('getJobUrl', () => {
     expect(getJobUrl({}, 'foobar'))
-        .toEqual('https://app.saucelabs.com/tests/foobar')
+        .toEqual('https://app.saucelabs.com/performance/foobar/0')
     expect(getJobUrl({ region: 'eu' }, 'foobar'))
-        .toEqual('https://app.eu-central-1.saucelabs.com/tests/foobar')
+        .toEqual('https://app.eu-central-1.saucelabs.com/performance/foobar/0')
     expect(getJobUrl({ region: 'what?' }, 'foobar'))
-        .toEqual('https://app.saucelabs.com/tests/foobar')
+        .toEqual('https://app.saucelabs.com/performance/foobar/0')
 })
 
 test('analyzeReport', () => {
