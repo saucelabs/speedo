@@ -166,7 +166,7 @@ Array [
           "url": "http://saucelabs.com/",
         },
       ],
-      "url": "https://saucelabs.com/performance/foobar",
+      "url": "https://saucelabs.com/performance/foobar/0",
     },
     Array [
       "speedIndex",
@@ -337,7 +337,7 @@ Array [
           "url": "http://saucelabs.com/",
         },
       ],
-      "url": "https://saucelabs.com/performance/foobar",
+      "url": "https://saucelabs.com/performance/foobar/0",
     },
     Array [
       "speedIndex",
@@ -508,7 +508,7 @@ Array [
           "url": "http://saucelabs-slow.com/",
         },
       ],
-      "url": "https://saucelabs.com/performance/foobar",
+      "url": "https://saucelabs.com/performance/foobar/0",
     },
     Array [
       "speedIndex",
@@ -684,7 +684,7 @@ Array [
           "url": "http://saucelabs.com/",
         },
       ],
-      "url": "https://saucelabs.com/performance/foobar",
+      "url": "https://saucelabs.com/performance/foobar/0",
     },
     Array [
       "speedIndex",
@@ -855,7 +855,7 @@ Array [
           "url": "http://saucelabs.com/",
         },
       ],
-      "url": "https://saucelabs.com/performance/foobar",
+      "url": "https://saucelabs.com/performance/foobar/0",
     },
     Array [
       "speedIndex",
@@ -1026,7 +1026,7 @@ Array [
           "url": "http://saucelabs-slow.com/",
         },
       ],
-      "url": "https://saucelabs.com/performance/foobar",
+      "url": "https://saucelabs.com/performance/foobar/0",
     },
     Array [
       "speedIndex",
@@ -1197,7 +1197,7 @@ Array [
           "url": "http://saucelabs-fast.com/",
         },
       ],
-      "url": "https://saucelabs.com/performance/foobar",
+      "url": "https://saucelabs.com/performance/foobar/0",
     },
     Array [
       "speedIndex",
@@ -1384,7 +1384,7 @@ Array [
           "url": "http://saucelabs.com/",
         },
       ],
-      "url": "https://saucelabs.com/performance/foobar",
+      "url": "https://saucelabs.com/performance/foobar/0",
     },
     Array [
       "speedIndex",

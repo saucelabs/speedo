@@ -1,7 +1,7 @@
 {
     "id": "83d526a5d20040a7b854a2cbef64c067",
     "name": "my performance test",
-    "url": "https://app.saucelabs.com/performance/83d526a5d20040a7b854a2cbef64c067",
+    "url": "https://app.saucelabs.com/performance/83d526a5d20040a7b854a2cbef64c067/0",
     "results": [
         {
             "orderIndex": 1,
