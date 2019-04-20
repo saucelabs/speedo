@@ -12,8 +12,8 @@ export const desc = 'Analyze results of prerun performance tests.'
 export const builder = ANALYZE_CLI_PARAMS
 
 export const handler = async (argv) => {
-    const username = process.env.SAUCE_USERNAME || argv.user
-    const accessKey = process.env.SAUCE_ACCESS_KEY || argv.key
+    const username = argv.user || process.env.SAUCE_USERNAME
+    const accessKey = argv.key || process.env.SAUCE_ACCESS_KEY
     const metrics = getMetricParams(argv)
 
     /**
