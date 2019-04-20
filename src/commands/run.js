@@ -16,8 +16,8 @@ export const desc = 'Run performance tests on any website.'
 export const builder = RUN_CLI_PARAMS
 
 export const handler = async (argv) => {
-    const username = process.env.SAUCE_USERNAME || argv.user
-    const accessKey = process.env.SAUCE_ACCESS_KEY || argv.key
+    const username = argv.user || process.env.SAUCE_USERNAME
+    const accessKey = argv.key || process.env.SAUCE_ACCESS_KEY
     const jobName = argv.name || `Performance test for ${argv.site}`
     const buildName = argv.build || `${jobName} - ${(new Date()).toString()}`
     const metrics = getMetricParams(argv)
