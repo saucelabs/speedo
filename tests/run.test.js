@@ -10,10 +10,8 @@ jest.mock('../src/runner')
 jest.mock('../src/utils')
 jest.mock('fs')
 
-const processExit = ::process.exit
-
 beforeEach(() => {
-    process.exit = jest.fn()
+    jest.spyOn(process, 'exit').mockImplementation(() => {});
     delete process.env.SAUCE_USERNAME
     delete process.env.SAUCE_ACCESS_KEY
 
@@ -24,9 +22,12 @@ beforeEach(() => {
 })
 
 test('run should fail if no auth is provided', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     await handler({})
+    expect(console.error).toBeCalledTimes(1)
     expect(process.exit).toBeCalledWith(1)
     expect(yargs.showHelp).toBeCalledTimes(1)
+    console.error.mockRestore()
 })
 
 test('fails when jobs can not be fetched', async () => {
@@ -46,6 +47,7 @@ test('should create a new baseline if run with no jobs', async () => {
 })
 
 test('should rerun performance tests if they fail', async () => {
+    jest.spyOn(console, 'log').mockImplementation(() => {});
     let failures = 0
     runPerformanceTest.mockImplementation(() => {
         if (failures === 3) {
@@ -56,7 +58,9 @@ test('should rerun performance tests if they fail', async () => {
     })
     await handler({ user: 'foo', key: 'bar', site: 'mypage', retry: 3 })
     expect(ora().text).toBe('Run performance test (3rd retry)...')
+    expect(console.log).toBeCalledTimes(1)
     expect(process.exit).toBeCalledWith(0)
+    console.log.mockRestore()
 })
 
 test('should fail if job never completes', async () => {
@@ -115,7 +119,7 @@ test('should fail build if performance test fails', async () => {
 })
 
 afterEach(() => {
-    process.exit = processExit
+    process.exit.mockRestore()
     ora.mockClear()
     ora().fail.mockClear()
     ora().start.mockClear()

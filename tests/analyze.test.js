@@ -13,10 +13,8 @@ jest.mock('fs')
 
 jest.useFakeTimers()
 
-const processExit = ::process.exit
-
 beforeEach(() => {
-    process.exit = jest.fn()
+    jest.spyOn(process, 'exit').mockImplementation(() => {});
     delete process.env.SAUCE_USERNAME
     delete process.env.SAUCE_ACCESS_KEY
 
@@ -27,9 +25,12 @@ beforeEach(() => {
 })
 
 test('run should fail if no auth is provided', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     await handler({})
+    expect(console.error).toBeCalledTimes(1)
     expect(process.exit).toBeCalledWith(1)
     expect(yargs.showHelp).toBeCalledTimes(1)
+    console.error.mockRestore()
 })
 
 test('should fail if no job was found', async () => {
@@ -99,7 +100,7 @@ test('should pass if asserting first page url', async () => {
 })
 
 afterEach(() => {
-    process.exit = processExit
+    process.exit.mockRestore()
     ora.mockClear()
     ora().fail.mockClear()
     ora().warn.mockClear()
