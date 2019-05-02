@@ -135,7 +135,7 @@ export const ANALYZE_CLI_PARAMS = {
         description: 'number of page you have opened in that test (requires to specify a test name with -n)'
     },
     pageUrl: {
-        alias: 'u',
+        alias: 'p',
         description: 'url of page in the test you want to analyze (requires to specify a test name with -n)'
     },
     metric: METRIC_PARAM,
