@@ -1,5 +1,8 @@
 import performanceResults from './__fixtures__/performance.json'
-import { printResult, waitFor, getMetricParams, getThrottleNetworkParam, getThrottleCpuParam, getJobUrl, analyzeReport } from '../src/utils'
+import {
+    printResult, waitFor, getMetricParams, getThrottleNetworkParam, getThrottleCpuParam,
+    getJobUrl, analyzeReport, getJobName
+} from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
 const performanceLog = {
@@ -120,4 +123,9 @@ test('analyzeReport', () => {
     const log = jest.fn()
     analyzeReport(performanceResults , ['speedIndex', 'load', 'pageWeight'], log)
     expect(log.mock.calls).toMatchSnapshot()
+})
+
+test('getJobName', () => {
+    expect(getJobName({})).toBe('Performance test for undefined (on "Good 3G" and 4x CPU throttling)')
+    expect(getJobName({ name: 'foobar' })).toBe('foobar')
 })

@@ -8,7 +8,7 @@ import SauceLabs from 'saucelabs'
 import changeCase from 'change-case'
 
 import runPerformanceTest from '../runner'
-import { printResult, waitFor, getMetricParams, getJobUrl } from '../utils'
+import { printResult, waitFor, getMetricParams, getJobUrl, getJobName } from '../utils'
 import { ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT, RUN_CLI_PARAMS } from '../constants'
 
 export const command = 'run [params...] <site>'
@@ -18,7 +18,7 @@ export const builder = RUN_CLI_PARAMS
 export const handler = async (argv) => {
     const username = argv.user || process.env.SAUCE_USERNAME
     const accessKey = argv.key || process.env.SAUCE_ACCESS_KEY
-    const jobName = argv.name || `Performance test for ${argv.site}`
+    const jobName = getJobName(argv)
     const buildName = argv.build || `${jobName} - ${(new Date()).toString()}`
     const metrics = getMetricParams(argv)
 

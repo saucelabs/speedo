@@ -136,6 +136,20 @@ export const getThrottleCpuParam = function (argv) {
 }
 
 /**
+ * get job name
+ * @param  {Object}   argv cli params
+ */
+export const getJobName = function (argv) {
+    if (typeof argv.name === 'string') {
+        return argv.name
+    }
+
+    const networkCondition = getThrottleNetworkParam(argv)
+    const cpuRate = getThrottleCpuParam(argv)
+    return `Performance test for ${argv.site} (on "${networkCondition}" and ${cpuRate}x CPU throttling)`
+}
+
+/**
  * get url to job details page of given test
  * @param  {Object} argv      cli params
  * @param  {String} sessionId of test
