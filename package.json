@@ -33,7 +33,7 @@
     "compile": "NODE_ENV=production babel src -d build",
     "docker": "run-s docker:login docker:build docker:tag docker:push:*",
     "docker:build": "docker build -t saucelabs/speedo .",
-    "docker:login": "\"$DOCKER_PASSWORD\" | docker login -u \"$DOCKER_USERNAME\" --password-stdin",
+    "docker:login": "docker login -u \"$DOCKER_USERNAME\" -p \"$DOCKER_PASSWORD\"",
     "docker:push:latest": "docker push saucelabs/speedo:latest",
     "docker:push:version": "docker push saucelabs/speedo:$npm_package_version",
     "docker:tag": "docker tag saucelabs/speedo saucelabs/speedo:$npm_package_version",
