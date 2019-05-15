@@ -29,10 +29,10 @@ You can find the coverage report when opening [localhost:8080](http://localhost:
 
 ## Release Package
 
-In order to release the package ensure that you have logged into [quay.io](https://quay.io/) as we publish the Docker image directly after we published the package to NPM (in order to have access rights, make sure your Quay user is part of the [Sauce Labs](https://quay.io/organization/saucelabs) organization):
+In order to release the package ensure that you have logged into [Docker Hub](https://hub.docker.com/) as we publish the Docker image directly after we published the package to NPM (in order to have access rights, make sure your Docker Hub user is part of the [Sauce Labs](https://hub.docker.com/u/saucelabs) organization):
 
 ```sh
-$ docker login -u="<username>" -p="<password>" quay.io
+$ docker login -u="<username>" -p="<password>"
 ```
 
 Pull the latest commits from the `master` branch and run the release script:

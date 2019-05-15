@@ -2,7 +2,7 @@
     <img src="./docs/saucebot.png" alt="Speedo Saucebot" />
 </p>
 
-Speedo [![Build Status](https://travis-ci.com/saucelabs/speedo.svg?token=px5tFzamGvYgujeyYVEp&branch=master)](https://travis-ci.com/saucelabs/speedo) [![codecov](https://codecov.io/gh/saucelabs/speedo/branch/master/graph/badge.svg)](https://codecov.io/gh/saucelabs/speedo) [![Docker Repository on Quay](https://quay.io/repository/saucelabs/speedo/status "Docker Repository on Quay")](https://quay.io/repository/saucelabs/speedo)
+Speedo [![Build Status](https://travis-ci.com/saucelabs/speedo.svg?token=px5tFzamGvYgujeyYVEp&branch=master)](https://travis-ci.com/saucelabs/speedo) [![codecov](https://codecov.io/gh/saucelabs/speedo/branch/master/graph/badge.svg)](https://codecov.io/gh/saucelabs/speedo)
 ======
 
 Sauce Labs provides a [Frontend Performance Testing](https://wiki.saucelabs.com/display/DOCS/Getting+Started+with+Sauce+Performance) offering that allows you to check for crucial performance regression on your website. `Speedo` is a simple to use CLI tool that allows you to integrate this into your CI/CD pipeline. All you need to do is download and run it.
@@ -145,7 +145,7 @@ pipeline {
         }
         stage('Performance Tests') {
             agent {
-                docker { image 'quay.io/saucelabs/speedo' }
+                docker { image 'saucelabs/speedo' }
             }
             steps {
                 sh 'speedo run https://google.com -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} -b ${BUILD_NUMBER}'
@@ -159,7 +159,7 @@ Or when using [GitLab CI/CD](https://docs.gitlab.com/ee/ci/pipelines.html) pipel
 
 ```yaml
 variables:
-  SPEEDO_IMAGE: quay.io/saucelabs/speedo
+  SPEEDO_IMAGE: saucelabs/speedo
 
 stages:
   - lint
