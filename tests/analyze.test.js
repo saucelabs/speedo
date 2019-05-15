@@ -14,7 +14,7 @@ jest.mock('fs')
 jest.useFakeTimers()
 
 beforeEach(() => {
-    jest.spyOn(process, 'exit').mockImplementation(() => {});
+    jest.spyOn(process, 'exit').mockImplementation(() => {})
     delete process.env.SAUCE_USERNAME
     delete process.env.SAUCE_ACCESS_KEY
 
@@ -25,11 +25,13 @@ beforeEach(() => {
 })
 
 test('run should fail if no auth is provided', async () => {
-    jest.spyOn(console, 'error').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => {})
     await handler({})
+    // eslint-disable-next-line no-console
     expect(console.error).toBeCalledTimes(1)
     expect(process.exit).toBeCalledWith(1)
     expect(yargs.showHelp).toBeCalledTimes(1)
+    // eslint-disable-next-line no-console
     console.error.mockRestore()
 })
 

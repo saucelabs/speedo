@@ -11,7 +11,7 @@ jest.mock('../src/utils')
 jest.mock('fs')
 
 beforeEach(() => {
-    jest.spyOn(process, 'exit').mockImplementation(() => {});
+    jest.spyOn(process, 'exit').mockImplementation(() => {})
     delete process.env.SAUCE_USERNAME
     delete process.env.SAUCE_ACCESS_KEY
 
@@ -22,11 +22,13 @@ beforeEach(() => {
 })
 
 test('run should fail if no auth is provided', async () => {
-    jest.spyOn(console, 'error').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => {})
     await handler({})
+    // eslint-disable-next-line no-console
     expect(console.error).toBeCalledTimes(1)
     expect(process.exit).toBeCalledWith(1)
     expect(yargs.showHelp).toBeCalledTimes(1)
+    // eslint-disable-next-line no-console
     console.error.mockRestore()
 })
 
@@ -47,7 +49,7 @@ test('should create a new baseline if run with no jobs', async () => {
 })
 
 test('should rerun performance tests if they fail', async () => {
-    jest.spyOn(console, 'log').mockImplementation(() => {});
+    jest.spyOn(console, 'log').mockImplementation(() => {})
     let failures = 0
     runPerformanceTest.mockImplementation(() => {
         if (failures === 3) {
@@ -58,8 +60,10 @@ test('should rerun performance tests if they fail', async () => {
     })
     await handler({ user: 'foo', key: 'bar', site: 'mypage', retry: 3 })
     expect(ora().text).toBe('Run performance test (3rd retry)...')
+    // eslint-disable-next-line no-console
     expect(console.log).toBeCalledTimes(1)
     expect(process.exit).toBeCalledWith(0)
+    // eslint-disable-next-line no-console
     console.log.mockRestore()
 })
 

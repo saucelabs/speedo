@@ -35,7 +35,7 @@
     "docker:push:latest": "docker push quay.io/saucelabs/speedo:latest",
     "docker:push:version": "docker push quay.io/saucelabs/speedo:$npm_package_version",
     "docker:tag": "docker tag quay.io/saucelabs/speedo quay.io/saucelabs/speedo:$npm_package_version",
-    "eslint": "eslint ./src ./test",
+    "eslint": "eslint ./src ./tests",
     "postpublish": "run-s docker:build docker:tag docker:push:*",
     "prepublishOnly": "npm prune && run-s build",
     "release": "npm run release:patch",
@@ -78,10 +78,10 @@
     "collectCoverage": true,
     "coverageThreshold": {
       "global": {
-        "branches": 92,
-        "functions": 97,
+        "branches": 94,
+        "functions": 100,
         "lines": 99,
-        "statements": 98
+        "statements": 99
       }
     },
     "testEnvironment": "node",
