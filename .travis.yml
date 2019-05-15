@@ -4,10 +4,20 @@ language: node_js
 node_js:
   - 10
 
+services:
+  - docker
+
 script:
   - npm run build
   - npm test
   - ./bin/speedo run http://www.saucedemo.com
   - ./bin/speedo analyze "Performance test for http://www.saucedemo.com"
+
 after_script:
   - ./node_modules/.bin/codecov
+
+deploy:
+  provider: script
+  script: "npm run docker"
+  on:
+    tags: true
