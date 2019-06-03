@@ -9,7 +9,13 @@ import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS, NET
  */
 const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
 
-const SCORE_SANITIZER = (m) => Math.round(m * 100) + '/100'
+const sanitizeMetric = function (metric) {
+    if (metric === 'score') {
+        return Math.round(metric * 100) + '/100'
+    }
+
+    return prettyMs(metric)
+}
 
 /**
  * print results of cli run
@@ -39,15 +45,13 @@ export const printResult = function (result, performanceLog, metrics, argv, /* i
         })
 
     for (const [metric, value] of resultsSorted) {
-        const sanitizeFn = metric !== 'score' ? prettyMs : SCORE_SANITIZER
-        const output = `${metric}: ${sanitizeFn(value || 0)}`
+        const output = `${metric}: ${sanitizeMetric(value || 0)}`
         log(metrics.includes(metric) ? output : ctx.gray(output))
     }
 
     const resultDetails = []
     for (const [metric, { actual, lowerLimit, upperLimit }] of Object.entries(result.details)) {
-        const sanitizeFn = metric !== 'score' ? prettyMs : SCORE_SANITIZER
-        resultDetails.push(`Expected ${metric} to be between ${sanitizeFn(lowerLimit)} and ${sanitizeFn(upperLimit)} but was actually ${sanitizeFn(actual)}`)
+        resultDetails.push(`Expected ${metric} to be between ${sanitizeMetric(lowerLimit)} and ${sanitizeMetric(upperLimit)} but was actually ${sanitizeMetric(actual)}`)
     }
 
     if (result.result === 'pass') {
@@ -190,16 +194,15 @@ export const analyzeReport = function (jobResult, metrics, /* istanbul ignore ne
                 return PERFORMANCE_METRICS.indexOf(a.metric) - PERFORMANCE_METRICS.indexOf(b.metric)
             })
             .map(({ metric, value, baseline, passed }) => {
-                const sanitizeFn = metric !== 'score' ? prettyMs : SCORE_SANITIZER
                 return metrics.includes(metric)
                     ? `${passed
-                        ? `✅ ${ctx.bold(metric)}: ${sanitizeFn(value)}`
-                        : `❌ ${ctx.bold(metric)}: ${sanitizeFn(value)} ${baseline.u < value
-                            ? ctx.red(`(${sanitizeFn(value - baseline.u)} over baseline)`)
-                            : ctx.red(`(${sanitizeFn(baseline.l - value)} under baseline)`)
+                        ? `✅ ${ctx.bold(metric)}: ${sanitizeMetric(value)}`
+                        : `❌ ${ctx.bold(metric)}: ${sanitizeMetric(value)} ${baseline.u < value
+                            ? ctx.red(`(${sanitizeMetric(value - baseline.u)} over baseline)`)
+                            : ctx.red(`(${sanitizeMetric(baseline.l - value)} under baseline)`)
                         }`
                     }`
-                    : ctx.gray(`${metric}: ${sanitizeFn(value)}`)
+                    : ctx.gray(`${metric}: ${sanitizeMetric(value)}`)
             })
             .join('\n')
 
