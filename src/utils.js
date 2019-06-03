@@ -189,16 +189,18 @@ export const analyzeReport = function (jobResult, metrics, /* istanbul ignore ne
 
                 return PERFORMANCE_METRICS.indexOf(a.metric) - PERFORMANCE_METRICS.indexOf(b.metric)
             })
-            .map(({ metric, value, baseline, passed }) => metrics.includes(metric)
-                ? `${passed
-                    ? `✅ ${ctx.bold(metric)}: ${prettyMs(value)}`
-                    : `❌ ${ctx.bold(metric)}: ${prettyMs(value)} ${baseline.u < value
-                        ? ctx.red(`(${prettyMs(value - baseline.u)} over baseline)`)
-                        : ctx.red(`(${prettyMs(baseline.l - value)} under baseline)`)
+            .map(({ metric, value, baseline, passed }) => {
+                const sanitizeFn = metric !== 'score' ? prettyMs : SCORE_SANITIZER
+                return metrics.includes(metric)
+                    ? `${passed
+                        ? `✅ ${ctx.bold(metric)}: ${sanitizeFn(value)}`
+                        : `❌ ${ctx.bold(metric)}: ${sanitizeFn(value)} ${baseline.u < value
+                            ? ctx.red(`(${sanitizeFn(value - baseline.u)} over baseline)`)
+                            : ctx.red(`(${sanitizeFn(baseline.l - value)} under baseline)`)
+                        }`
                     }`
-                }`
-                : ctx.gray(`${metric}: ${prettyMs(value)}`)
-            )
+                    : ctx.gray(`${metric}: ${sanitizeFn(value)}`)
+            })
             .join('\n')
 
         data.push([orderIndex, url, metricsOutput])
