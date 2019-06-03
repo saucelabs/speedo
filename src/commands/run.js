@@ -204,7 +204,9 @@ export const handler = async (argv) => {
     const networkCondition = getThrottleNetworkParam(argv)
     const cpuRate = getThrottleCpuParam(argv)
     // eslint-disable-next-line no-console
-    console.log(`Runtime settings:\n- Network Throttling: ${networkCondition}\n- CPU Throttling: ${cpuRate}x\n`)
+    status.stopAndPersist({
+        text: `Runtime settings:\n- Network Throttling: ${networkCondition}\n- CPU Throttling: ${cpuRate}x\n`
+    })
 
     status.stopAndPersist({
         text: `Check out job at ${getJobUrl(argv, sessionId)}`,

@@ -26,11 +26,9 @@ export const PERFORMANCE_METRICS_PASSING = {
             timeToFirstByte: 4478,
             domContentLoaded: 8007.5,
             stylesheet_count: 8,
-            pageWeightEncoded: 1652947,
             firstContentfulPaint: 5792.5,
             firstMeaningfulPaint: 5792.5,
-            perceptualSpeedIndex: 6687.040410724904,
-            timeToFirstInteractive: 8007.5
+            firstInteractive: 8007.5
         },
         page_url: 'http://saucelabs.com/',
         order_index: 0,
@@ -69,11 +67,9 @@ export const PERFORMANCE_METRICS_MULTIPLE = {
             timeToFirstByte: 4478,
             domContentLoaded: 8007.5,
             stylesheet_count: 8,
-            pageWeightEncoded: 1652947,
             firstContentfulPaint: 5792.5,
             firstMeaningfulPaint: 5792.5,
-            perceptualSpeedIndex: 6687.040410724904,
-            timeToFirstInteractive: 8007.5
+            firstInteractive: 8007.5
         },
         page_url: 'http://saucelabs-fast.com/',
         order_index: 0,
@@ -108,11 +104,9 @@ export const PERFORMANCE_METRICS_MULTIPLE = {
             timeToFirstByte: 4478,
             domContentLoaded: 8007.5,
             stylesheet_count: 8,
-            pageWeightEncoded: 1652947,
             firstContentfulPaint: 15792.5,
             firstMeaningfulPaint: 15792.5,
-            perceptualSpeedIndex: 6687.040410724904,
-            timeToFirstInteractive: 18007.5
+            firstInteractive: 18007.5
         },
         page_url: 'http://saucelabs-slow.com/',
         order_index: 1,
@@ -151,11 +145,9 @@ export const PERFORMANCE_METRICS_FAILING = {
             timeToFirstByte: 4478,
             domContentLoaded: 8007.5,
             stylesheet_count: 8,
-            pageWeightEncoded: 1652947,
             firstContentfulPaint: 15792.5,
             firstMeaningfulPaint: 15792.5,
-            perceptualSpeedIndex: 6687.040410724904,
-            timeToFirstInteractive: 18007.5
+            firstInteractive: 18007.5
         },
         page_url: 'http://saucelabs.com/',
         order_index: 0,
@@ -227,7 +219,7 @@ export const BASELINE_HISTORY = {
             job_id: '83d526a5d20040a7b854a2cbef64c067'
         }
     ],
-    timeToFirstInteractive: [
+    firstInteractive: [
         {
             b: 8007.5,
             u: 8007.5,
@@ -257,30 +249,6 @@ export const BASELINE_HISTORY = {
             u: 6303.802559999996,
             l: 6301.802559999996,
             r: 6302.802559999996,
-            datetime: '2019-03-17T17:36:22Z',
-            new_regime: 0,
-            accepted: 0,
-            job_id: '83d526a5d20040a7b854a2cbef64c067'
-        }
-    ],
-    perceptualSpeedIndex: [
-        {
-            b: 6687.040410724904,
-            u: 6688.040410724904,
-            l: 6686.040410724904,
-            r: 6687.040410724904,
-            datetime: '2019-03-17T17:36:22Z',
-            new_regime: 0,
-            accepted: 0,
-            job_id: '83d526a5d20040a7b854a2cbef64c067'
-        }
-    ],
-    pageWeightEncoded: [
-        {
-            b: 1652947,
-            u: 1652947,
-            l: 1652947,
-            r: 1652947,
             datetime: '2019-03-17T17:36:22Z',
             new_regime: 0,
             accepted: 0,

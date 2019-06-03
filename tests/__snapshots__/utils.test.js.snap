@@ -17,25 +17,25 @@ Performance Results
 ╟───┼─────────────────────────┼──────────────────────────────╢
 ║ 0 │ https://www.amazon.com/ │ ✅ load: 4.9s                ║
 ║   │                         │ ✅ speedIndex: 2s            ║
+║   │                         │ timeToFirstInteractive: 3s   ║
+║   │                         │ perceptualSpeedIndex: 2.2s   ║
+║   │                         │ pageWeightEncoded: 9m 54.7s  ║
 ║   │                         │ timeToFirstByte: 693ms       ║
+║   │                         │ domContentLoaded: 3s         ║
 ║   │                         │ firstPaint: 1.4s             ║
 ║   │                         │ firstContentfulPaint: 1.4s   ║
 ║   │                         │ firstMeaningfulPaint: 1.7s   ║
-║   │                         │ domContentLoaded: 3s         ║
-║   │                         │ timeToFirstInteractive: 3s   ║
-║   │                         │ perceptualSpeedIndex: 2.2s   ║
-║   │                         │ pageWeightEncoded: 595 kB    ║
 ╟───┼─────────────────────────┼──────────────────────────────╢
 ║ 1 │ https://www.yahoo.com/  │ ✅ load: 9.8s                ║
 ║   │                         │ ✅ speedIndex: 1.3s          ║
+║   │                         │ timeToFirstInteractive: 3.1s ║
+║   │                         │ perceptualSpeedIndex: 2s     ║
+║   │                         │ pageWeightEncoded: 8m 48.2s  ║
 ║   │                         │ timeToFirstByte: 502ms       ║
+║   │                         │ domContentLoaded: 3.1s       ║
 ║   │                         │ firstPaint: 1.2s             ║
 ║   │                         │ firstContentfulPaint: 1.7s   ║
 ║   │                         │ firstMeaningfulPaint: 2s     ║
-║   │                         │ domContentLoaded: 3.1s       ║
-║   │                         │ timeToFirstInteractive: 3.1s ║
-║   │                         │ perceptualSpeedIndex: 2s     ║
-║   │                         │ pageWeightEncoded: 528 kB    ║
 ╚═══╧═════════════════════════╧══════════════════════════════╝
 ",
     "👀 Check out job at https://app.saucelabs.com/performance/83d526a5d20040a7b854a2cbef64c067/0
@@ -44,69 +44,6 @@ Performance Results
 ]
 `;
 
-exports[`printResult 1`] = `
-Array [
-  Array [
-    "
-Performance Results
-===================",
-  ],
-  Array [
-    "load: 321ms",
-  ],
-  Array [
-    "speedIndex: 10ms",
-  ],
-  Array [
-    "timeToFirstByte: 123ms",
-  ],
-  Array [
-    "firstContentfulPaint: 200ms",
-  ],
-  Array [
-    "firstMeaningfulPaint: 222ms",
-  ],
-  Array [
-    "pageWeight: 1 kB",
-  ],
-  Array [
-    "
-Performance assertions failed! ❌
-Expected speedIndex to be between 3ms and 7ms but was actually 10ms
-",
-  ],
-]
-`;
+exports[`printResult 1`] = `Array []`;
 
-exports[`printResult when test passes 1`] = `
-Array [
-  Array [
-    "
-Performance Results
-===================",
-  ],
-  Array [
-    "timeToFirstByte: 123ms",
-  ],
-  Array [
-    "load: 321ms",
-  ],
-  Array [
-    "speedIndex: 10ms",
-  ],
-  Array [
-    "firstContentfulPaint: 200ms",
-  ],
-  Array [
-    "firstMeaningfulPaint: 222ms",
-  ],
-  Array [
-    "pageWeight: 1 kB",
-  ],
-  Array [
-    "
-Result: pass ✅
-",
-  ],
-]
-`;
+exports[`printResult when test passes 1`] = `Array []`;
