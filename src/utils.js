@@ -1,7 +1,6 @@
 import chalk from 'chalk'
 import { table } from 'table'
 import prettyMs from 'pretty-ms'
-import prettyBytes from 'pretty-bytes'
 
 import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS, NETWORK_CONDITIONS } from './constants'
 
@@ -17,7 +16,7 @@ const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
  * @param  {String[]} metrics           asserted metrices
  * @param  {Function} [log=console.log] log method (for testing purposes)
  */
-export const printResult = function (result, performanceLog, metrics, /* istanbul ignore next */ log = console.log) { // eslint-disable-line no-console
+export const printResult = function (result, performanceLog, metrics, argv, /* istanbul ignore next */ log = console.log) { // eslint-disable-line no-console
     log('\nPerformance Results\n===================')
 
     /**
@@ -38,13 +37,13 @@ export const printResult = function (result, performanceLog, metrics, /* istanbu
         })
 
     for (const [metric, value] of resultsSorted) {
-        const output = `${metric}: ${formatMetric[metric](value || 0)}`
+        const output = `${metric}: ${prettyMs(value || 0)}`
         log(metrics.includes(metric) ? output : ctx.gray(output))
     }
 
     const resultDetails = []
     for (const [metric, { actual, lowerLimit, upperLimit }] of Object.entries(result.details)) {
-        resultDetails.push(`Expected ${metric} to be between ${formatMetric[metric](lowerLimit)} and ${formatMetric[metric](upperLimit)} but was actually ${formatMetric[metric](actual)}`)
+        resultDetails.push(`Expected ${metric} to be between ${prettyMs(lowerLimit)} and ${prettyMs(upperLimit)} but was actually ${prettyMs(actual)}`)
     }
 
     if (result.result === 'pass') {
@@ -160,20 +159,6 @@ export const getJobUrl = function (argv, sessionId) {
     return `https://app.${hostname}/performance/${sessionId}/0`
 }
 
-export const formatMetric = {
-    timeToFirstByte: prettyMs,
-    firstPaint: prettyMs,
-    firstContentfulPaint: prettyMs,
-    firstMeaningfulPaint: prettyMs,
-    domContentLoaded: prettyMs,
-    timeToFirstInteractive: prettyMs,
-    load: prettyMs,
-    speedIndex: prettyMs,
-    perceptualSpeedIndex: prettyMs,
-    pageWeight: prettyBytes,
-    pageWeightEncoded: prettyBytes
-}
-
 /**
  * print results of cli analyze command
  * @param  {Object}   jobResult         performance data
@@ -202,13 +187,13 @@ export const analyzeReport = function (jobResult, metrics, /* istanbul ignore ne
             })
             .map(({ metric, value, baseline, passed }) => metrics.includes(metric)
                 ? `${passed
-                    ? `✅ ${ctx.bold(metric)}: ${formatMetric[metric](value)}`
-                    : `❌ ${ctx.bold(metric)}: ${formatMetric[metric](value)} ${baseline.u < value
-                        ? ctx.red(`(${formatMetric[metric](value - baseline.u)} over baseline)`)
-                        : ctx.red(`(${formatMetric[metric](baseline.l - value)} under baseline)`)
+                    ? `✅ ${ctx.bold(metric)}: ${prettyMs(value)}`
+                    : `❌ ${ctx.bold(metric)}: ${prettyMs(value)} ${baseline.u < value
+                        ? ctx.red(`(${prettyMs(value - baseline.u)} over baseline)`)
+                        : ctx.red(`(${prettyMs(baseline.l - value)} under baseline)`)
                     }`
                 }`
-                : ctx.gray(`${metric}: ${formatMetric[metric](value)}`)
+                : ctx.gray(`${metric}: ${prettyMs(value)}`)
             )
             .join('\n')
 

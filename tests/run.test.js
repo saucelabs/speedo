@@ -45,7 +45,7 @@ test('should create a new baseline if run with no jobs', async () => {
     await handler({ user: 'foo', key: 'bar', site: 'mypage', metric: ['load', 'speedIndex'], 'name': 'foobar' })
     expect(process.exit).toBeCalledWith(0)
     expect(ora().start)
-        .toBeCalledWith('Couldn\'t find baseline for job with name undefined, creating baseline...')
+        .toBeCalledWith('Couldn\'t find baseline for job with name "undefined", creating baseline...')
 })
 
 test('should rerun performance tests if they fail', async () => {

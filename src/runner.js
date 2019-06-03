@@ -3,14 +3,25 @@ import { remote } from 'webdriverio'
 import { getMetricParams, getThrottleNetworkParam, getThrottleCpuParam } from './utils'
 
 export default async function runPerformanceTest (username, accessKey, argv, name, build, logDir) {
-    const { site, platformName: platform, browserVersion: version, tunnelIdentifier, parentTunnel } = argv
+    const { site, platformName, browserVersion, tunnelIdentifier, parentTunnel } = argv
     const metrics = getMetricParams(argv)
     const networkCondition = getThrottleNetworkParam(argv)
     const cpuRate = getThrottleCpuParam(argv)
     const sauceOptions = {
-        name, build, extendedDebugging: true, capturePerformance: true,
-        ...(tunnelIdentifier ? { tunnelIdentifier } : {}),
-        ...(parentTunnel ? { parentTunnel } : {})
+        'sauce:options': {
+            name,
+            build,
+            extendedDebugging: true,
+            capturePerformance: true,
+            crmuxdriverVersion: argv.beta ? 'beta' : 'stable',
+            seleniumVersion: '3.141.59',
+            ...(tunnelIdentifier ? { tunnelIdentifier } : {}),
+            ...(parentTunnel ? { parentTunnel } : {})
+        }
+    }
+
+    const chromeOptions = {
+        'goog:chromeOptions': { w3c: true }
     }
 
     const browser = await remote({
@@ -21,9 +32,10 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
         outputDir: logDir,
         capabilities: {
             browserName: 'chrome',
-            platform,
-            version,
-            ...sauceOptions
+            platformName,
+            browserVersion,
+            ...sauceOptions,
+            ...chromeOptions
         }
     })
 
@@ -35,7 +47,16 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
         params: { rate: cpuRate }
     })
     await browser.url(site)
-    const result = await browser.assertPerformance(name, metrics)
-    await browser.deleteSession()
-    return { sessionId, result }
+
+    try {
+        const result = await browser.assertPerformance(name, metrics)
+        await browser.deleteSession()
+        return { sessionId, result }
+    } catch (e) {
+        await browser.deleteSession()
+
+        // log data couldn't be fetched due to a tracing issue
+        // run test again:
+        return runPerformanceTest(username, accessKey, argv, name, build, logDir)
+    }
 }
