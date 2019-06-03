@@ -12,13 +12,14 @@ const performanceLog = {
     load: 321,
     IdontexistMetric: 42,
     speedIndex: 10,
-    pageWeight: 1000
+    pageWeight: 1000,
+    score: 0.879935214
 }
 
 test('printResult when test passes', () => {
     const log = jest.fn()
     const result = { result: 'pass', details: {} }
-    printResult(result, { metrics: performanceLog } , ['speedIndex', 'load', 'timeToFirstByte'], log)
+    printResult(result, { metrics: performanceLog } , ['speedIndex', 'load', 'timeToFirstByte', 'score'], log)
     expect(log.mock.calls).toMatchSnapshot()
 })
 
