@@ -15,7 +15,8 @@ export const PERFORMANCE_METRICS = [
     'firstCPUIdle',
     'firstInteractive',
     'load',
-    'speedIndex'
+    'speedIndex',
+    'score'
 ]
 
 export const NETWORK_CONDITIONS = [
@@ -35,7 +36,7 @@ const METRIC_PARAM = {
     alias: 'm',
     name: 'metric',
     description: 'metric that you want to check (multiple possible)',
-    default: 'load'
+    default: 'score'
 }
 
 const ALL_PARAM = {

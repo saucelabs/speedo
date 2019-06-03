@@ -28,6 +28,7 @@ Array [
   ],
   Array [
     Object {
+      "symbol": "⚙️ ",
       "text": "Runtime settings:
 - Network Throttling: undefined
 - CPU Throttling: undefinedx

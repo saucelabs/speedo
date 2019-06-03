@@ -9,6 +9,8 @@ import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS, NET
  */
 const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
 
+const SCORE_SANITIZER = (m) => Math.round(m * 100) + '/100'
+
 /**
  * print results of cli run
  * @param  {Object}   result            result of performance assertion
@@ -37,13 +39,15 @@ export const printResult = function (result, performanceLog, metrics, argv, /* i
         })
 
     for (const [metric, value] of resultsSorted) {
-        const output = `${metric}: ${prettyMs(value || 0)}`
+        const sanitizeFn = metric !== 'score' ? prettyMs : SCORE_SANITIZER
+        const output = `${metric}: ${sanitizeFn(value || 0)}`
         log(metrics.includes(metric) ? output : ctx.gray(output))
     }
 
     const resultDetails = []
     for (const [metric, { actual, lowerLimit, upperLimit }] of Object.entries(result.details)) {
-        resultDetails.push(`Expected ${metric} to be between ${prettyMs(lowerLimit)} and ${prettyMs(upperLimit)} but was actually ${prettyMs(actual)}`)
+        const sanitizeFn = metric !== 'score' ? prettyMs : SCORE_SANITIZER
+        resultDetails.push(`Expected ${metric} to be between ${sanitizeFn(lowerLimit)} and ${sanitizeFn(upperLimit)} but was actually ${sanitizeFn(actual)}`)
     }
 
     if (result.result === 'pass') {

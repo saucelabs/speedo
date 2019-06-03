@@ -13,6 +13,7 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
             build,
             extendedDebugging: true,
             capturePerformance: true,
+            crmuxdriverVersion: 'beta',
             seleniumVersion: '3.141.59',
             ...(tunnelIdentifier ? { tunnelIdentifier } : {}),
             ...(parentTunnel ? { parentTunnel } : {})

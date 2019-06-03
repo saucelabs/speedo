@@ -205,7 +205,8 @@ export const handler = async (argv) => {
     const cpuRate = getThrottleCpuParam(argv)
     // eslint-disable-next-line no-console
     status.stopAndPersist({
-        text: `Runtime settings:\n- Network Throttling: ${networkCondition}\n- CPU Throttling: ${cpuRate}x\n`
+        text: `Runtime settings:\n- Network Throttling: ${networkCondition}\n- CPU Throttling: ${cpuRate}x\n`,
+        symbol: '⚙️ '
     })
 
     status.stopAndPersist({
