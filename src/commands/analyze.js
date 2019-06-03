@@ -39,17 +39,17 @@ export const handler = async (argv) => {
      */
     let job
     try {
-        job = (await user.listJobs(
-            username,
-            { name: argv.jobName, limit: 1 }
-        )).jobs.pop()
+        const { jobs } = await waitFor(
+            () => user.listJobs(
+                username,
+                { name: argv.jobName, limit: 1 }
+            ),
+            /* istanbul ignore next */
+            ({ jobs }) => jobs && jobs.length > 0,
+            'Couldn\'t find job in database'
+        )
 
-        /**
-         * fail if no job can be found
-         */
-        if (!job) {
-            throw new Error('job not found')
-        }
+        job = jobs.pop()
 
         /**
          * error out if job didn't complete
