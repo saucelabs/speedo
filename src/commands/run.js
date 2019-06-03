@@ -6,6 +6,7 @@ import yargs from 'yargs'
 import ordinal from 'ordinal'
 import SauceLabs from 'saucelabs'
 import changeCase from 'change-case'
+import findPackageJson from 'find-package-json'
 
 import runPerformanceTest from '../runner'
 import {
@@ -147,7 +148,7 @@ export const handler = async (argv) => {
                 obj[changeCase.camelCase(metricName)] = metricValue
                 return obj
             }, {})
-        }))
+        }))[0]
 
         /**
          * store data log dir
@@ -169,7 +170,7 @@ export const handler = async (argv) => {
     if (argv.traceLogs) {
         status.start('Download trace logs...')
 
-        const loaderId = performanceLog[0].loaderId
+        const loaderId = performanceLog.loaderId
         try {
             await user.downloadJobAsset(
                 sessionId,
@@ -179,6 +180,36 @@ export const handler = async (argv) => {
         } catch (e) {
             status.fail(`Couldn't fetch trace logs: ${e.stack}`)
             status.stopAndPersist({ text: 'continuing ...' })
+        }
+    }
+
+    /**
+     * test for explicit performance budgets
+     */
+    const pkg = findPackageJson(process.cwd()).next().value
+    const budget = pkg.speedo && pkg.speedo[jobName]
+    if (budget) {
+        status.stopAndPersist({
+            text: 'Asserting against performance budget of package.json',
+            symbol: '🧐 '
+        })
+
+        for (const [metric, value] of Object.entries(budget)) {
+            /**
+             * don't fail if:
+             * - metric is within budget
+             * - we don't care about this metric
+             */
+            if (performanceLog.metrics[metric] <= value || !metrics.includes(metric)) {
+                continue
+            }
+
+            result.result = 'failed'
+            result.details[metric] = {
+                actual: performanceLog.metrics[metric],
+                upperLimit: value,
+                explicit: true
+            }
         }
     }
 
@@ -199,7 +230,7 @@ export const handler = async (argv) => {
         symbol: '📃'
     })
 
-    printResult(result, performanceLog[0], metrics, argv)
+    printResult(result, performanceLog, metrics, argv)
 
     const networkCondition = getThrottleNetworkParam(argv)
     // eslint-disable-next-line no-console

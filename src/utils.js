@@ -50,8 +50,10 @@ export const printResult = function (result, performanceLog, metrics, argv, /* i
     }
 
     const resultDetails = []
-    for (const [metric, { actual, lowerLimit, upperLimit }] of Object.entries(result.details)) {
-        resultDetails.push(`Expected ${metric} to be between ${sanitizeMetric(metric, lowerLimit)} and ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}`)
+    for (const [metric, { actual, lowerLimit, upperLimit, explicit }] of Object.entries(result.details)) {
+        resultDetails.push(explicit ?
+            `Expected ${metric} to be within performance budget of max ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}` :
+            `Expected ${metric} to be between ${sanitizeMetric(metric, lowerLimit)} and ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}`)
     }
 
     if (result.result === 'pass') {
