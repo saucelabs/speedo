@@ -11,7 +11,7 @@ script:
   - npm run build
   - npm test
   - ./bin/speedo run http://www.saucedemo.com
-  - ./bin/speedo analyze "Performance test for http://www.saucedemo.com"
+  - ./bin/speedo analyze "Performance test for http://www.saucedemo.com (on "Good 3G" and 4x CPU throttling)"
 
 after_script:
   - ./node_modules/.bin/codecov
