@@ -10,7 +10,7 @@ import changeCase from 'change-case'
 import runPerformanceTest from '../runner'
 import {
     printResult, waitFor, getMetricParams, getJobUrl,
-    getJobName, getThrottleNetworkParam, getThrottleCpuParam
+    getJobName, getThrottleNetworkParam
 } from '../utils'
 import { ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT, RUN_CLI_PARAMS } from '../constants'
 
@@ -202,10 +202,9 @@ export const handler = async (argv) => {
     printResult(result, performanceLog[0], metrics, argv)
 
     const networkCondition = getThrottleNetworkParam(argv)
-    const cpuRate = getThrottleCpuParam(argv)
     // eslint-disable-next-line no-console
     status.stopAndPersist({
-        text: `Runtime settings:\n- Network Throttling: ${networkCondition}\n- CPU Throttling: ${cpuRate}x\n`,
+        text: `Runtime settings:\n- Network Throttling: ${networkCondition}\n- CPU Throttling: ${argv.throttleCpu}x\n`,
         symbol: '⚙️ '
     })
 

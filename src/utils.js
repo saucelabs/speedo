@@ -131,18 +131,6 @@ export const getThrottleNetworkParam = function (argv) {
 }
 
 /**
- * validate throttleCpu param
- * @param  {Object}   argv cli params
- */
-export const getThrottleCpuParam = function (argv) {
-    const cpuRate = argv.throttleCpu || 4
-    if (typeof cpuRate !== 'number') {
-        throw new Error(`You've provided a non-numeric value for cpu throttling: ${cpuRate}`)
-    }
-    return cpuRate
-}
-
-/**
  * get job name
  * @param  {Object}   argv cli params
  */
@@ -152,8 +140,7 @@ export const getJobName = function (argv) {
     }
 
     const networkCondition = getThrottleNetworkParam(argv)
-    const cpuRate = getThrottleCpuParam(argv)
-    return `Performance test for ${argv.site} (on "${networkCondition}" and ${cpuRate}x CPU throttling)`
+    return `Performance test for ${argv.site} (on "${networkCondition}" and ${argv.throttleCpu}x CPU throttling)`
 }
 
 /**

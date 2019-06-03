@@ -1,6 +1,6 @@
 import { remote } from 'webdriverio'
 
-import { getMetricParams, getThrottleNetworkParam, getThrottleCpuParam } from './utils'
+import { getMetricParams, getThrottleNetworkParam } from './utils'
 
 const MAX_RETRIES = 3
 
@@ -19,7 +19,6 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
     const { site, platformName, browserVersion, tunnelIdentifier, parentTunnel } = argv
     const metrics = getMetricParams(argv)
     const networkCondition = getThrottleNetworkParam(argv)
-    const cpuRate = getThrottleCpuParam(argv)
     const sauceOptions = {
         'sauce:options': {
             name,
@@ -57,7 +56,7 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
     await browser.throttleNetwork(networkCondition)
     await browser.execute('sauce:debug', {
         method: 'Emulation.setCPUThrottlingRate',
-        params: { rate: cpuRate }
+        params: { rate: argv.throttleCpu }
     })
     await browser.url(site)
 
