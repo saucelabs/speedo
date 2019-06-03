@@ -27,6 +27,20 @@ test('runPerformanceTest', async () => {
     expect((await remote()).execute).toHaveBeenCalledTimes(1)
 })
 
+test('runPerformanceTest with no cpu throttling', async () => {
+    await runPerformanceTest(
+        'myuser',
+        'mykey',
+        {
+            throttleCpu: 0
+        },
+        'testname',
+        'buildname',
+        '/some/dir'
+    )
+    expect((await remote()).execute.mock.calls).toMatchSnapshot(1)
+})
+
 test('runPerformanceTest w/ parentTunnel', async () => {
     const result = await runPerformanceTest(
         'myuser',

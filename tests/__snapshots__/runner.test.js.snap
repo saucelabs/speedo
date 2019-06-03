@@ -95,6 +95,20 @@ Array [
 ]
 `;
 
+exports[`runPerformanceTest with no cpu throttling 1`] = `
+Array [
+  Array [
+    "sauce:debug",
+    Object {
+      "method": "Emulation.setCPUThrottlingRate",
+      "params": Object {
+        "rate": 0,
+      },
+    },
+  ],
+]
+`;
+
 exports[`runPerformanceTest without args 1`] = `
 Object {
   "result": Object {
