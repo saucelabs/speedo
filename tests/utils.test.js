@@ -1,5 +1,8 @@
 import performanceResults from './__fixtures__/performance.json'
-import { printResult, waitFor, getMetricParams, getThrottleNetworkParam, getThrottleCpuParam, getJobUrl, analyzeReport } from '../src/utils'
+import {
+    printResult, waitFor, getMetricParams, getThrottleNetworkParam,
+    getJobUrl, analyzeReport, getJobName
+} from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
 const performanceLog = {
@@ -9,13 +12,14 @@ const performanceLog = {
     load: 321,
     IdontexistMetric: 42,
     speedIndex: 10,
-    pageWeight: 1000
+    pageWeight: 1000,
+    score: 0.879935214
 }
 
 test('printResult when test passes', () => {
     const log = jest.fn()
     const result = { result: 'pass', details: {} }
-    printResult(result, { metrics: performanceLog } , ['speedIndex', 'load', 'timeToFirstByte'], log)
+    printResult(result, { metrics: performanceLog } , ['speedIndex', 'load', 'timeToFirstByte', 'score'], log)
     expect(log.mock.calls).toMatchSnapshot()
 })
 
@@ -98,15 +102,6 @@ test('getThrottleNetworkParam', () => {
         .toThrow()
 })
 
-test('getThrottleCpuParam', () => {
-    expect(getThrottleCpuParam({}))
-        .toEqual(4)
-    expect(getThrottleCpuParam({ throttleCpu: 3}))
-        .toEqual(3)
-    expect(() => getThrottleCpuParam({ throttleCpu: 'invalidCpuParam' }))
-        .toThrow()
-})
-
 test('getJobUrl', () => {
     expect(getJobUrl({}, 'foobar'))
         .toEqual('https://app.saucelabs.com/performance/foobar/0')
@@ -120,4 +115,9 @@ test('analyzeReport', () => {
     const log = jest.fn()
     analyzeReport(performanceResults , ['speedIndex', 'load', 'pageWeight'], log)
     expect(log.mock.calls).toMatchSnapshot()
+})
+
+test('getJobName', () => {
+    expect(getJobName({ throttleCpu: 123 })).toBe('Performance test for undefined (on "Good 3G" and 123x CPU throttling)')
+    expect(getJobName({ name: 'foobar' })).toBe('foobar')
 })

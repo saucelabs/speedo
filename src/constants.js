@@ -4,27 +4,20 @@ Speedo CLI runner`
 export const EPILOG = 'Copyright 2019 © Sauce Labs'
 
 export const PERFORMANCE_METRICS = [
+    'estimatedInputLatency',
     'timeToFirstByte',
+    'domContentLoaded',
+    'firstVisualChange',
     'firstPaint',
     'firstContentfulPaint',
     'firstMeaningfulPaint',
-    'domContentLoaded',
-    'timeToFirstInteractive',
+    'lastVisualChange',
+    'firstCPUIdle',
+    'firstInteractive',
     'load',
     'speedIndex',
-    'perceptualSpeedIndex',
-    'pageWeight',
-    'pageWeightEncoded'
+    'score'
 ]
-
-// Following metrics are fairly stable and as result baselines are super narrow
-// so whenever a regression happens users get notified of things that they don't really care
-export const PERFORMANCE_IGNORED_METRICS = [
-    'pageWeight',
-    'requestsCount'
-]
-
-export const BASELINE_METRICS = PERFORMANCE_METRICS.filter((metric) => !PERFORMANCE_IGNORED_METRICS.includes(metric))
 
 export const NETWORK_CONDITIONS = [
     'offline',
@@ -43,7 +36,7 @@ const METRIC_PARAM = {
     alias: 'm',
     name: 'metric',
     description: 'metric that you want to check (multiple possible)',
-    default: 'load'
+    default: 'score'
 }
 
 const ALL_PARAM = {
@@ -113,7 +106,8 @@ export const RUN_CLI_PARAMS ={
     },
     throttleCpu: {
         description: 'throttle cpu speed for your test (e.g. "4" for 1/4 speed)',
-        default: 4
+        default: 4,
+        type: 'number'
     },
     retry: {
         description: 'amount of retries for failing performance tests',

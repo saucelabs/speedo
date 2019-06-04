@@ -10,8 +10,8 @@ services:
 script:
   - npm run build
   - npm test
-  - ./bin/speedo run http://www.saucedemo.com
-  - ./bin/speedo analyze "Performance test for http://www.saucedemo.com"
+  - ./bin/speedo run http://www.saucedemo.com -n "Speedo CI Build"
+  - ./bin/speedo analyze "Speedo CI Build"
 
 after_script:
   - ./node_modules/.bin/codecov

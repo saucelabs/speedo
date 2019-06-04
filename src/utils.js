@@ -1,7 +1,6 @@
 import chalk from 'chalk'
 import { table } from 'table'
 import prettyMs from 'pretty-ms'
-import prettyBytes from 'pretty-bytes'
 
 import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS, NETWORK_CONDITIONS } from './constants'
 
@@ -10,6 +9,14 @@ import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS, NET
  */
 const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
 
+const sanitizeMetric = function (metric, value) {
+    if (metric === 'score') {
+        return Math.round(value * 100) + '/100'
+    }
+
+    return prettyMs(value)
+}
+
 /**
  * print results of cli run
  * @param  {Object}   result            result of performance assertion
@@ -17,7 +24,7 @@ const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
  * @param  {String[]} metrics           asserted metrices
  * @param  {Function} [log=console.log] log method (for testing purposes)
  */
-export const printResult = function (result, performanceLog, metrics, /* istanbul ignore next */ log = console.log) { // eslint-disable-line no-console
+export const printResult = function (result, performanceLog, metrics, argv, /* istanbul ignore next */ log = console.log) { // eslint-disable-line no-console
     log('\nPerformance Results\n===================')
 
     /**
@@ -38,13 +45,13 @@ export const printResult = function (result, performanceLog, metrics, /* istanbu
         })
 
     for (const [metric, value] of resultsSorted) {
-        const output = `${metric}: ${formatMetric[metric](value || 0)}`
+        const output = `${metric}: ${sanitizeMetric(metric, value || 0)}`
         log(metrics.includes(metric) ? output : ctx.gray(output))
     }
 
     const resultDetails = []
     for (const [metric, { actual, lowerLimit, upperLimit }] of Object.entries(result.details)) {
-        resultDetails.push(`Expected ${metric} to be between ${formatMetric[metric](lowerLimit)} and ${formatMetric[metric](upperLimit)} but was actually ${formatMetric[metric](actual)}`)
+        resultDetails.push(`Expected ${metric} to be between ${sanitizeMetric(metric, lowerLimit)} and ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}`)
     }
 
     if (result.result === 'pass') {
@@ -124,15 +131,16 @@ export const getThrottleNetworkParam = function (argv) {
 }
 
 /**
- * validate throttleCpu param
+ * get job name
  * @param  {Object}   argv cli params
  */
-export const getThrottleCpuParam = function (argv) {
-    const cpuRate = argv.throttleCpu || 4
-    if (typeof cpuRate !== 'number') {
-        throw new Error(`You've provided a non-numeric value for cpu throttling: ${cpuRate}`)
+export const getJobName = function (argv) {
+    if (typeof argv.name === 'string') {
+        return argv.name
     }
-    return cpuRate
+
+    const networkCondition = getThrottleNetworkParam(argv)
+    return `Performance test for ${argv.site} (on "${networkCondition}" and ${argv.throttleCpu}x CPU throttling)`
 }
 
 /**
@@ -144,20 +152,6 @@ export const getThrottleCpuParam = function (argv) {
 export const getJobUrl = function (argv, sessionId) {
     const hostname = (!argv.region || !argv.region.includes('eu') ? '' : 'eu-central-1.') + 'saucelabs.com'
     return `https://app.${hostname}/performance/${sessionId}/0`
-}
-
-export const formatMetric = {
-    timeToFirstByte: prettyMs,
-    firstPaint: prettyMs,
-    firstContentfulPaint: prettyMs,
-    firstMeaningfulPaint: prettyMs,
-    domContentLoaded: prettyMs,
-    timeToFirstInteractive: prettyMs,
-    load: prettyMs,
-    speedIndex: prettyMs,
-    perceptualSpeedIndex: prettyMs,
-    pageWeight: prettyBytes,
-    pageWeightEncoded: prettyBytes
 }
 
 /**
@@ -186,16 +180,17 @@ export const analyzeReport = function (jobResult, metrics, /* istanbul ignore ne
 
                 return PERFORMANCE_METRICS.indexOf(a.metric) - PERFORMANCE_METRICS.indexOf(b.metric)
             })
-            .map(({ metric, value, baseline, passed }) => metrics.includes(metric)
-                ? `${passed
-                    ? `✅ ${ctx.bold(metric)}: ${formatMetric[metric](value)}`
-                    : `❌ ${ctx.bold(metric)}: ${formatMetric[metric](value)} ${baseline.u < value
-                        ? ctx.red(`(${formatMetric[metric](value - baseline.u)} over baseline)`)
-                        : ctx.red(`(${formatMetric[metric](baseline.l - value)} under baseline)`)
+            .map(({ metric, value, baseline, passed }) => {
+                return metrics.includes(metric)
+                    ? `${passed
+                        ? `✅ ${ctx.bold(metric)}: ${sanitizeMetric(metric, value)}`
+                        : `❌ ${ctx.bold(metric)}: ${sanitizeMetric(metric, value)} ${baseline.u < value
+                            ? ctx.red(`(${sanitizeMetric(metric, value - baseline.u)} over baseline)`)
+                            : ctx.red(`(${sanitizeMetric(metric, baseline.l - value)} under baseline)`)
+                        }`
                     }`
-                }`
-                : ctx.gray(`${metric}: ${formatMetric[metric](value)}`)
-            )
+                    : ctx.gray(`${metric}: ${sanitizeMetric(metric, value)}`)
+            })
             .join('\n')
 
         data.push([orderIndex, url, metricsOutput])

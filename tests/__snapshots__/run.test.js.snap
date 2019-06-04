@@ -28,6 +28,15 @@ Array [
   ],
   Array [
     Object {
+      "symbol": "⚙️ ",
+      "text": "Runtime settings:
+- Network Throttling: undefined
+- CPU Throttling: undefinedx
+",
+    },
+  ],
+  Array [
+    Object {
       "symbol": "👀",
       "text": "Check out job at https://saucelabs.com/performance/foobar/0",
     },

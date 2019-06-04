@@ -8,7 +8,10 @@ import SauceLabs from 'saucelabs'
 import changeCase from 'change-case'
 
 import runPerformanceTest from '../runner'
-import { printResult, waitFor, getMetricParams, getJobUrl } from '../utils'
+import {
+    printResult, waitFor, getMetricParams, getJobUrl,
+    getJobName, getThrottleNetworkParam
+} from '../utils'
 import { ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT, RUN_CLI_PARAMS } from '../constants'
 
 export const command = 'run [params...] <site>'
@@ -18,7 +21,7 @@ export const builder = RUN_CLI_PARAMS
 export const handler = async (argv) => {
     const username = argv.user || process.env.SAUCE_USERNAME
     const accessKey = argv.key || process.env.SAUCE_ACCESS_KEY
-    const jobName = argv.name || `Performance test for ${argv.site}`
+    const jobName = getJobName(argv)
     const buildName = argv.build || `${jobName} - ${(new Date()).toString()}`
     const metrics = getMetricParams(argv)
 
@@ -66,7 +69,7 @@ export const handler = async (argv) => {
      * create baseline if not enough tests have been executed
      */
     if (job.jobs.length < REQUIRED_TESTS_FOR_BASELINE_COUNT) {
-        status.start(`Couldn't find baseline for job with name ${jobName}, creating baseline...`)
+        status.start(`Couldn't find baseline for job with name "${jobName}", creating baseline...`)
 
         const testCnt = REQUIRED_TESTS_FOR_BASELINE_COUNT - job.jobs.length
         await Promise.all([...Array(testCnt)].map(
@@ -196,7 +199,14 @@ export const handler = async (argv) => {
         symbol: '📃'
     })
 
-    printResult(result, performanceLog[0], metrics)
+    printResult(result, performanceLog[0], metrics, argv)
+
+    const networkCondition = getThrottleNetworkParam(argv)
+    // eslint-disable-next-line no-console
+    status.stopAndPersist({
+        text: `Runtime settings:\n- Network Throttling: ${networkCondition}\n- CPU Throttling: ${argv.throttleCpu}x\n`,
+        symbol: '⚙️ '
+    })
 
     status.stopAndPersist({
         text: `Check out job at ${getJobUrl(argv, sessionId)}`,

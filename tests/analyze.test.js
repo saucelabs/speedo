@@ -18,7 +18,7 @@ beforeEach(() => {
     delete process.env.SAUCE_USERNAME
     delete process.env.SAUCE_ACCESS_KEY
 
-    getMetricParams.mockImplementation(() => ['speedIndex', 'pageWeight'])
+    getMetricParams.mockImplementation(() => ['speedIndex', 'score'])
     getJobUrl.mockImplementation(() => 'https://saucelabs.com/performance/foobar/0')
     waitFor.mockImplementation((condition) => condition())
     runPerformanceTest.mockImplementation(() => ({ sessionId: 'foobar123', result: { result: 'pass' } }))
@@ -36,15 +36,15 @@ test('run should fail if no auth is provided', async () => {
 })
 
 test('should fail if no job was found', async () => {
-    fixtures.listJobs = Promise.resolve({ jobs: [] })
+    waitFor.mockReturnValue(Promise.reject(new Error('Couldn\'t find job in database')))
     await handler({ user: 'foo', key: 'bar', jobName: 'foobar' })
     expect(process.exit).toBeCalledTimes(1)
     expect(ora().fail.mock.calls[0][0])
-        .toContain('Couldn\'t fetch job with name "foobar": Error: job not found')
+        .toContain('Couldn\'t fetch job with name "foobar": Error: Couldn\'t find job in database')
 })
 
 test('should fail if job had an error', async () => {
-    fixtures.listJobs = Promise.resolve({ jobs: [{ error: true }] })
+    waitFor.mockReturnValue(Promise.resolve({ jobs: [{ error: true }] }))
     await handler({ user: 'foo', key: 'bar', jobName: 'barfoo' })
     expect(process.exit).toBeCalledTimes(1)
     expect(ora().fail.mock.calls[0][0])

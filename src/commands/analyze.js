@@ -4,7 +4,7 @@ import SauceLabs from 'saucelabs'
 
 import { getMetricParams, getJobUrl, analyzeReport, waitFor } from '../utils'
 import {
-    ERROR_MISSING_CREDENTIALS, ANALYZE_CLI_PARAMS, BASELINE_METRICS
+    ERROR_MISSING_CREDENTIALS, ANALYZE_CLI_PARAMS, PERFORMANCE_METRICS
 } from '../constants'
 
 export const command = 'analyze [params...] <jobName>'
@@ -39,17 +39,17 @@ export const handler = async (argv) => {
      */
     let job
     try {
-        job = (await user.listJobs(
-            username,
-            { name: argv.jobName, limit: 1 }
-        )).jobs.pop()
+        const { jobs } = await waitFor(
+            () => user.listJobs(
+                username,
+                { name: argv.jobName, limit: 1 }
+            ),
+            /* istanbul ignore next */
+            ({ jobs }) => jobs && jobs.length > 0,
+            'Couldn\'t find job in database'
+        )
 
-        /**
-         * fail if no job can be found
-         */
-        if (!job) {
-            throw new Error('job not found')
-        }
+        job = jobs.pop()
 
         /**
          * error out if job didn't complete
@@ -100,7 +100,7 @@ export const handler = async (argv) => {
         for (const pageLoadMetric of performanceMetrics.items) {
             const results = {}
             const baselineHistory = await user.getBaselineHistory(job.id, {
-                metricNames: BASELINE_METRICS,
+                metricNames: PERFORMANCE_METRICS,
                 orderIndex: pageLoadMetric.order_index
             })
 
