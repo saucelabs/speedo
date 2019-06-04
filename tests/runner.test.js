@@ -27,7 +27,6 @@ test('runPerformanceTest', async () => {
     expect((await remote()).execute).toHaveBeenCalledTimes(1)
 })
 
-
 test('runPerformanceTest w/ parentTunnel', async () => {
     const result = await runPerformanceTest(
         'myuser',
@@ -88,4 +87,35 @@ test('runPerformanceTest reruns if log command fails', async () => {
     )
 
     expect(remote).toBeCalledTimes(3)
+})
+
+test('runPerformanceTest throws anyway if assertPerformance continues to fail', async () => {
+    expect.assertions(2)
+
+    try {
+        await runPerformanceTest(
+            // overwrite driver mock (see webdriverio mock)
+            {
+                assertPerformance: jest.fn()
+                    .mockReturnValueOnce(Promise.reject(new Error('boom')))
+                    .mockReturnValueOnce(Promise.reject(new Error('boom1')))
+                    .mockReturnValueOnce(Promise.reject(new Error('boom2')))
+                    .mockReturnValueOnce(Promise.reject(new Error('boom3')))
+                    .mockReturnValueOnce(Promise.resolve({ value: { metrics: {} }})),
+            },
+            'mykey',
+            {
+                region: 'eu',
+                platformName: 'Playstation',
+                browserVersion: 123,
+                tunnelIdentifier: 'foobar'
+            },
+            'testname',
+            'buildname',
+            '/some/dir'
+        )
+    } catch (e) {
+        expect(remote).toBeCalledTimes(4)
+        expect(e.message).toContain('boom3')
+    }
 })

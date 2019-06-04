@@ -2,7 +2,20 @@ import { remote } from 'webdriverio'
 
 import { getMetricParams, getThrottleNetworkParam, getThrottleCpuParam } from './utils'
 
-export default async function runPerformanceTest (username, accessKey, argv, name, build, logDir) {
+const MAX_RETRIES = 3
+
+/**
+ * script that runs performance test on Sauce Labs
+ *
+ * @param  {String} username   name of user account
+ * @param  {String} accessKey  access key of user account
+ * @param  {Object} argv       command line arguments
+ * @param  {String} name       name of the test
+ * @param  {String} build      name of the build
+ * @param  {String} logDir     path to directory to store logs
+ * @return {Object}            containing result and detail information of performance test
+ */
+export default async function runPerformanceTest (username, accessKey, argv, name, build, logDir, retryCnt = 0) {
     const { site, platformName, browserVersion, tunnelIdentifier, parentTunnel } = argv
     const metrics = getMetricParams(argv)
     const networkCondition = getThrottleNetworkParam(argv)
@@ -49,14 +62,28 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
     await browser.url(site)
 
     try {
+        /**
+         * run `assertPerformance` command within try/catch as command
+         * can fail if performance command couldn't be captured for
+         * any reasons, e.g. NO_NAVSTART
+         */
         const result = await browser.assertPerformance(name, metrics)
         await browser.deleteSession()
         return { sessionId, result }
     } catch (e) {
         await browser.deleteSession()
 
-        // log data couldn't be fetched due to a tracing issue
-        // run test again:
-        return runPerformanceTest(username, accessKey, argv, name, build, logDir)
+        /**
+         * stop retrying after reaching MAX_RETRIES
+         */
+        if (retryCnt === MAX_RETRIES) {
+            throw e
+        }
+
+        /**
+         * log data couldn't be fetched due to a tracing issue
+         * run test again:
+         */
+        return runPerformanceTest(username, accessKey, argv, name, build, logDir, ++retryCnt)
     }
 }
