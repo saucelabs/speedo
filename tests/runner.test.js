@@ -24,7 +24,7 @@ test('runPerformanceTest', async () => {
     expect(remote).toBeCalledTimes(1)
     expect(remote.mock.calls).toMatchSnapshot()
     expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(1)
-    expect((await remote()).execute).toHaveBeenCalledTimes(1)
+    expect((await remote()).execute).toHaveBeenCalledTimes(3)
 })
 
 test('runPerformanceTest w/ parentTunnel', async () => {
@@ -46,7 +46,7 @@ test('runPerformanceTest w/ parentTunnel', async () => {
     expect(remote).toBeCalledTimes(1)
     expect(remote.mock.calls).toMatchSnapshot()
     expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(1)
-    expect((await remote()).execute).toHaveBeenCalledTimes(1)
+    expect((await remote()).execute).toHaveBeenCalledTimes(3)
 })
 
 test('runPerformanceTest without args', async () => {
@@ -62,7 +62,7 @@ test('runPerformanceTest without args', async () => {
     expect(remote).toBeCalledTimes(1)
     expect(remote.mock.calls).toMatchSnapshot()
     expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(1)
-    expect((await remote()).execute).toHaveBeenCalledTimes(1)
+    expect((await remote()).execute).toHaveBeenCalledTimes(3)
 })
 
 test('runPerformanceTest reruns if log command fails', async () => {
@@ -133,5 +133,5 @@ test('runPerformanceTest should not call commands if no throttling is applied', 
         '/some/dir'
     )
     expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(0)
-    expect((await remote()).execute).toHaveBeenCalledTimes(0)
+    expect((await remote()).execute).toHaveBeenCalledTimes(2)
 })

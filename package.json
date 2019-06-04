@@ -90,6 +90,9 @@
       "src/**/*.js",
       "!<rootDir>/node_modules/",
       "!<rootDir>/tests/__fixtures__/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "src/scripts"
     ]
   },
   "dependencies": {

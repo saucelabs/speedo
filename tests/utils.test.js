@@ -1,7 +1,7 @@
 import performanceResults from './__fixtures__/performance.json'
 import {
     printResult, waitFor, getMetricParams, getThrottleNetworkParam,
-    getJobUrl, analyzeReport, getJobName
+    getJobUrl, analyzeReport, getJobName, getDeviceClassFromBenchmark
 } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
@@ -120,4 +120,11 @@ test('analyzeReport', () => {
 test('getJobName', () => {
     expect(getJobName({ throttleCpu: 123 })).toBe('Performance test for undefined (on "Good 3G" and 123x CPU throttling)')
     expect(getJobName({ name: 'foobar' })).toBe('foobar')
+})
+
+test('getDeviceClassFromBenchmark', () => {
+    expect(getDeviceClassFromBenchmark(1000)).toBe('desktop-class device')
+    expect(getDeviceClassFromBenchmark(500)).toBe('high-end mobile phone')
+    expect(getDeviceClassFromBenchmark(150)).toBe('mid-tier mobile phone')
+    expect(getDeviceClassFromBenchmark(15)).toBe('budget mobile phone')
 })

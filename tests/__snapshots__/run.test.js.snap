@@ -32,6 +32,8 @@ Array [
       "text": "Runtime settings:
 - Network Throttling: undefined
 - CPU Throttling: undefinedx
+- CPU/Memory Power: 1234 (undefined)
+- User Agent: chrome
 ",
     },
   ],

@@ -18,7 +18,12 @@ beforeEach(() => {
     getMetricParams.mockImplementation(() => ['speedIndex', 'pageWeight'])
     getJobUrl.mockImplementation(() => 'https://saucelabs.com/performance/foobar/0')
     waitFor.mockImplementation((condition) => condition())
-    runPerformanceTest.mockImplementation(() => ({ sessionId: 'foobar123', result: { result: 'pass' } }))
+    runPerformanceTest.mockImplementation(() => ({
+        sessionId: 'foobar123',
+        result: { result: 'pass' },
+        benchmark: 1234,
+        userAgent: 'chrome'
+    }))
 })
 
 test('run should fail if no auth is provided', async () => {
@@ -53,10 +58,20 @@ test('should rerun performance tests if they fail', async () => {
     let failures = 0
     runPerformanceTest.mockImplementation(() => {
         if (failures === 3) {
-            return { sessionId: 'foobarRetried123', result: { result: 'pass' } }
+            return {
+                sessionId: 'foobarRetried123',
+                result: { result: 'pass' },
+                benchmark: 1234,
+                userAgent: 'chrome'
+            }
         }
         ++failures
-        return { sessionId: 'foobar123', result: { result: 'failed' } }
+        return {
+            sessionId: 'foobar123',
+            result: { result: 'failed' },
+            benchmark: 1234,
+            userAgent: 'chrome'
+        }
     })
     await handler({ user: 'foo', key: 'bar', site: 'mypage', retry: 3 })
     expect(ora().text).toBe('Run performance test (3rd retry)...')
@@ -116,7 +131,9 @@ test('should run successfully', async () => {
 test('should fail build if performance test fails', async () => {
     runPerformanceTest.mockImplementation(() => ({
         sessionId: 'foobar123',
-        result: { result: 'failed' }
+        result: { result: 'failed' },
+        benchmark: 1234,
+        userAgent: 'chrome'
     }))
     await handler({ user: 'foo', key: 'bar', site: 'mypage', metric: ['load', 'speedIndex'] })
     expect(process.exit).toBeCalledWith(1)
