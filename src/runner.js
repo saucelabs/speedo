@@ -53,11 +53,26 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
 
     const sessionId = browser.sessionId
 
-    await browser.throttleNetwork(networkCondition)
-    await browser.execute('sauce:debug', {
-        method: 'Emulation.setCPUThrottlingRate',
-        params: { rate: argv.throttleCpu }
-    })
+    /**
+     * throttle network
+     */
+    if (networkCondition !== 'online') {
+        await browser.throttleNetwork(networkCondition)
+    }
+
+    /**
+     * throttle CPU
+     */
+    if (argv.throttleCpu !== 0) {
+        await browser.execute('sauce:debug', {
+            method: 'Emulation.setCPUThrottlingRate',
+            params: { rate: argv.throttleCpu }
+        })
+    }
+
+    /**
+     * open page
+     */
     await browser.url(site)
 
     try {

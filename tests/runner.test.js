@@ -27,20 +27,6 @@ test('runPerformanceTest', async () => {
     expect((await remote()).execute).toHaveBeenCalledTimes(1)
 })
 
-test('runPerformanceTest with no cpu throttling', async () => {
-    await runPerformanceTest(
-        'myuser',
-        'mykey',
-        {
-            throttleCpu: 0
-        },
-        'testname',
-        'buildname',
-        '/some/dir'
-    )
-    expect((await remote()).execute.mock.calls).toMatchSnapshot(1)
-})
-
 test('runPerformanceTest w/ parentTunnel', async () => {
     const result = await runPerformanceTest(
         'myuser',
@@ -132,4 +118,20 @@ test('runPerformanceTest throws anyway if assertPerformance continues to fail', 
         expect(remote).toBeCalledTimes(4)
         expect(e.message).toContain('boom3')
     }
+})
+
+test('runPerformanceTest should not call commands if no throttling is applied', async () => {
+    await runPerformanceTest(
+        'myuser',
+        'mykey',
+        {
+            throttleCpu: 0,
+            throttleNetwork: 'online'
+        },
+        'testname',
+        'buildname',
+        '/some/dir'
+    )
+    expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(0)
+    expect((await remote()).execute).toHaveBeenCalledTimes(0)
 })
