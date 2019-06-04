@@ -1,6 +1,8 @@
 import { remote } from 'webdriverio'
 
 import { getMetricParams, getThrottleNetworkParam } from './utils'
+import ultradumbBenchmarkScript from './scripts/benchmark'
+import userAgentScript from './scripts/userAgent'
 
 const MAX_RETRIES = 3
 
@@ -82,8 +84,11 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
          * any reasons, e.g. NO_NAVSTART
          */
         const result = await browser.assertPerformance(name, metrics)
+        const benchmark = await browser.execute(ultradumbBenchmarkScript)
+        const userAgent = await browser.execute(userAgentScript)
+
         await browser.deleteSession()
-        return { sessionId, result }
+        return { sessionId, result, benchmark, userAgent }
     } catch (e) {
         await browser.deleteSession()
 

@@ -131,6 +131,21 @@ export const getThrottleNetworkParam = function (argv) {
 }
 
 /**
+ * get device class for benchmark result
+ */
+export const getDeviceClassFromBenchmark = function (benchmark) {
+    if (benchmark > 750) {
+        return 'desktop-class device'
+    } else if (benchmark > 300) {
+        return 'high-end mobile phone'
+    } else if (benchmark > 75) {
+        return 'mid-tier mobile phone'
+    }
+
+    return 'budget mobile phone'
+}
+
+/**
  * get job name
  * @param  {Object}   argv cli params
  */

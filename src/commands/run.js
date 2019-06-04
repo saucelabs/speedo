@@ -10,7 +10,7 @@ import changeCase from 'change-case'
 import runPerformanceTest from '../runner'
 import {
     printResult, waitFor, getMetricParams, getJobUrl,
-    getJobName, getThrottleNetworkParam
+    getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark
 } from '../utils'
 import { ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT, RUN_CLI_PARAMS } from '../constants'
 
@@ -81,7 +81,7 @@ export const handler = async (argv) => {
      * run single test
      */
     status.start('Run performance test...')
-    let { result, sessionId } = await runPerformanceTest(
+    let { result, sessionId, benchmark, userAgent } = await runPerformanceTest(
         username, accessKey, argv, jobName, buildName, logDir)
 
     /**
@@ -202,9 +202,14 @@ export const handler = async (argv) => {
     printResult(result, performanceLog[0], metrics, argv)
 
     const networkCondition = getThrottleNetworkParam(argv)
-    // eslint-disable-next-line no-console
+    const runtimeSettings = [
+        `- Network Throttling: ${networkCondition}`,
+        `- CPU Throttling: ${argv.throttleCpu}x`,
+        `- CPU/Memory Power: ${benchmark} (${getDeviceClassFromBenchmark(benchmark)})`,
+        `- User Agent: ${userAgent}`
+    ]
     status.stopAndPersist({
-        text: `Runtime settings:\n- Network Throttling: ${networkCondition}\n- CPU Throttling: ${argv.throttleCpu}x\n`,
+        text: `Runtime settings:\n${runtimeSettings.join('\n')}\n`,
         symbol: '⚙️ '
     })
 
