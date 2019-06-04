@@ -2,6 +2,7 @@
 
 exports[`runPerformanceTest 1`] = `
 Object {
+  "benchmark": undefined,
   "result": Object {
     "value": Object {
       "metrics": Object {
@@ -13,6 +14,7 @@ Object {
     },
   },
   "sessionId": "foobarSession",
+  "userAgent": undefined,
 }
 `;
 
@@ -49,6 +51,7 @@ Array [
 
 exports[`runPerformanceTest w/ parentTunnel 1`] = `
 Object {
+  "benchmark": undefined,
   "result": Object {
     "value": Object {
       "metrics": Object {
@@ -60,6 +63,7 @@ Object {
     },
   },
   "sessionId": "foobarSession",
+  "userAgent": undefined,
 }
 `;
 
@@ -97,6 +101,7 @@ Array [
 
 exports[`runPerformanceTest without args 1`] = `
 Object {
+  "benchmark": undefined,
   "result": Object {
     "value": Object {
       "metrics": Object {
@@ -108,6 +113,7 @@ Object {
     },
   },
   "sessionId": "foobarSession",
+  "userAgent": undefined,
 }
 `;
 
