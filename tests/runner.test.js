@@ -119,3 +119,19 @@ test('runPerformanceTest throws anyway if assertPerformance continues to fail', 
         expect(e.message).toContain('boom3')
     }
 })
+
+test('runPerformanceTest should not call commands if no throttling is applied', async () => {
+    await runPerformanceTest(
+        'myuser',
+        'mykey',
+        {
+            throttleCpu: 0,
+            throttleNetwork: 'online'
+        },
+        'testname',
+        'buildname',
+        '/some/dir'
+    )
+    expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(0)
+    expect((await remote()).execute).toHaveBeenCalledTimes(0)
+})

@@ -9,12 +9,12 @@ import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS, NET
  */
 const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
 
-const sanitizeMetric = function (metric) {
+const sanitizeMetric = function (metric, value) {
     if (metric === 'score') {
-        return Math.round(metric * 100) + '/100'
+        return Math.round(value * 100) + '/100'
     }
 
-    return prettyMs(metric)
+    return prettyMs(value)
 }
 
 /**
@@ -45,13 +45,13 @@ export const printResult = function (result, performanceLog, metrics, argv, /* i
         })
 
     for (const [metric, value] of resultsSorted) {
-        const output = `${metric}: ${sanitizeMetric(value || 0)}`
+        const output = `${metric}: ${sanitizeMetric(metric, value || 0)}`
         log(metrics.includes(metric) ? output : ctx.gray(output))
     }
 
     const resultDetails = []
     for (const [metric, { actual, lowerLimit, upperLimit }] of Object.entries(result.details)) {
-        resultDetails.push(`Expected ${metric} to be between ${sanitizeMetric(lowerLimit)} and ${sanitizeMetric(upperLimit)} but was actually ${sanitizeMetric(actual)}`)
+        resultDetails.push(`Expected ${metric} to be between ${sanitizeMetric(metric, lowerLimit)} and ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}`)
     }
 
     if (result.result === 'pass') {
@@ -131,18 +131,6 @@ export const getThrottleNetworkParam = function (argv) {
 }
 
 /**
- * validate throttleCpu param
- * @param  {Object}   argv cli params
- */
-export const getThrottleCpuParam = function (argv) {
-    const cpuRate = argv.throttleCpu || 4
-    if (typeof cpuRate !== 'number') {
-        throw new Error(`You've provided a non-numeric value for cpu throttling: ${cpuRate}`)
-    }
-    return cpuRate
-}
-
-/**
  * get job name
  * @param  {Object}   argv cli params
  */
@@ -152,8 +140,7 @@ export const getJobName = function (argv) {
     }
 
     const networkCondition = getThrottleNetworkParam(argv)
-    const cpuRate = getThrottleCpuParam(argv)
-    return `Performance test for ${argv.site} (on "${networkCondition}" and ${cpuRate}x CPU throttling)`
+    return `Performance test for ${argv.site} (on "${networkCondition}" and ${argv.throttleCpu}x CPU throttling)`
 }
 
 /**
@@ -196,13 +183,13 @@ export const analyzeReport = function (jobResult, metrics, /* istanbul ignore ne
             .map(({ metric, value, baseline, passed }) => {
                 return metrics.includes(metric)
                     ? `${passed
-                        ? `✅ ${ctx.bold(metric)}: ${sanitizeMetric(value)}`
-                        : `❌ ${ctx.bold(metric)}: ${sanitizeMetric(value)} ${baseline.u < value
-                            ? ctx.red(`(${sanitizeMetric(value - baseline.u)} over baseline)`)
-                            : ctx.red(`(${sanitizeMetric(baseline.l - value)} under baseline)`)
+                        ? `✅ ${ctx.bold(metric)}: ${sanitizeMetric(metric, value)}`
+                        : `❌ ${ctx.bold(metric)}: ${sanitizeMetric(metric, value)} ${baseline.u < value
+                            ? ctx.red(`(${sanitizeMetric(metric, value - baseline.u)} over baseline)`)
+                            : ctx.red(`(${sanitizeMetric(metric, baseline.l - value)} under baseline)`)
                         }`
                     }`
-                    : ctx.gray(`${metric}: ${sanitizeMetric(value)}`)
+                    : ctx.gray(`${metric}: ${sanitizeMetric(metric, value)}`)
             })
             .join('\n')
 

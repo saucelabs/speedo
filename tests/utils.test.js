@@ -1,6 +1,6 @@
 import performanceResults from './__fixtures__/performance.json'
 import {
-    printResult, waitFor, getMetricParams, getThrottleNetworkParam, getThrottleCpuParam,
+    printResult, waitFor, getMetricParams, getThrottleNetworkParam,
     getJobUrl, analyzeReport, getJobName
 } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
@@ -102,15 +102,6 @@ test('getThrottleNetworkParam', () => {
         .toThrow()
 })
 
-test('getThrottleCpuParam', () => {
-    expect(getThrottleCpuParam({}))
-        .toEqual(4)
-    expect(getThrottleCpuParam({ throttleCpu: 3}))
-        .toEqual(3)
-    expect(() => getThrottleCpuParam({ throttleCpu: 'invalidCpuParam' }))
-        .toThrow()
-})
-
 test('getJobUrl', () => {
     expect(getJobUrl({}, 'foobar'))
         .toEqual('https://app.saucelabs.com/performance/foobar/0')
@@ -127,6 +118,6 @@ test('analyzeReport', () => {
 })
 
 test('getJobName', () => {
-    expect(getJobName({})).toBe('Performance test for undefined (on "Good 3G" and 4x CPU throttling)')
+    expect(getJobName({ throttleCpu: 123 })).toBe('Performance test for undefined (on "Good 3G" and 123x CPU throttling)')
     expect(getJobName({ name: 'foobar' })).toBe('foobar')
 })
