@@ -76,8 +76,8 @@ export const COMMON_CLI_PARAMS = [{
 export const RUN_CLI_PARAMS ={
     platformName: {
         alias: 'p',
-        description: 'the platform the performance test should run in (e.g. "Windows 10")',
-        default: 'Windows 10'
+        description: 'the platform the performance test should run in (e.g. "macOS 10.14")',
+        default: 'macOS 10.14'
     },
     browserVersion: {
         alias: 'v',
