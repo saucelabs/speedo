@@ -79,6 +79,70 @@ Speedo allow you to assert on the following performance metrics:
 - pageWeight
 - pageWeightEncoded
 
+#### Parameters
+
+To get the whole list of command options for the `run` command call `speedo run -h`.
+
+##### `--platformName` (short: `-p`)
+
+Define the platform the performance test should run in (e.g "Windows 10").
+
+_default:_ `"Windows 10"`
+
+##### `--browserVersion` (short: `-v`)
+
+Define the browser version of Chrome the performance test should run in (e.g. "latest").
+
+_default:_ `74`
+
+##### `--build` (short: `-b`)
+
+Provide the name of the build you want to run your performance test in.
+
+##### `--name` (short: `-n`)
+
+Define the name of your performance test.
+
+_default:_ `"Performance test for <your-site-url> (on "Good 3G" and 4x CPU throttling)"`
+
+##### `--metric` (short: `-m`)
+
+Define the metric that you want to check (multiple possible). Available performance metrics are `estimatedInputLatency`, `timeToFirstByte`, `domContentLoaded`, `firstVisualChange`, `firstPaint`, `firstContentfulPaint`, `firstMeaningfulPaint`, `lastVisualChange`, `firstCPUIdle`, `firstInteractive`, `load`, `speedIndex`, `score`.
+
+_default:_ `"score"` ([Lighthouse Performance Score](https://developers.google.com/web/tools/lighthouse/scoring))
+
+##### `--all`
+
+Assert on all available metrics (ignores what is being set as `metric` parameter).
+
+_default:_ `false`
+
+##### `--throttleNetwork`
+
+Throttle network speed for your test (e.g. "Good 3G"). Available throttling profiles are: `offline`, `GPRS`, `Regular 2G`, `Good 2G`, `Regular 3G`, `Good 3G`, `Regular 4G`, `DSL`, `Wifi`, `online`.
+
+_default:_ `"Good 3G"`
+
+##### `--throttleCpu`
+
+Throttle CPU speed for your test (e.g. "4" for 1/4 speed).
+
+_default:_ `4`
+
+##### `--retry`
+
+Rerun failing performance tests.
+
+_default:_ `0`
+
+##### `--tunnelIdentifier` (short: `-i`)
+
+Define the identifier for Sauce Connect tunnel to run performance tests for local hosted app
+
+##### `--parentTunnel`
+
+Define the username of your parent account that is running Sauce Connect tunnel.
+
 ### Analyze Tests
 
 Speedo provides also a way to analyze the performance of page loads of a previous run test. This allows you to run a beforehand that includes different automation steps to arrive to a desired page (e.g. you want to test the performance of a page that is behind a login). __Please Note:__ do __not__ analyze the performance of all your previous run functional tests! You always should keep functional and performance tests separated.
@@ -125,6 +189,30 @@ node /test/performance/login.perf.test.js && sleep 5 && speedo analyze "my login
 ```
 
 The command requires passing in the job name of the performance test. With the `orderIndex` parameter you can define which page load needs to be analyzed. If not passed in, it will analyze all page loads which can make tests more flaky. Similar to `run` you can apply more parameters to this command. See the full list by calling `$ speedo analyze --help`.
+
+#### Parameters
+
+To get the whole list of command options for the `run` command call `speedo analyze -h`.
+
+##### `--orderIndex` (short: `-o`)
+
+Define the order index of the page you have opened in that test. For example, if set to 0 you analyze the first page load, if set to 2 you want to analyze the 3rd page load.
+
+##### `--pageUrl` (short: `-p`)
+
+Define the url of the page you have opened in that test (ignores `--orderIndex` parameter).
+
+##### `--metric` (short: `-m`)
+
+Define the metric that you want to check (multiple possible). Available performance metrics are `estimatedInputLatency`, `timeToFirstByte`, `domContentLoaded`, `firstVisualChange`, `firstPaint`, `firstContentfulPaint`, `firstMeaningfulPaint`, `lastVisualChange`, `firstCPUIdle`, `firstInteractive`, `load`, `speedIndex`, `score`.
+
+_default:_ `"score"` ([Lighthouse Performance Score](https://developers.google.com/web/tools/lighthouse/scoring))
+
+##### `--all`
+
+Assert on all available metrics (ignores what is being set as `metric` parameter).
+
+_default:_ `false`
 
 ## Docker Integration
 

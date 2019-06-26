@@ -126,11 +126,11 @@ export const RUN_CLI_PARAMS ={
 export const ANALYZE_CLI_PARAMS = {
     orderIndex: {
         alias: 'o',
-        description: 'number of page you have opened in that test (requires to specify a test name with -n)'
+        description: 'number of page you have opened in that test'
     },
     pageUrl: {
         alias: 'p',
-        description: 'url of page in the test you want to analyze (requires to specify a test name with -n)'
+        description: 'url of page in the test you want to analyze'
     },
     metric: METRIC_PARAM,
     all: ALL_PARAM
