@@ -213,3 +213,14 @@ export const analyzeReport = function (jobResult, metrics, /* istanbul ignore ne
 
     log(table(data), `👀 Check out job at ${jobResult.url}\n`)
 }
+
+export const startTunnel = async function (user, { tunnelIdentifier, parentTunnel }) {
+    if (!tunnelIdentifier || parentTunnel) {
+        return process.exit(0)
+    }
+
+    const tunnelIds = await user.listTunnels(user.username)
+    const tunnels = await Promise.all(tunnelIds.map((id) => user.getTunnel(user.username, id)))
+    console.log(tunnels)
+    process.exit(0)
+}

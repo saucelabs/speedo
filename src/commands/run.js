@@ -10,7 +10,8 @@ import changeCase from 'change-case'
 import runPerformanceTest from '../runner'
 import {
     printResult, waitFor, getMetricParams, getJobUrl,
-    getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark
+    getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark,
+    startTunnel
 } from '../utils'
 import { ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT, RUN_CLI_PARAMS } from '../constants'
 
@@ -35,7 +36,7 @@ export const handler = async (argv) => {
         return process.exit(1)
     }
 
-    const status = ora(`Start performance test run with user ${username} on page ${argv.site}...`).start()
+    const status = ora(`Start!! performance test run with user ${username} on page ${argv.site}...`).start()
 
     const logDir = argv.logDir
         ? path.resolve(process.cwd(), argv.logDir)
@@ -64,6 +65,11 @@ export const handler = async (argv) => {
         status.fail(`Couldn't fetch job: ${e.stack}`)
         return process.exit(1)
     }
+
+    /**
+     * start Sauce Connect if not done by user
+     */
+    await startTunnel(user, argv)
 
     /**
      * create baseline if not enough tests have been executed
