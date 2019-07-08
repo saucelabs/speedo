@@ -1,6 +1,9 @@
+import path from 'path'
 import chalk from 'chalk'
 import { table } from 'table'
+import { promisify } from 'util'
 import prettyMs from 'pretty-ms'
+import launchTunnel from 'sauce-connect-launcher'
 
 import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS, NETWORK_CONDITIONS } from './constants'
 
@@ -8,6 +11,8 @@ import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS, NET
  * disable colors in tests
  */
 const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
+
+const SAUCE_CONNECT_LOG_FILENAME = 'speedo-sauce-connect.log'
 
 const sanitizeMetric = function (metric, value) {
     if (metric === 'score') {
@@ -214,13 +219,29 @@ export const analyzeReport = function (jobResult, metrics, /* istanbul ignore ne
     log(table(data), `👀 Check out job at ${jobResult.url}\n`)
 }
 
-export const startTunnel = async function (user, { tunnelIdentifier, parentTunnel }) {
-    if (!tunnelIdentifier || parentTunnel) {
-        return process.exit(0)
-    }
-
+export const startTunnel = async function (user, accessKey, logDir, { tunnelIdentifier, parentTunnel }) {
+    const username = user.username
     const tunnelIds = await user.listTunnels(user.username)
     const tunnels = await Promise.all(tunnelIds.map((id) => user.getTunnel(user.username, id)))
-    console.log(tunnels)
-    process.exit(0)
+
+    const runningTunnel = tunnels.find(
+        (tunnel) => [tunnelIdentifier, parentTunnel].includes(tunnel.tunnel_identifier))
+
+    /**
+     * exit if we find tunnel
+     */
+    if (runningTunnel) {
+        return
+    }
+
+    /**
+     * start Sauce Connect tunnel
+     */
+    return promisify(launchTunnel)({
+        username,
+        accessKey,
+        proxy: process.env.HTTPS_PROXY || process.env.HTTP_PROXY,
+        logfile: path.join(logDir, SAUCE_CONNECT_LOG_FILENAME),
+        tunnelIdentifier
+    })
 }

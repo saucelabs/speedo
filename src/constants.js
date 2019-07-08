@@ -82,7 +82,7 @@ export const RUN_CLI_PARAMS ={
     browserVersion: {
         alias: 'v',
         description: 'the browser version of Chrome the performance test should run in (e.g. "74")',
-        default: '74'
+        default: 'latest'
     },
     build: {
         alias: 'b',

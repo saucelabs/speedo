@@ -100,6 +100,7 @@
     "ora": "^3.4.0",
     "ordinal": "^1.0.3",
     "pretty-ms": "^4.0.0",
+    "sauce-connect-launcher": "^1.2.7",
     "saucelabs": "^2.1.9",
     "table": "^5.4.1",
     "tmp": "^0.1.0",

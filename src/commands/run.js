@@ -36,7 +36,7 @@ export const handler = async (argv) => {
         return process.exit(1)
     }
 
-    const status = ora(`Start!! performance test run with user ${username} on page ${argv.site}...`).start()
+    const status = ora(`Start performance test run with user ${username} on page ${argv.site}...`).start()
 
     const logDir = argv.logDir
         ? path.resolve(process.cwd(), argv.logDir)
@@ -69,7 +69,22 @@ export const handler = async (argv) => {
     /**
      * start Sauce Connect if not done by user
      */
-    await startTunnel(user, argv)
+    let tunnelProcess
+    if (argv.tunnelIdentifier) {
+        status.start(`Checking for Sauce Connect tunnel with identifier "${argv.tunnelIdentifier}"`)
+        try {
+            tunnelProcess = await startTunnel(user, accessKey, logDir, argv, status)
+
+            if (tunnelProcess) {
+                status.text = `Started Sauce Connect tunnel with identifier "${argv.tunnelIdentifier}"`
+            }
+
+            status.succeed()
+        } catch (err) {
+            status.fail(`Problem setting up Sauce Connect: ${err.stack}`)
+            return process.exit(1)
+        }
+    }
 
     /**
      * create baseline if not enough tests have been executed
@@ -198,6 +213,17 @@ export const handler = async (argv) => {
     } catch (e) {
         status.fail(`Couldn't update job due to: ${e.stack}`)
         status.stopAndPersist({ text: 'continuing ...' })
+    }
+
+    /**
+     * stop tunnel if one was created in the beginning
+     */
+    if (tunnelProcess) {
+        status.start('Stopping Sauce Connect tunnel...')
+        await new Promise((resolve) => tunnelProcess.close(() => {
+            status.succeed()
+            resolve()
+        }))
     }
 
     status.stopAndPersist({
