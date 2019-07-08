@@ -14,7 +14,8 @@ test('runPerformanceTest', async () => {
             region: 'eu',
             platformName: 'Playstation',
             browserVersion: 123,
-            tunnelIdentifier: 'foobar'
+            tunnelIdentifier: 'foobar',
+            site: 'http://localhost:8080'
         },
         'testname',
         'buildname',
@@ -25,6 +26,7 @@ test('runPerformanceTest', async () => {
     expect(remote.mock.calls).toMatchSnapshot()
     expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(1)
     expect((await remote()).execute).toHaveBeenCalledTimes(3)
+    expect((await remote()).url).toBeCalledWith('http://0.0.0.0:8080')
 })
 
 test('runPerformanceTest w/ parentTunnel', async () => {
@@ -36,7 +38,8 @@ test('runPerformanceTest w/ parentTunnel', async () => {
             platformName: 'Playstation',
             browserVersion: 123,
             tunnelIdentifier: 'foobar',
-            parentTunnel: 'foobaz'
+            parentTunnel: 'foobaz',
+            site: 'https://saucelabs.com'
         },
         'testname',
         'buildname',
@@ -47,13 +50,14 @@ test('runPerformanceTest w/ parentTunnel', async () => {
     expect(remote.mock.calls).toMatchSnapshot()
     expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(1)
     expect((await remote()).execute).toHaveBeenCalledTimes(3)
+    expect((await remote()).url).toBeCalledWith('https://saucelabs.com')
 })
 
 test('runPerformanceTest without args', async () => {
     const result = await runPerformanceTest(
         'myuser',
         'mykey',
-        {},
+        { site: 'https://saucelabs.com' },
         'testname',
         'buildname',
         '/some/dir'
@@ -79,7 +83,8 @@ test('runPerformanceTest reruns if log command fails', async () => {
             region: 'eu',
             platformName: 'Playstation',
             browserVersion: 123,
-            tunnelIdentifier: 'foobar'
+            tunnelIdentifier: 'foobar',
+            site: 'https://saucelabs.com'
         },
         'testname',
         'buildname',
@@ -94,7 +99,8 @@ test('runPerformanceTest throws anyway if assertPerformance continues to fail', 
 
     try {
         await runPerformanceTest(
-            // overwrite driver mock (see webdriverio mock)
+            // I know, this is not a user object but we abuse this in
+            // order overwrite driver mock (see webdriverio mock)
             {
                 assertPerformance: jest.fn()
                     .mockReturnValueOnce(Promise.reject(new Error('boom')))
@@ -108,7 +114,8 @@ test('runPerformanceTest throws anyway if assertPerformance continues to fail', 
                 region: 'eu',
                 platformName: 'Playstation',
                 browserVersion: 123,
-                tunnelIdentifier: 'foobar'
+                tunnelIdentifier: 'foobar',
+                site: 'https://saucelabs.com'
             },
             'testname',
             'buildname',
@@ -126,7 +133,8 @@ test('runPerformanceTest should not call commands if no throttling is applied', 
         'mykey',
         {
             throttleCpu: 0,
-            throttleNetwork: 'online'
+            throttleNetwork: 'online',
+            site: 'https://saucelabs.com'
         },
         'testname',
         'buildname',

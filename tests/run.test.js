@@ -4,7 +4,7 @@ import { fixtures, lastInstance, resetSauceLabsFixtures } from 'saucelabs'
 
 import { handler } from '../src/commands/run'
 import runPerformanceTest from '../src/runner'
-import { waitFor, getMetricParams, getJobUrl } from '../src/utils'
+import { waitFor, getMetricParams, getJobUrl, startTunnel } from '../src/utils'
 
 jest.mock('../src/runner')
 jest.mock('../src/utils')
@@ -126,6 +126,50 @@ test('should run successfully', async () => {
     expect(process.exit).toBeCalledWith(0)
     expect(ora().start.mock.calls).toMatchSnapshot()
     expect(ora().stopAndPersist.mock.calls).toMatchSnapshot()
+})
+
+test.only('should run successfully with tunnels', async () => {
+    const opts = {
+        user: 'foo',
+        key: 'bar',
+        site: 'mypage',
+        metric: ['load', 'speedIndex'],
+        tunnelIdentifier: 'foobar'
+    }
+    const tunnelMock = {
+        close: jest.fn().mockImplementation((cb) => setTimeout(cb, 100))
+    }
+    startTunnel.mockReturnValue(Promise.resolve(tunnelMock))
+
+    await handler(opts)
+    expect(process.exit).toBeCalledWith(0)
+    expect(startTunnel).toBeCalledWith(
+        expect.any(Object),
+        'bar',
+        '/some/tmpDir',
+        opts,
+        expect.any(Object)
+    )
+    expect(tunnelMock.close).toBeCalledTimes(1)
+    startTunnel.mockClear()
+})
+
+test.only('should not close tunnel if none was started', async () => {
+    const tunnelMock = {
+        close: jest.fn().mockImplementation((cb) => setTimeout(cb, 100))
+    }
+    startTunnel.mockReturnValue(Promise.resolve(null))
+
+    await handler({
+        user: 'foo',
+        key: 'bar',
+        site: 'mypage',
+        metric: ['load', 'speedIndex'],
+        tunnelIdentifier: 'foobar'
+    })
+    expect(process.exit).toBeCalledWith(0)
+    expect(startTunnel).toBeCalledTimes(1)
+    expect(tunnelMock.close).toBeCalledTimes(0)
 })
 
 test('should fail build if performance test fails', async () => {

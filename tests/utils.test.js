@@ -1,7 +1,11 @@
+import SauceLabs from 'saucelabs'
+import launchTunnel from 'sauce-connect-launcher'
+
 import performanceResults from './__fixtures__/performance.json'
 import {
     printResult, waitFor, getMetricParams, getThrottleNetworkParam,
-    getJobUrl, analyzeReport, getJobName, getDeviceClassFromBenchmark
+    getJobUrl, analyzeReport, getJobName, getDeviceClassFromBenchmark,
+    startTunnel
 } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
@@ -127,4 +131,30 @@ test('getDeviceClassFromBenchmark', () => {
     expect(getDeviceClassFromBenchmark(500)).toBe('high-end mobile phone')
     expect(getDeviceClassFromBenchmark(150)).toBe('mid-tier mobile phone')
     expect(getDeviceClassFromBenchmark(15)).toBe('budget mobile phone')
+})
+
+test('startTunnel should not need to start tunnel if tunnel exists', async () => {
+    const user = new SauceLabs()
+    await startTunnel(user, 'accessKey', '/foo/bar', {
+        tunnelIdentifier: 'foobar'
+    })
+    expect(user.listTunnels).toBeCalledTimes(1)
+    expect(user.getTunnel).toBeCalledTimes(2) // listTunnels returns 2 mocks
+    expect(launchTunnel).toBeCalledTimes(0)
+})
+
+test('start tunnel actually starts tunnel of not existing', async () => {
+    const user = new SauceLabs({ username: 'my-user' })
+    await startTunnel(user, 'accessKey', '/foo/bar', {
+        tunnelIdentifier: 'does-not-exist'
+    })
+    expect(user.listTunnels).toBeCalledTimes(1)
+    expect(user.getTunnel).toBeCalledTimes(2) // listTunnels returns 2 mocks
+    expect(launchTunnel).toBeCalledWith({
+        accessKey: 'accessKey',
+        logfile: '/foo/bar/speedo-sauce-connect.log',
+        proxy: undefined,
+        tunnelIdentifier: 'does-not-exist',
+        username: 'my-user'
+    }, expect.any(Function))
 })

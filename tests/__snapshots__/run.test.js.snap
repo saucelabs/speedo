@@ -46,6 +46,55 @@ Array [
 ]
 `;
 
+exports[`should run successfully with tunnels 1`] = `
+Array [
+  Array [],
+  Array [
+    "Checking for Sauce Connect tunnel with identifier \\"foobar\\"",
+  ],
+  Array [
+    "Run performance test...",
+  ],
+  Array [
+    "Wait for job to finish...",
+  ],
+  Array [
+    "Download performance logs...",
+  ],
+  Array [
+    "Updating job status...",
+  ],
+]
+`;
+
+exports[`should run successfully with tunnels 2`] = `
+Array [
+  Array [
+    Object {
+      "symbol": "📃",
+      "text": "Stored performance logs in /some/tmpDir",
+    },
+  ],
+  Array [
+    Object {
+      "symbol": "⚙️ ",
+      "text": "Runtime settings:
+- Network Throttling: undefined
+- CPU Throttling: undefinedx
+- CPU/Memory Power: 1234 (undefined)
+- User Agent: chrome
+",
+    },
+  ],
+  Array [
+    Object {
+      "symbol": "👀",
+      "text": "Check out job at https://saucelabs.com/performance/foobar/0",
+    },
+  ],
+]
+`;
+
 exports[`should store tracelogs if path provided 1`] = `
 Array [
   Array [
