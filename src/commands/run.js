@@ -13,7 +13,10 @@ import {
     getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark,
     startTunnel
 } from '../utils'
-import { ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT, RUN_CLI_PARAMS } from '../constants'
+import {
+    ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT,
+    RUN_CLI_PARAMS, TUNNEL_SHUTDOWN_TIMEOUT
+} from '../constants'
 
 export const command = 'run [params...] <site>'
 export const desc = 'Run performance tests on any website.'
@@ -220,10 +223,14 @@ export const handler = async (argv) => {
      */
     if (tunnelProcess) {
         status.start('Stopping Sauce Connect tunnel...')
-        await new Promise((resolve) => tunnelProcess.close(() => {
-            status.succeed()
-            resolve()
-        }))
+        await new Promise((resolve) => {
+            const shutdownTimeout = setTimeout(resolve, TUNNEL_SHUTDOWN_TIMEOUT)
+            return tunnelProcess.close(() => {
+                clearTimeout(shutdownTimeout)
+                status.succeed()
+                resolve()
+            })
+        })
     }
 
     status.stopAndPersist({

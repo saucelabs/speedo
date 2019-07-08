@@ -128,7 +128,7 @@ test('should run successfully', async () => {
     expect(ora().stopAndPersist.mock.calls).toMatchSnapshot()
 })
 
-test.only('should run successfully with tunnels', async () => {
+test('should run successfully with tunnels', async () => {
     const opts = {
         user: 'foo',
         key: 'bar',
@@ -154,7 +154,7 @@ test.only('should run successfully with tunnels', async () => {
     startTunnel.mockClear()
 })
 
-test.only('should not close tunnel if none was started', async () => {
+test('should not close tunnel if none was started', async () => {
     const tunnelMock = {
         close: jest.fn().mockImplementation((cb) => setTimeout(cb, 100))
     }
