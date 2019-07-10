@@ -154,6 +154,21 @@ test('should run successfully with tunnels', async () => {
     startTunnel.mockClear()
 })
 
+test('should fail if tunnel can not be started', async () => {
+    const opts = {
+        user: 'foo',
+        key: 'bar',
+        site: 'mypage',
+        metric: ['load', 'speedIndex'],
+        tunnelIdentifier: 'foobar'
+    }
+    startTunnel.mockReturnValue(Promise.reject(new Error('ups')))
+    await handler(opts)
+    expect(ora().fail.mock.calls.pop()[0]).toContain('Problem setting up Sauce Connect')
+    expect(process.exit).toBeCalledWith(1)
+    startTunnel.mockClear()
+})
+
 test('should not close tunnel if none was started', async () => {
     const tunnelMock = {
         close: jest.fn().mockImplementation((cb) => setTimeout(cb, 100))
