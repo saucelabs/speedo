@@ -76,7 +76,7 @@ export const handler = async (argv) => {
     if (argv.tunnelIdentifier) {
         status.start(`Checking for Sauce Connect tunnel with identifier "${argv.tunnelIdentifier}"`)
         try {
-            tunnelProcess = await startTunnel(user, accessKey, logDir, argv, status)
+            tunnelProcess = await startTunnel(user, accessKey, logDir, argv.tunnelIdentifier)
 
             if (tunnelProcess) {
                 status.text = `Started Sauce Connect tunnel with identifier "${argv.tunnelIdentifier}"`

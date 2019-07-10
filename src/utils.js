@@ -219,13 +219,23 @@ export const analyzeReport = function (jobResult, metrics, /* istanbul ignore ne
     log(table(data), `👀 Check out job at ${jobResult.url}\n`)
 }
 
-export const startTunnel = async function (user, accessKey, logDir, { tunnelIdentifier, parentTunnel }) {
+/**
+ * identifies whether a SC tunnel is already running and starts one if not
+ *
+ * @param  {Object} user             instance of API client
+ * @param  {String} accessKey        access key of user
+ * @param  {String} logDir           log directory
+ * @param  {String} tunnelIdentifier tunnel identifier to use
+ * @return {Promise|null}            null if tunnel is already running or the
+ *                                   child process object of the started tunnel
+ */
+export const startTunnel = async function (user, accessKey, logDir, tunnelIdentifier) {
     const username = user.username
     const tunnelIds = await user.listTunnels(user.username)
     const tunnels = await Promise.all(tunnelIds.map((id) => user.getTunnel(user.username, id)))
 
     const runningTunnel = tunnels.find(
-        (tunnel) => [tunnelIdentifier, parentTunnel].includes(tunnel.tunnel_identifier))
+        (tunnel) => tunnelIdentifier === tunnel.tunnel_identifier)
 
     /**
      * exit if we find tunnel
