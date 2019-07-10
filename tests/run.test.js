@@ -8,6 +8,10 @@ import { waitFor, getMetricParams, getJobUrl, startTunnel } from '../src/utils'
 
 jest.mock('../src/runner')
 jest.mock('../src/utils')
+jest.mock('../src/constants', () => ({
+    TUNNEL_SHUTDOWN_TIMEOUT: 100,
+    REQUIRED_TESTS_FOR_BASELINE_COUNT: 10
+}))
 jest.mock('fs')
 
 beforeEach(() => {
@@ -46,8 +50,15 @@ test('fails when jobs can not be fetched', async () => {
 })
 
 test('should create a new baseline if run with no jobs', async () => {
+    const opts = {
+        user: 'foo',
+        key: 'bar',
+        site: 'mypage',
+        metric: ['load', 'speedIndex'],
+        name: 'foobar'
+    }
     fixtures.listJobs = { jobs: [] }
-    await handler({ user: 'foo', key: 'bar', site: 'mypage', metric: ['load', 'speedIndex'], 'name': 'foobar' })
+    await handler(opts)
     expect(process.exit).toBeCalledWith(0)
     expect(ora().start)
         .toBeCalledWith('Couldn\'t find baseline for job with name "undefined", creating baseline...')
@@ -150,7 +161,6 @@ test('should run successfully with tunnels', async () => {
         opts.tunnelIdentifier
     )
     expect(tunnelMock.close).toBeCalledTimes(1)
-    startTunnel.mockClear()
 })
 
 test('should fail if tunnel can not be started', async () => {
@@ -165,7 +175,6 @@ test('should fail if tunnel can not be started', async () => {
     await handler(opts)
     expect(ora().fail.mock.calls.pop()[0]).toContain('Problem setting up Sauce Connect')
     expect(process.exit).toBeCalledWith(1)
-    startTunnel.mockClear()
 })
 
 test('should not close tunnel if none was started', async () => {
@@ -186,6 +195,24 @@ test('should not close tunnel if none was started', async () => {
     expect(tunnelMock.close).toBeCalledTimes(0)
 })
 
+test('should warn if tunnel can not be closed', async () => {
+    const tunnelMock = { close: jest.fn() }
+    startTunnel.mockReturnValue(Promise.resolve(tunnelMock))
+
+    await handler({
+        user: 'foo',
+        key: 'bar',
+        site: 'mypage',
+        metric: ['load', 'speedIndex'],
+        tunnelIdentifier: 'foobar'
+    })
+    expect(process.exit).toBeCalledWith(0)
+    expect(startTunnel).toBeCalledTimes(1)
+    expect(tunnelMock.close).toBeCalledTimes(1)
+    expect(ora().warn.mock.calls[0][0])
+        .toContain('Sauce Connect shutdown timedout')
+})
+
 test('should fail build if performance test fails', async () => {
     runPerformanceTest.mockImplementation(() => ({
         sessionId: 'foobar123',
@@ -200,8 +227,10 @@ test('should fail build if performance test fails', async () => {
 afterEach(() => {
     process.exit.mockRestore()
     ora.mockClear()
+    startTunnel.mockClear()
     ora().fail.mockClear()
     ora().start.mockClear()
     ora().stopAndPersist.mockClear()
+    ora().warn.mockClear()
     resetSauceLabsFixtures()
 })

@@ -224,7 +224,11 @@ export const handler = async (argv) => {
     if (tunnelProcess) {
         status.start('Stopping Sauce Connect tunnel...')
         await new Promise((resolve) => {
-            const shutdownTimeout = setTimeout(resolve, TUNNEL_SHUTDOWN_TIMEOUT)
+            const shutdownTimeout = setTimeout(() => {
+                status.warn('Sauce Connect shutdown timedout, you may still have tunnels lingering around')
+                return resolve()
+            }, TUNNEL_SHUTDOWN_TIMEOUT)
+
             return tunnelProcess.close(() => {
                 clearTimeout(shutdownTimeout)
                 status.succeed()
