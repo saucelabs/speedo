@@ -147,8 +147,7 @@ test('should run successfully with tunnels', async () => {
         expect.any(Object),
         'bar',
         '/some/tmpDir',
-        opts,
-        expect.any(Object)
+        opts.tunnelIdentifier
     )
     expect(tunnelMock.close).toBeCalledTimes(1)
     startTunnel.mockClear()
