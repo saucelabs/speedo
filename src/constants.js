@@ -82,7 +82,7 @@ export const RUN_CLI_PARAMS ={
     browserVersion: {
         alias: 'v',
         description: 'the browser version of Chrome the performance test should run in (e.g. "74")',
-        default: '74'
+        default: 'latest'
     },
     build: {
         alias: 'b',
@@ -144,3 +144,4 @@ provide them as parameter`
 export const REQUIRED_TESTS_FOR_BASELINE_COUNT = 10
 export const JOB_COMPLETED_TIMEOUT = 20000
 export const JOB_COMPLETED_INTERVAL = 1000
+export const TUNNEL_SHUTDOWN_TIMEOUT = 5000

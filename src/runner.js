@@ -74,8 +74,15 @@ export default async function runPerformanceTest (username, accessKey, argv, nam
 
     /**
      * open page
+     *
+     * if user is running with a Sauce Connect tunnel and tries to open
+     * a localhost page we have to modify it to be 0.0.0.0 otherwise the
+     * page won't be accessible
      */
-    await browser.url(site)
+    await browser.url(tunnelIdentifier
+        ? site.replace('localhost', '0.0.0.0')
+        : site
+    )
 
     try {
         /**

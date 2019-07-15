@@ -1,9 +1,9 @@
-FROM mhart/alpine-node:10.15.0
+FROM node:10.16.0
 
 WORKDIR /speedo
 ADD . /speedo
 
-RUN npm install
+RUN SAUCE_CONNECT_DOWNLOAD_ON_INSTALL=true npm install
 RUN npm run build
 
 ENV PATH $PATH:/speedo/bin

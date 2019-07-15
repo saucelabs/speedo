@@ -10,9 +10,13 @@ import changeCase from 'change-case'
 import runPerformanceTest from '../runner'
 import {
     printResult, waitFor, getMetricParams, getJobUrl,
-    getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark
+    getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark,
+    startTunnel
 } from '../utils'
-import { ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT, RUN_CLI_PARAMS } from '../constants'
+import {
+    ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT,
+    RUN_CLI_PARAMS, TUNNEL_SHUTDOWN_TIMEOUT
+} from '../constants'
 
 export const command = 'run [params...] <site>'
 export const desc = 'Run performance tests on any website.'
@@ -63,6 +67,26 @@ export const handler = async (argv) => {
     } catch (e) {
         status.fail(`Couldn't fetch job: ${e.stack}`)
         return process.exit(1)
+    }
+
+    /**
+     * start Sauce Connect if not done by user
+     */
+    let tunnelProcess
+    if (argv.tunnelIdentifier) {
+        status.start(`Checking for Sauce Connect tunnel with identifier "${argv.tunnelIdentifier}"`)
+        try {
+            tunnelProcess = await startTunnel(user, accessKey, logDir, argv.tunnelIdentifier)
+
+            if (tunnelProcess) {
+                status.text = `Started Sauce Connect tunnel with identifier "${argv.tunnelIdentifier}"`
+            }
+
+            status.succeed()
+        } catch (err) {
+            status.fail(`Problem setting up Sauce Connect: ${err.stack}`)
+            return process.exit(1)
+        }
     }
 
     /**
@@ -192,6 +216,25 @@ export const handler = async (argv) => {
     } catch (e) {
         status.fail(`Couldn't update job due to: ${e.stack}`)
         status.stopAndPersist({ text: 'continuing ...' })
+    }
+
+    /**
+     * stop tunnel if one was created in the beginning
+     */
+    if (tunnelProcess) {
+        status.start('Stopping Sauce Connect tunnel...')
+        await new Promise((resolve) => {
+            const shutdownTimeout = setTimeout(() => {
+                status.warn('Sauce Connect shutdown timedout, you may still have tunnels lingering around')
+                return resolve()
+            }, TUNNEL_SHUTDOWN_TIMEOUT)
+
+            return tunnelProcess.close(() => {
+                clearTimeout(shutdownTimeout)
+                status.succeed()
+                resolve()
+            })
+        })
     }
 
     status.stopAndPersist({
