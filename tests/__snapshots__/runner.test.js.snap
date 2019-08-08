@@ -32,7 +32,7 @@ Array [
         "sauce:options": Object {
           "build": "buildname",
           "capturePerformance": true,
-          "crmuxdriverVersion": "beta",
+          "crmuxdriverVersion": "stable",
           "extendedDebugging": true,
           "name": "testname",
           "seleniumVersion": "3.141.59",
@@ -81,7 +81,7 @@ Array [
         "sauce:options": Object {
           "build": "buildname",
           "capturePerformance": true,
-          "crmuxdriverVersion": "beta",
+          "crmuxdriverVersion": "stable",
           "extendedDebugging": true,
           "name": "testname",
           "parentTunnel": "foobaz",
@@ -131,7 +131,7 @@ Array [
         "sauce:options": Object {
           "build": "buildname",
           "capturePerformance": true,
-          "crmuxdriverVersion": "beta",
+          "crmuxdriverVersion": "stable",
           "extendedDebugging": true,
           "name": "testname",
           "seleniumVersion": "3.141.59",
