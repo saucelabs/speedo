@@ -17,7 +17,7 @@ const MAX_RETRIES = 3
  * @param  {String} logDir     path to directory to store logs
  * @return {Object}            containing result and detail information of performance test
  */
-export default async function runPerformanceTest(username, accessKey, argv, name, build, logDir, retryCnt = 0, crmuxdriverVersion = stable) {
+export default async function runPerformanceTest(username, accessKey, argv, name, build, logDir, retryCnt = 0, crmuxdriverVersion = 'stable') {
     const { site, platformName, browserVersion, tunnelIdentifier, parentTunnel } = argv
     const metrics = getMetricParams(argv)
     const networkCondition = getThrottleNetworkParam(argv)
