@@ -15,7 +15,8 @@ test('runPerformanceTest', async () => {
             platformName: 'Playstation',
             browserVersion: 123,
             tunnelIdentifier: 'foobar',
-            site: 'http://localhost:8080'
+            site: 'http://localhost:8080',
+            crmuxdriverVersion: 'stable'
         },
         'testname',
         'buildname',
@@ -39,7 +40,8 @@ test('runPerformanceTest w/ parentTunnel', async () => {
             browserVersion: 123,
             tunnelIdentifier: 'foobar',
             parentTunnel: 'foobaz',
-            site: 'https://saucelabs.com'
+            site: 'https://saucelabs.com',
+            crmuxdriverVersion: 'foobar'
         },
         'testname',
         'buildname',
