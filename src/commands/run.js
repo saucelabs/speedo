@@ -28,7 +28,7 @@ export const handler = async (argv) => {
     const jobName = getJobName(argv)
     const buildName = argv.build || `${jobName} - ${(new Date()).toString()}`
     const metrics = getMetricParams(argv)
-    const crmuxdriverVersion = argv.crmuxdriverVersion || 'stable'
+
     /**
      * check if username and access key are available
      */
@@ -97,7 +97,7 @@ export const handler = async (argv) => {
 
         const testCnt = REQUIRED_TESTS_FOR_BASELINE_COUNT - job.jobs.length
         await Promise.all([...Array(testCnt)].map(
-            () => runPerformanceTest(username, accessKey, argv, jobName, undefined, logDir, crmuxdriverVersion)))
+            () => runPerformanceTest(username, accessKey, argv, jobName, undefined, logDir)))
         status.succeed()
     }
 
@@ -106,7 +106,7 @@ export const handler = async (argv) => {
      */
     status.start('Run performance test...')
     let { result, sessionId, benchmark, userAgent } = await runPerformanceTest(
-        username, accessKey, argv, jobName, buildName, logDir, crmuxdriverVersion)
+        username, accessKey, argv, jobName, buildName, logDir)
 
     /**
      * retry performance test
@@ -118,7 +118,7 @@ export const handler = async (argv) => {
             status.text = `Run performance test (${ordinal(retry)} retry)...`
 
             const retriedResult = await runPerformanceTest(
-                username, accessKey, argv, jobName, buildName, logDir, crmuxdriverVersion)
+                username, accessKey, argv, jobName, buildName, logDir)
 
             result = retriedResult.result
             sessionId = retriedResult.sessionId

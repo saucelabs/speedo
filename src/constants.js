@@ -120,6 +120,12 @@ export const RUN_CLI_PARAMS ={
     },
     parentTunnel: {
         description: 'username of parent running Sauce Connect tunnel'
+    },
+    crmuxdriverVersion: {
+        alias: 'c',
+        default: 'stable',
+        description: 'Sauce Labs internal driver version (don\'t modify this if you don\'t know what you are doing)',
+        hidden: true
     }
 }
 
