@@ -57,7 +57,7 @@ test('runPerformanceTest w/ parentTunnel', async () => {
 })
 
 test('runPerformanceTest w/ mobile emulation', async () => {
-    const result = await runPerformanceTest(
+    await runPerformanceTest(
         'myuser',
         'mykey',
         {
