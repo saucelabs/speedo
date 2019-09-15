@@ -119,7 +119,7 @@ _default:_ `false`
 
 ##### `--throttleNetwork`
 
-Throttle network speed for your test (e.g. "Good 3G"). Available throttling profiles are: `offline`, `GPRS`, `Regular 2G`, `Good 2G`, `Regular 3G`, `Good 3G`, `Regular 4G`, `DSL`, `Wifi`, `online`.
+Throttle network speed for your test (e.g. "Good 3G"). Available throttling profiles are: `offline`, `GPRS`, `Regular 2G`, `Good 2G`, `Regular 3G`, `Good 3G`, `Regular 4G`, `DSL`, `Wifi`, `online`. You can also define your custom network profile by providing 3 with comma separated numbers for download (_kb/s_), upload (_kb/s_) and latency (_ms_), e.g. `1000,500,40`.
 
 _default:_ `"Good 3G"`
 
