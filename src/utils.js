@@ -1,3 +1,4 @@
+import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
 import { table } from 'table'
@@ -5,7 +6,10 @@ import { promisify } from 'util'
 import prettyMs from 'pretty-ms'
 import launchTunnel from 'sauce-connect-launcher'
 
-import { JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS, NETWORK_CONDITIONS } from './constants'
+import {
+    JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS,
+    NETWORK_CONDITIONS, DEFAULT_CONFIG_NAME
+} from './constants'
 
 /**
  * disable colors in tests
@@ -254,4 +258,27 @@ export const startTunnel = async function (user, accessKey, logDir, tunnelIdenti
         logfile: path.join(logDir, SAUCE_CONNECT_LOG_FILENAME),
         tunnelIdentifier
     })
+}
+
+/**
+ * load config or read from parameters
+ * @param  {Object} argv                   parameter object
+ * @param  {Function} [requireFn=require]  require method (only for testing purposes)
+ * @return {Object}                        config object
+ */
+export const getConfig = (argv, requireFn = require) => {
+    const configFilePath = path.resolve(process.cwd(), argv.config || DEFAULT_CONFIG_NAME)
+
+    if (!fs.existsSync(configFilePath)) {
+        return argv
+    }
+
+    try {
+        const config = requireFn(configFilePath)
+        return Object.assign({}, argv, config)
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(`Couldn't load config: ${e.message}`)
+        return argv
+    }
 }

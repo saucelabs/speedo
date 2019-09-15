@@ -147,6 +147,7 @@ Your Sauce credentials are missing!
 Either set 'SAUCE_USERNAME' and 'SAUCE_ACCESS_KEY' in your environment or
 provide them as parameter`
 
+export const DEFAULT_CONFIG_NAME = 'speedo.config.js'
 export const REQUIRED_TESTS_FOR_BASELINE_COUNT = 10
 export const JOB_COMPLETED_TIMEOUT = 20000
 export const JOB_COMPLETED_INTERVAL = 1000
