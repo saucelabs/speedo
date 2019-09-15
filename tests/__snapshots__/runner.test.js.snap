@@ -49,6 +49,32 @@ Array [
 ]
 `;
 
+exports[`runPerformanceTest w/ mobile emulation 1`] = `
+Array [
+  Array [
+    "sauce:debug",
+    Object {
+      "method": "Emulation.setUserAgentOverride",
+      "params": Object {
+        "userAgent": "Mozilla/5.0 (Linux; Android 7.1.1; Nexus 6 Build/N6F26U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3765.0 Mobile Safari/537.36",
+      },
+    },
+  ],
+  Array [
+    "sauce:debug",
+    Object {
+      "method": "Emulation.setDeviceMetricsOverride",
+      "params": Object {
+        "deviceScaleFactor": 3.5,
+        "height": 732,
+        "mobile": true,
+        "width": 412,
+      },
+    },
+  ],
+]
+`;
+
 exports[`runPerformanceTest w/ parentTunnel 1`] = `
 Object {
   "benchmark": undefined,
