@@ -130,6 +130,15 @@ export const getMetricParams = function (argv) {
  * @param  {Object}   argv cli params
  */
 export const getThrottleNetworkParam = function (argv) {
+    /**
+     * check if custom capabilities were set
+     */
+    const throttleParams = (argv.throttleNetwork || '').match(/^(\d+),(\d+),(\d+)$/)
+    if (throttleParams) {
+        const [download, upload, latency] = throttleParams.slice(1, 4).map((val) => parseInt(val, 10))
+        return { download, upload, latency }
+    }
+
     const networkCondition = argv.throttleNetwork || 'Good 3G'
     if (!NETWORK_CONDITIONS.includes(networkCondition)) {
         throw new Error(
@@ -163,8 +172,11 @@ export const getJobName = function (argv) {
         return argv.name
     }
 
-    const networkCondition = getThrottleNetworkParam(argv)
-    return `Performance test for ${argv.site} (on "${networkCondition}" and ${argv.throttleCpu}x CPU throttling)`
+    const networkParam = getThrottleNetworkParam(argv)
+    const networkCondition = typeof networkParam === 'string'
+        ? `"${networkParam}"`
+        : 'a custom network profile'
+    return `Performance test for ${argv.site} (on ${networkCondition} and ${argv.throttleCpu}x CPU throttling)`
 }
 
 /**

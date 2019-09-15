@@ -100,11 +100,13 @@ test('getMetricParams', () => {
 
 test('getThrottleNetworkParam', () => {
     expect(getThrottleNetworkParam({}))
-        .toEqual('Good 3G')
+        .toBe('Good 3G')
     expect(getThrottleNetworkParam({ throttleNetwork: 'Regular 3G' }))
-        .toEqual('Regular 3G')
+        .toBe('Regular 3G')
     expect(() => getThrottleNetworkParam({ throttleNetwork: 'invalidNetworkCondition' }))
         .toThrow()
+    expect(getThrottleNetworkParam({ throttleNetwork: '123,456,789' }))
+        .toEqual({ download: 123, upload: 456, latency: 789 })
 })
 
 test('getJobUrl', () => {
@@ -123,7 +125,10 @@ test('analyzeReport', () => {
 })
 
 test('getJobName', () => {
-    expect(getJobName({ throttleCpu: 123 })).toBe('Performance test for undefined (on "Good 3G" and 123x CPU throttling)')
+    expect(getJobName({ throttleCpu: 123 }))
+        .toBe('Performance test for undefined (on "Good 3G" and 123x CPU throttling)')
+    expect(getJobName({ throttleCpu: 123, throttleNetwork: '111,222,333' }))
+        .toBe('Performance test for undefined (on a custom network profile and 123x CPU throttling)')
     expect(getJobName({ name: 'foobar' })).toBe('foobar')
 })
 
