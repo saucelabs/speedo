@@ -11,7 +11,7 @@ import runPerformanceTest from '../runner'
 import {
     printResult, waitFor, getMetricParams, getJobUrl,
     getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark,
-    startTunnel,
+    startTunnel, getConfig
 } from '../utils'
 import {
     ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT,
@@ -23,11 +23,12 @@ export const desc = 'Run performance tests on any website.'
 export const builder = RUN_CLI_PARAMS
 
 export const handler = async (argv) => {
-    const username = argv.user || process.env.SAUCE_USERNAME
-    const accessKey = argv.key || process.env.SAUCE_ACCESS_KEY
-    const jobName = getJobName(argv)
-    const buildName = argv.build || `${jobName} - ${(new Date()).toString()}`
-    const metrics = getMetricParams(argv)
+    const config = getConfig(argv)
+    const username = config.user || process.env.SAUCE_USERNAME
+    const accessKey = config.key || process.env.SAUCE_ACCESS_KEY
+    const jobName = getJobName(config)
+    const buildName = config.build || `${jobName} - ${(new Date()).toString()}`
+    const metrics = getMetricParams(config)
 
     /**
      * check if username and access key are available
@@ -39,10 +40,10 @@ export const handler = async (argv) => {
         return process.exit(1)
     }
 
-    const status = ora(`Start performance test run with user ${username} on page ${argv.site}...`).start()
+    const status = ora(`Start performance test run with user ${username} on page ${config.site}...`).start()
 
-    const logDir = argv.logDir
-        ? path.resolve(process.cwd(), argv.logDir)
+    const logDir = config.logDir
+        ? path.resolve(process.cwd(), config.logDir)
         : tmp.dirSync().name
 
     /**
@@ -51,7 +52,7 @@ export const handler = async (argv) => {
     const user = new SauceLabs({
         user: username,
         key: accessKey,
-        region: argv.region
+        region: config.region
     })
 
     /**
@@ -73,13 +74,13 @@ export const handler = async (argv) => {
      * start Sauce Connect if not done by user
      */
     let tunnelProcess
-    if (argv.tunnelIdentifier) {
-        status.start(`Checking for Sauce Connect tunnel with identifier "${argv.tunnelIdentifier}"`)
+    if (config.tunnelIdentifier) {
+        status.start(`Checking for Sauce Connect tunnel with identifier "${config.tunnelIdentifier}"`)
         try {
-            tunnelProcess = await startTunnel(user, accessKey, logDir, argv.tunnelIdentifier)
+            tunnelProcess = await startTunnel(user, accessKey, logDir, config.tunnelIdentifier)
 
             if (tunnelProcess) {
-                status.text = `Started Sauce Connect tunnel with identifier "${argv.tunnelIdentifier}"`
+                status.text = `Started Sauce Connect tunnel with identifier "${config.tunnelIdentifier}"`
             }
 
             status.succeed()
@@ -97,7 +98,7 @@ export const handler = async (argv) => {
 
         const testCnt = REQUIRED_TESTS_FOR_BASELINE_COUNT - job.jobs.length
         await Promise.all([...Array(testCnt)].map(
-            () => runPerformanceTest(username, accessKey, argv, jobName, undefined, logDir)))
+            () => runPerformanceTest(username, accessKey, config, jobName, undefined, logDir)))
         status.succeed()
     }
 
@@ -106,19 +107,19 @@ export const handler = async (argv) => {
      */
     status.start('Run performance test...')
     let { result, sessionId, benchmark, userAgent } = await runPerformanceTest(
-        username, accessKey, argv, jobName, buildName, logDir)
+        username, accessKey, config, jobName, buildName, logDir)
 
     /**
      * retry performance test
      */
     const retriedJobs = []
-    if (result.result !== 'pass' && argv.retry) {
-        for (let retry = 1; retry <= argv.retry; ++retry) {
+    if (result.result !== 'pass' && config.retry) {
+        for (let retry = 1; retry <= config.retry; ++retry) {
             retriedJobs.push(sessionId)
             status.text = `Run performance test (${ordinal(retry)} retry)...`
 
             const retriedResult = await runPerformanceTest(
-                username, accessKey, argv, jobName, buildName, logDir)
+                username, accessKey, config, jobName, buildName, logDir)
 
             result = retriedResult.result
             sessionId = retriedResult.sessionId
@@ -190,7 +191,7 @@ export const handler = async (argv) => {
     /**
      * download trace file if requested
      */
-    if (argv.traceLogs) {
+    if (config.traceLogs) {
         status.start('Download trace logs...')
 
         const loaderId = performanceLog[0].loaderId
@@ -242,12 +243,12 @@ export const handler = async (argv) => {
         symbol: '📃'
     })
 
-    printResult(result, performanceLog[0], metrics, argv)
+    printResult(result, performanceLog[0], metrics, config)
 
-    const networkCondition = getThrottleNetworkParam(argv)
+    const networkCondition = getThrottleNetworkParam(config)
     const runtimeSettings = [
         `- Network Throttling: ${networkCondition}`,
-        `- CPU Throttling: ${argv.throttleCpu}x`,
+        `- CPU Throttling: ${config.throttleCpu}x`,
         `- CPU/Memory Power: ${benchmark} (${getDeviceClassFromBenchmark(benchmark)})`,
         `- User Agent: ${userAgent}`
     ]
@@ -257,7 +258,7 @@ export const handler = async (argv) => {
     })
 
     status.stopAndPersist({
-        text: `Check out job at ${getJobUrl(argv, sessionId)}`,
+        text: `Check out job at ${getJobUrl(config, sessionId)}`,
         symbol: '👀'
     })
 
@@ -267,7 +268,7 @@ export const handler = async (argv) => {
     if (retriedJobs.length) {
         console.log( // eslint-disable-line no-console
             '\nFailed Performance Tests that were rerun:\n' +
-            retriedJobs.map(id => getJobUrl(argv, id)).join('\n')
+            retriedJobs.map(id => getJobUrl(config, id)).join('\n')
         )
     }
 

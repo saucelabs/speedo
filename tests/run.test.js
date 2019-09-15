@@ -4,7 +4,7 @@ import { fixtures, lastInstance, resetSauceLabsFixtures } from 'saucelabs'
 
 import { handler } from '../src/commands/run'
 import runPerformanceTest from '../src/runner'
-import { waitFor, getMetricParams, getJobUrl, startTunnel } from '../src/utils'
+import { waitFor, getMetricParams, getJobUrl, startTunnel, getConfig } from '../src/utils'
 
 jest.mock('../src/runner')
 jest.mock('../src/utils')
@@ -19,6 +19,7 @@ beforeEach(() => {
     delete process.env.SAUCE_USERNAME
     delete process.env.SAUCE_ACCESS_KEY
 
+    getConfig.mockImplementation((argv) => argv)
     getMetricParams.mockImplementation(() => ['speedIndex', 'pageWeight'])
     getJobUrl.mockImplementation(() => 'https://saucelabs.com/performance/foobar/0')
     waitFor.mockImplementation((condition) => condition())
