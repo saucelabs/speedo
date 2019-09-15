@@ -14,6 +14,7 @@ test('runPerformanceTest', async () => {
             region: 'eu',
             platformName: 'Playstation',
             browserVersion: 123,
+            device: 'desktop',
             tunnelIdentifier: 'foobar',
             site: 'http://localhost:8080',
             crmuxdriverVersion: 'stable'
@@ -53,6 +54,20 @@ test('runPerformanceTest w/ parentTunnel', async () => {
     expect((await remote()).throttleNetwork).toHaveBeenCalledTimes(1)
     expect((await remote()).execute).toHaveBeenCalledTimes(3)
     expect((await remote()).url).toBeCalledWith('https://saucelabs.com')
+})
+
+test('runPerformanceTest w/ mobile emulation', async () => {
+    await runPerformanceTest(
+        'myuser',
+        'mykey',
+        {
+            device: 'Nexus 6'
+        },
+        'testname',
+        'buildname',
+        '/some/dir'
+    )
+    expect((await remote()).execute.mock.calls.slice(0, 2)).toMatchSnapshot()
 })
 
 test('runPerformanceTest without args', async () => {
