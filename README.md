@@ -129,6 +129,12 @@ Throttle CPU speed for your test (e.g. "4" for 1/4 speed).
 
 _default:_ `4`
 
+##### `--device`
+
+If set, the provided mobile device is emulated. You can choose between the following preconfigured device profiles: `Blackberry PlayBook`, `BlackBerry Z30`, `Galaxy Note 3`, `Galaxy Note II`, `Galaxy S III`, `Galaxy S5`, `iPad`, `iPad Mini`, `iPad Pro`, `iPhone 4`, `iPhone 5`, `iPhone 6`, `iPhone 6 Plus`, `iPhone 7`, `iPhone 7 Plus`, `iPhone 8`, `iPhone 8 Plus`, `iPhone SE`, `iPhone X`, `iPhone XR`, `JioPhone 2`, `Kindle Fire HDX`, `LG Optimus L70`, `Microsoft Lumia 550`, `Microsoft Lumia 950`, `Nexus 10`, `Nexus 4`, `Nexus 5`, `Nexus 5X`, `Nexus 6`, `Nexus 6P`, `Nexus 7`, `Nokia Lumia 520`, `Nokia N9`, `Pixel 2`, `Pixel 2 XL`. If you don't want to emulate a mobile device set `desktop`.
+
+_default:_ `Nexus 7`
+
 ##### `--retry`
 
 Rerun failing performance tests.

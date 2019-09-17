@@ -1,8 +1,9 @@
 import { remote } from 'webdriverio'
 
-import { getMetricParams, getThrottleNetworkParam } from './utils'
 import ultradumbBenchmarkScript from './scripts/benchmark'
 import userAgentScript from './scripts/userAgent'
+import { getMetricParams, getThrottleNetworkParam } from './utils'
+import { MOBILE_DEVICES } from './constants'
 
 const MAX_RETRIES = 3
 
@@ -54,6 +55,22 @@ export default async function runPerformanceTest(username, accessKey, argv, name
     })
 
     const sessionId = browser.sessionId
+
+    /**
+     * emulate mobile device
+     */
+    if (MOBILE_DEVICES[argv.device]) {
+        const { userAgent, viewport } = MOBILE_DEVICES[argv.device]
+        await browser.execute('sauce:debug', {
+            method: 'Emulation.setUserAgentOverride',
+            params: { userAgent }
+        })
+
+        await browser.execute('sauce:debug', {
+            method: 'Emulation.setDeviceMetricsOverride',
+            params: viewport
+        })
+    }
 
     /**
      * throttle network
