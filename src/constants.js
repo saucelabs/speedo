@@ -74,6 +74,11 @@ export const COMMON_CLI_PARAMS = [{
 }]
 
 export const RUN_CLI_PARAMS ={
+    config: {
+        alias: 'c',
+        description: 'path to Speedo config file to read parameters from',
+        default: './speedo.config.js'
+    },
     platformName: {
         alias: 'p',
         description: 'the platform the performance test should run in (e.g. "Windows 10")',
@@ -127,7 +132,6 @@ export const RUN_CLI_PARAMS ={
         description: 'username of parent running Sauce Connect tunnel'
     },
     crmuxdriverVersion: {
-        alias: 'c',
         default: 'stable',
         description: 'Sauce Labs internal driver version (don\'t modify this if you don\'t know what you are doing)',
         hidden: true
@@ -152,6 +156,7 @@ Your Sauce credentials are missing!
 Either set 'SAUCE_USERNAME' and 'SAUCE_ACCESS_KEY' in your environment or
 provide them as parameter`
 
+export const DEFAULT_CONFIG_NAME = 'speedo.config.js'
 export const REQUIRED_TESTS_FOR_BASELINE_COUNT = 10
 export const JOB_COMPLETED_TIMEOUT = 20000
 export const JOB_COMPLETED_INTERVAL = 1000

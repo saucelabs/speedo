@@ -1,3 +1,4 @@
+import path from 'path'
 import SauceLabs from 'saucelabs'
 import launchTunnel from 'sauce-connect-launcher'
 
@@ -5,7 +6,7 @@ import performanceResults from './__fixtures__/performance.json'
 import {
     printResult, waitFor, getMetricParams, getThrottleNetworkParam,
     getJobUrl, analyzeReport, getJobName, getDeviceClassFromBenchmark,
-    startTunnel
+    startTunnel, getConfig
 } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
@@ -158,4 +159,27 @@ test('start tunnel actually starts tunnel of not existing', async () => {
         tunnelIdentifier: 'does-not-exist',
         username: 'my-user'
     }, expect.any(Function))
+})
+
+test('getConfig', () => {
+    const argv = {
+        build: 'barfoo',
+        name: 'foobar'
+    }
+    expect(getConfig(argv)).toEqual(argv)
+
+    const borkedConfigPath = path.resolve(__dirname, '__fixtures__', 'borked.config.js')
+    const log = ::console.error // eslint-disable-line no-console
+    console.error = jest.fn() // eslint-disable-line no-console
+    expect(getConfig({ config: borkedConfigPath }))
+        .toEqual({ config: borkedConfigPath })
+    expect(console.error).toBeCalledTimes(1) // eslint-disable-line no-console
+    console.error = log // eslint-disable-line no-console
+
+    const correctConfig = path.resolve(__dirname, '__fixtures__', 'speedo.config.js')
+    expect(getConfig({ config: correctConfig })).toEqual({
+        config: correctConfig,
+        name: 'from config file',
+        retry: 2
+    })
 })
