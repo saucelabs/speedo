@@ -58,7 +58,6 @@ export default async function runPerformanceTest(username, accessKey, argv, name
         }
     })
 
-
     const sessionId = browser.sessionId
 
     /**
