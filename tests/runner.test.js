@@ -2,6 +2,9 @@ import { remote } from 'webdriverio'
 
 import runPerformanceTest from '../src/runner'
 
+jest.mock('webdriver/package.json', () => ({ version: '5.13.1' }))
+jest.mock('../package.json', () => ({ version: '1.1.1' }))
+
 beforeEach(async () => {
     jest.clearAllMocks()
 })

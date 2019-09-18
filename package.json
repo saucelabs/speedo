@@ -104,7 +104,7 @@
     "saucelabs": "^2.1.9",
     "table": "^5.4.1",
     "tmp": "^0.1.0",
-    "webdriverio": "^5.10.8",
+    "webdriverio": "^5.13.1",
     "yargs": "^13.2.4"
   }
 }
