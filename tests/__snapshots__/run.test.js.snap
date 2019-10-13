@@ -43,6 +43,12 @@ Array [
       "text": "Check out job at https://saucelabs.com/performance/foobar/0",
     },
   ],
+  Array [
+    Object {
+      "symbol": "📔",
+      "text": "Check out Lighthouse Report at https://eds.us-west-1.saucelabs.com/foobar/performance/barfoo/lhr.html",
+    },
+  ],
 ]
 `;
 

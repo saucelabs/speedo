@@ -11,7 +11,7 @@ import runPerformanceTest from '../runner'
 import {
     printResult, waitFor, getMetricParams, getJobUrl,
     getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark,
-    startTunnel, getConfig
+    startTunnel, getConfig, getLigthouseReportUrl
 } from '../utils'
 import {
     ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT,
@@ -191,10 +191,9 @@ export const handler = async (argv) => {
     /**
      * download trace file if requested
      */
+    const loaderId = performanceLog[0].loaderId
     if (config.traceLogs) {
         status.start('Download trace logs...')
-
-        const loaderId = performanceLog[0].loaderId
         try {
             await user.downloadJobAsset(
                 sessionId,
@@ -260,6 +259,11 @@ export const handler = async (argv) => {
     status.stopAndPersist({
         text: `Check out job at ${getJobUrl(config, sessionId)}`,
         symbol: '👀'
+    })
+
+    status.stopAndPersist({
+        text: `Check out Lighthouse Report at ${getLigthouseReportUrl(config, sessionId, loaderId)}`,
+        symbol: '📔'
     })
 
     /**
