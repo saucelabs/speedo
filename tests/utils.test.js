@@ -6,7 +6,7 @@ import performanceResults from './__fixtures__/performance.json'
 import {
     printResult, waitFor, getMetricParams, getThrottleNetworkParam,
     getJobUrl, analyzeReport, getJobName, getDeviceClassFromBenchmark,
-    startTunnel, getConfig
+    startTunnel, getConfig, getLigthouseReportUrl
 } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
@@ -116,6 +116,15 @@ test('getJobUrl', () => {
         .toEqual('https://app.eu-central-1.saucelabs.com/performance/foobar/0')
     expect(getJobUrl({ region: 'what?' }, 'foobar'))
         .toEqual('https://app.saucelabs.com/performance/foobar/0')
+})
+
+test('getLigthouseReportUrl', () => {
+    expect(getLigthouseReportUrl({}, 'foobar', 'barfoo'))
+        .toEqual('https://eds.us-west-1.saucelabs.com/foobar/performance/barfoo/lhr.html')
+    expect(getLigthouseReportUrl({ region: 'eu' }, 'foobar', 'barfoo'))
+        .toEqual('https://eds.eu-central-1.saucelabs.com/foobar/performance/barfoo/lhr.html')
+    expect(getLigthouseReportUrl({ region: 'what?' }, 'foobar', 'barfoo'))
+        .toEqual('https://eds.us-west-1.saucelabs.com/foobar/performance/barfoo/lhr.html')
 })
 
 test('analyzeReport', () => {

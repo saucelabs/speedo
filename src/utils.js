@@ -191,6 +191,18 @@ export const getJobUrl = function (argv, sessionId) {
 }
 
 /**
+ * get url of Lighthouse Report
+ * @param  {Object} argv      cli params
+ * @param  {String} sessionId of test
+ * @param  {String} loaderId  id of page load
+ * @return {String}           url of lhr
+ */
+export const getLigthouseReportUrl = function (argv, sessionId, loaderId) {
+    const hostname = (!argv.region || !argv.region.includes('eu') ? 'us-west-1.' : 'eu-central-1.') + 'saucelabs.com'
+    return `https://eds.${hostname}/${sessionId}/performance/${loaderId}/lhr.html`
+}
+
+/**
  * print results of cli analyze command
  * @param  {Object}   jobResult         performance data
  * @param  {String[]} metrics           asserted metrices

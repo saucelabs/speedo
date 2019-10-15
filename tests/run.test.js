@@ -4,7 +4,7 @@ import { fixtures, lastInstance, resetSauceLabsFixtures } from 'saucelabs'
 
 import { handler } from '../src/commands/run'
 import runPerformanceTest from '../src/runner'
-import { waitFor, getMetricParams, getJobUrl, startTunnel, getConfig } from '../src/utils'
+import { waitFor, getMetricParams, getJobUrl, startTunnel, getConfig, getLigthouseReportUrl } from '../src/utils'
 
 jest.mock('../src/runner')
 jest.mock('../src/utils')
@@ -22,6 +22,7 @@ beforeEach(() => {
     getConfig.mockImplementation((argv) => argv)
     getMetricParams.mockImplementation(() => ['speedIndex', 'pageWeight'])
     getJobUrl.mockImplementation(() => 'https://saucelabs.com/performance/foobar/0')
+    getLigthouseReportUrl.mockImplementation(() => 'https://eds.us-west-1.saucelabs.com/foobar/performance/barfoo/lhr.html')
     waitFor.mockImplementation((condition) => condition())
     runPerformanceTest.mockImplementation(() => ({
         sessionId: 'foobar123',
