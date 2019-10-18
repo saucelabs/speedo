@@ -157,8 +157,7 @@ Define the username of your parent account that is running Sauce Connect tunnel.
 
 ##### `performanceBudget`
 
-Define metrics threshold in `speedo.config.js` file to strictly assert metrics value against a performance budget using `analyze` command. It will assert on metrics which is declared in performanceBudget (ignores what is being set as `metric` parameter).
-minimum and maximum threshold can be set as shown in below example.
+Provide metrics threshold values as `performanceBudget` in `speedo.config.js` file to strictly assert metrics value against a performance budget using `analyze` command. It will assert on metrics which is declared in performanceBudget (ignores what is being set as `metric` parameter). `minimum` and `maximum` threshold can be set as shown in below example.
 
 i.e.
 ```js
