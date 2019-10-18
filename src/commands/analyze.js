@@ -2,7 +2,7 @@ import ora from 'ora'
 import yargs from 'yargs'
 import SauceLabs from 'saucelabs'
 
-import { getMetricParams, getJobUrl, analyzeReport, waitFor } from '../utils'
+import { getMetricParams, getJobUrl, analyzeReport, waitFor, getConfig, prepareBudgetData } from '../utils'
 import {
     ERROR_MISSING_CREDENTIALS, ANALYZE_CLI_PARAMS, PERFORMANCE_METRICS
 } from '../constants'
@@ -14,7 +14,9 @@ export const builder = ANALYZE_CLI_PARAMS
 export const handler = async (argv) => {
     const username = argv.user || process.env.SAUCE_USERNAME
     const accessKey = argv.key || process.env.SAUCE_ACCESS_KEY
-    const metrics = getMetricParams(argv)
+    const config = getConfig(argv)
+    const performanceBudget = config ? config.performanceBudget : null
+    const metrics = performanceBudget ? Object.keys(performanceBudget) : getMetricParams(argv, performanceBudget)
 
     /**
      * check if username and access key are available
@@ -99,10 +101,12 @@ export const handler = async (argv) => {
 
         for (const pageLoadMetric of performanceMetrics.items) {
             const results = {}
-            const baselineHistory = await user.getBaselineHistory(job.id, {
-                metricNames: PERFORMANCE_METRICS,
-                orderIndex: pageLoadMetric.order_index
-            })
+            const baselineHistory = performanceBudget ?
+                prepareBudgetData(performanceBudget) :
+                await user.getBaselineHistory(job.id, {
+                    metricNames: PERFORMANCE_METRICS,
+                    orderIndex: pageLoadMetric.order_index
+                })
 
             for (const [metricName, baseline] of Object.entries(baselineHistory)) {
                 const capturedValue = pageLoadMetric.metric_data[metricName]
