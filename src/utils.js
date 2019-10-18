@@ -315,8 +315,8 @@ export const prepareBudgetData = (performanceBudget) => (
     Object.entries(performanceBudget).reduce((acc, [metric, budget]) => ({
         ...acc,
         [metric]: [{
-            l: Array.isArray(budget) ? budget[0] : 0,
-            u: Array.isArray(budget) ? budget[1] : budget
+            l: Array.isArray(budget) && budget.length > 1 ? budget[0] : 0,
+            u: Array.isArray(budget) ? (budget.length > 1 ? budget[1] : budget[0]) : budget
         }]
     }), {})
 )
