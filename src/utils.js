@@ -311,7 +311,8 @@ export const getConfig = (argv, requireFn = require) => {
 }
 
 /**
- * prepare budget data to compare with captured metrics values
+ * prepare budget data to compare with captured metrics values,
+ * it prepares data same as baseline response
  * @param  {Object}
  */
 export const prepareBudgetData = (budget) => (
