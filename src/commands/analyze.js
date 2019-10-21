@@ -107,7 +107,6 @@ export const handler = async (argv) => {
                     metricNames: PERFORMANCE_METRICS,
                     orderIndex: pageLoadMetric.order_index
                 })
-
             for (const [metricName, baseline] of Object.entries(baselineHistory)) {
                 const capturedValue = pageLoadMetric.metric_data[metricName]
                 const result = {
