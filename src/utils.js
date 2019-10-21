@@ -23,7 +23,7 @@ const sanitizeMetric = function (metric, value) {
         return Math.round(value * 100) + '/100'
     }
 
-    return prettyMs(value)
+    return value ? prettyMs(value) : value
 }
 
 /**
@@ -60,7 +60,10 @@ export const printResult = function (result, performanceLog, metrics, argv, /* i
 
     const resultDetails = []
     for (const [metric, { actual, lowerLimit, upperLimit }] of Object.entries(result.details)) {
-        resultDetails.push(`Expected ${metric} to be between ${sanitizeMetric(metric, lowerLimit)} and ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}`)
+        resultDetails.push(!lowerLimit ?
+            `Expected ${metric} to be within performance budget of max ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}` :
+            `Expected ${metric} to be between ${sanitizeMetric(metric, lowerLimit)} and ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}`
+        )
     }
 
     if (result.result === 'pass') {
@@ -309,10 +312,10 @@ export const getConfig = (argv, requireFn = require) => {
 
 /**
  * prepare budget data to compare with captured metrics values
- * @param  {Object}   argv cli params
+ * @param  {Object}
  */
-export const prepareBudgetData = (performanceBudget) => (
-    Object.entries(performanceBudget).reduce((acc, [metric, budget]) => ({
+export const prepareBudgetData = (budget) => (
+    Object.entries(budget).reduce((acc, [metric, budget]) => ({
         ...acc,
         [metric]: [{
             l: Array.isArray(budget) && budget.length > 1 ? budget[0] : 0,

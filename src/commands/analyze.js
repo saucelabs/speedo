@@ -15,8 +15,8 @@ export const handler = async (argv) => {
     const username = argv.user || process.env.SAUCE_USERNAME
     const accessKey = argv.key || process.env.SAUCE_ACCESS_KEY
     const config = getConfig(argv)
-    const performanceBudget = config ? config.performanceBudget : null
-    const metrics = performanceBudget ? Object.keys(performanceBudget) : getMetricParams(argv, performanceBudget)
+    const budget = config ? config.budget : null
+    const metrics = budget ? Object.keys(budget) : getMetricParams(argv, budget)
 
     /**
      * check if username and access key are available
@@ -101,8 +101,8 @@ export const handler = async (argv) => {
 
         for (const pageLoadMetric of performanceMetrics.items) {
             const results = {}
-            const baselineHistory = performanceBudget ?
-                prepareBudgetData(performanceBudget) :
+            const baselineHistory = budget ?
+                prepareBudgetData(budget) :
                 await user.getBaselineHistory(job.id, {
                     metricNames: PERFORMANCE_METRICS,
                     orderIndex: pageLoadMetric.order_index
