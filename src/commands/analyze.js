@@ -2,7 +2,10 @@ import ora from 'ora'
 import yargs from 'yargs'
 import SauceLabs from 'saucelabs'
 
-import { getMetricParams, getJobUrl, analyzeReport, waitFor, getConfig, prepareBudgetData } from '../utils'
+import {
+    getMetricParams, getJobUrl, analyzeReport, waitFor,
+    getConfig, prepareBudgetData, getBudgetMetrics,
+} from '../utils'
 import {
     ERROR_MISSING_CREDENTIALS, ANALYZE_CLI_PARAMS, PERFORMANCE_METRICS
 } from '../constants'
@@ -16,7 +19,7 @@ export const handler = async (argv) => {
     const accessKey = argv.key || process.env.SAUCE_ACCESS_KEY
     const config = getConfig(argv)
     const budget = config ? config.budget : null
-    const metrics = budget ? Object.keys(budget) : getMetricParams(argv, budget)
+    const metrics = budget ? getBudgetMetrics(budget) : getMetricParams(argv, budget)
 
     /**
      * check if username and access key are available

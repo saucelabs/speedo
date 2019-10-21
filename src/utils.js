@@ -129,6 +129,23 @@ export const getMetricParams = function (argv) {
 }
 
 /**
+ * validate and return budget metrics
+ * @param  {Object}   argv cli params
+ * @return {String[]}      list of provided metrics if valid otherwise throws an error
+ */
+export const getBudgetMetrics = function (budget) {
+    const budgetMetrics = Object.keys(budget)
+    const invalidMetrics = budgetMetrics.filter((m) => !PERFORMANCE_METRICS.includes(m))
+    if (invalidMetrics.length) {
+        throw new Error(
+            `You've provided invalid metrics in budget: ${invalidMetrics.join(', ')}; ` +
+            `only the following metrics are available: ${PERFORMANCE_METRICS.join(', ')}`)
+    }
+
+    return budgetMetrics
+}
+
+/**
  * validate throttleNetwork param
  * @param  {Object}   argv cli params
  */

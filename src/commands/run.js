@@ -11,7 +11,7 @@ import runPerformanceTest from '../runner'
 import {
     printResult, waitFor, getMetricParams, getJobUrl,
     getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark,
-    startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData
+    startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData, getBudgetMetrics
 } from '../utils'
 import {
     ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT,
@@ -29,7 +29,7 @@ export const handler = async (argv) => {
     const jobName = getJobName(config)
     const buildName = config.build || `${jobName} - ${(new Date()).toString()}`
     const budget = config ? config.budget : null
-    const metrics = budget ? Object.keys(budget) : getMetricParams(config)
+    const metrics = budget ? getBudgetMetrics(budget) : getMetricParams(config)
 
     /**
      * check if username and access key are available
@@ -252,9 +252,7 @@ export const handler = async (argv) => {
         for (const [metric, [{ l: lowerLimit, u: upperLimit }]] of Object.entries(preparedBudget)) {
             const actual = performanceLog[0].metrics[metric]
             /**
-             * don't fail if:
-             * - metric is within budget
-             * - we don't care about this metric
+             * don't fail if - metric is within budget
              */
             if (actual <= upperLimit && actual >= lowerLimit) {
                 continue

@@ -5,7 +5,7 @@ import { fixtures, lastInstance, resetSauceLabsFixtures } from 'saucelabs'
 import { handler } from '../src/commands/run'
 import runPerformanceTest from '../src/runner'
 import {
-    waitFor, getMetricParams, getJobUrl, startTunnel,
+    waitFor, getMetricParams, getJobUrl, startTunnel, getBudgetMetrics,
     getConfig, getLigthouseReportUrl, prepareBudgetData, printResult
 } from '../src/utils'
 
@@ -40,6 +40,7 @@ beforeEach(() => {
         load: [{ l: 0, u: 2000 }],
         speedIndex: [{ l: 1000, u: 1500 }]
     }))
+    getBudgetMetrics.mockImplementation((budget) => Object.keys(budget))
 })
 
 test('run should fail if no auth is provided', async () => {
@@ -275,4 +276,5 @@ afterEach(() => {
     resetSauceLabsFixtures()
     printResult.mockClear()
     prepareBudgetData.mockClear()
+    getBudgetMetrics.mockClear()
 })

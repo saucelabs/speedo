@@ -4,7 +4,10 @@ import { fixtures, resetSauceLabsFixtures } from 'saucelabs'
 
 import { handler } from '../src/commands/analyze'
 import runPerformanceTest from '../src/runner'
-import { waitFor, getMetricParams, getJobUrl, analyzeReport, getConfig, prepareBudgetData } from '../src/utils'
+import {
+    waitFor, getMetricParams, getJobUrl, analyzeReport,
+    getConfig, prepareBudgetData, getBudgetMetrics,
+} from '../src/utils'
 import { PERFORMANCE_METRICS_FAILING, PERFORMANCE_METRICS_MULTIPLE } from './__fixtures__/performance'
 
 jest.mock('../src/runner')
@@ -29,6 +32,7 @@ beforeEach(() => {
         load: [{ l: 0, u: 2000 }],
         speedIndex: [{ l: 1000, u: 1500 }]
     }))
+    getBudgetMetrics.mockImplementation((budget) => Object.keys(budget))
 })
 
 test('run should fail if no auth is provided', async () => {
@@ -152,4 +156,5 @@ afterEach(() => {
     getConfig.mockClear()
     prepareBudgetData.mockClear()
     analyzeReport.mockClear()
+    getBudgetMetrics.mockClear()
 })

@@ -170,8 +170,6 @@ module.exports = {
 }
 ```
 
-in above example if `load` metric value is greater t
-
 #### Run Speedo with a Config File
 
 As mentioned above Speedo looks for a `speedo.config.js` in the directory where you run the command. In this file you can define all parameters for your performance test run. Additional command line arguments will overwrite the parameters from the config, e.g.:

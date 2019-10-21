@@ -6,7 +6,7 @@ import performanceResults from './__fixtures__/performance.json'
 import {
     printResult, waitFor, getMetricParams, getThrottleNetworkParam,
     getJobUrl, analyzeReport, getJobName, getDeviceClassFromBenchmark,
-    startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData,
+    startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData, getBudgetMetrics,
 } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
@@ -210,4 +210,29 @@ test('prepareBudgetData', () => {
     }
 
     expect(prepareBudgetData(performanceBudget)).toMatchSnapshot()
+})
+
+test('getBudgetMetrics', () => {
+    const performanceBudget = {
+        estimatedInputLatency: 20,
+        timeToFirstByte: [50, 100], 
+        domContentLoaded: [200, 300],
+        firstVisualChange: 100,
+        firstPaint: 300,
+        firstContentfulPaint: 300,
+        firstMeaningfulPaint: 300, 
+        lastVisualChange: 400, 
+        firstCPUIdle: 400,   
+        firstInteractive: 400,
+        load: [50, 500],
+        speedIndex: [100, 500],
+    }
+
+    expect(getBudgetMetrics(performanceBudget)).toMatchSnapshot()
+    try {
+        getBudgetMetrics({ foo: 20 })
+        expect(true).toBe(false)
+    } catch (error) {
+        expect(error.message).toMatchSnapshot()
+    }
 })
