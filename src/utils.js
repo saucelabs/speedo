@@ -23,7 +23,7 @@ const sanitizeMetric = function (metric, value) {
         return Math.round(value * 100) + '/100'
     }
 
-    return prettyMs(value)
+    return value ? prettyMs(value) : value
 }
 
 /**
@@ -60,7 +60,10 @@ export const printResult = function (result, performanceLog, metrics, argv, /* i
 
     const resultDetails = []
     for (const [metric, { actual, lowerLimit, upperLimit }] of Object.entries(result.details)) {
-        resultDetails.push(`Expected ${metric} to be between ${sanitizeMetric(metric, lowerLimit)} and ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}`)
+        resultDetails.push(!lowerLimit ?
+            `Expected ${metric} to be within performance budget of max ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}` :
+            `Expected ${metric} to be between ${sanitizeMetric(metric, lowerLimit)} and ${sanitizeMetric(metric, upperLimit)} but was actually ${sanitizeMetric(metric, actual)}`
+        )
     }
 
     if (result.result === 'pass') {
@@ -123,6 +126,23 @@ export const getMetricParams = function (argv) {
     }
 
     return metrics
+}
+
+/**
+ * validate and return budget metrics
+ * @param  {Object}   argv cli params
+ * @return {String[]}      list of provided metrics if valid otherwise throws an error
+ */
+export const getBudgetMetrics = function (budget) {
+    const budgetMetrics = Object.keys(budget)
+    const invalidMetrics = budgetMetrics.filter((m) => !PERFORMANCE_METRICS.includes(m))
+    if (invalidMetrics.length) {
+        throw new Error(
+            `You've provided invalid metrics in budget: ${invalidMetrics.join(', ')}; ` +
+            `only the following metrics are available: ${PERFORMANCE_METRICS.join(', ')}`)
+    }
+
+    return budgetMetrics
 }
 
 /**
@@ -306,3 +326,18 @@ export const getConfig = (argv, requireFn = require) => {
         return argv
     }
 }
+
+/**
+ * prepare budget data to compare with captured metrics values,
+ * it prepares data same as baseline response
+ * @param  {Object}
+ */
+export const prepareBudgetData = (budget) => (
+    Object.entries(budget).reduce((acc, [metric, budget]) => ({
+        ...acc,
+        [metric]: [{
+            l: Array.isArray(budget) && budget.length > 1 ? budget[0] : 0,
+            u: Array.isArray(budget) ? (budget.length > 1 ? budget[1] : budget[0]) : budget
+        }]
+    }), {})
+)

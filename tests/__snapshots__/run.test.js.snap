@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should fail if captured values are out of budget 1`] = `
+Object {
+  "details": Object {
+    "load": Object {
+      "actual": 1837,
+      "lowerLimit": 0,
+      "upperLimit": 1000,
+    },
+    "speedIndex": Object {
+      "actual": 1143,
+      "lowerLimit": 500,
+      "upperLimit": 1000,
+    },
+  },
+  "result": "failed",
+}
+`;
+
+exports[`should pass if captured values are within budget 1`] = `
+Object {
+  "result": "pass",
+}
+`;
+
 exports[`should run successfully 1`] = `
 Array [
   Array [],

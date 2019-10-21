@@ -11,7 +11,7 @@ import runPerformanceTest from '../runner'
 import {
     printResult, waitFor, getMetricParams, getJobUrl,
     getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark,
-    startTunnel, getConfig, getLigthouseReportUrl
+    startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData, getBudgetMetrics
 } from '../utils'
 import {
     ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT,
@@ -28,7 +28,8 @@ export const handler = async (argv) => {
     const accessKey = config.key || process.env.SAUCE_ACCESS_KEY
     const jobName = getJobName(config)
     const buildName = config.build || `${jobName} - ${(new Date()).toString()}`
-    const metrics = getMetricParams(config)
+    const budget = config ? config.budget : null
+    const metrics = budget ? getBudgetMetrics(budget) : getMetricParams(config)
 
     /**
      * check if username and access key are available
@@ -241,6 +242,31 @@ export const handler = async (argv) => {
         text: `Stored performance logs in ${logDir}`,
         symbol: '📃'
     })
+
+    if (budget) {
+        status.stopAndPersist({
+            text: 'Asserting against performance budget of config file',
+            symbol: '🧐 '
+        })
+        const preparedBudget = prepareBudgetData(budget)
+        for (const [metric, [{ l: lowerLimit, u: upperLimit }]] of Object.entries(preparedBudget)) {
+            const actual = performanceLog[0].metrics[metric]
+            /**
+             * don't fail if - metric is within budget
+             */
+            if (actual <= upperLimit && actual >= lowerLimit) {
+                continue
+            }
+
+            result.result = 'failed'
+            result.details = result.details || {}
+            result.details[metric] = {
+                actual,
+                upperLimit,
+                lowerLimit,
+            }
+        }
+    }
 
     printResult(result, performanceLog[0], metrics, config)
 
