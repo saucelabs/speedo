@@ -155,15 +155,15 @@ Define the identifier for Sauce Connect tunnel to run performance tests for loca
 
 Define the username of your parent account that is running Sauce Connect tunnel.
 
-##### `performanceBudget`
+##### `budget`
 
-Provide metrics threshold values as `performanceBudget` in `speedo.config.js` file to strictly assert metrics value against a performance budget using `analyze` command. It will assert on metrics which is declared in performanceBudget (ignores what is being set as `metric` parameter). `minimum` and `maximum` threshold can be set as shown in below example.
+Provide metrics threshold values as `budget` in `speedo.config.js` file to strictly assert metrics value against a performance budget. It will assert on metrics which is declared in budget (ignores what is being set as `metric` parameter). `minimum` and `maximum` threshold can be set as shown in below example.
 
 i.e.
 ```js
 // speedo.config.js
 module.exports = {
-    performanceBudget: {
+    budget: {
         load: 500, // maximum
         speedIndex: [100, 500] // [minium, maximum]
     }
