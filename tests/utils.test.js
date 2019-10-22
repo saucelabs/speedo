@@ -6,7 +6,9 @@ import performanceResults from './__fixtures__/performance.json'
 import {
     printResult, waitFor, getMetricParams, getThrottleNetworkParam,
     getJobUrl, analyzeReport, getJobName, getDeviceClassFromBenchmark,
-    startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData, getBudgetMetrics,
+    startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData,
+    getBudgetMetrics, printJankinessResult, validateJankinessValue,
+    getJankiness, sanitizeMetric
 } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
@@ -36,6 +38,19 @@ test('printResult', () => {
     }
 
     printResult(result, { metrics: performanceLog } , ['speedIndex', 'load'], log)
+    expect(log.mock.calls).toMatchSnapshot()
+})
+
+test('printJankinessResult', () => {
+    const log = jest.fn()
+    const result = {
+        score: 0.9841666011958136,
+        value: {
+            metrics: { averageFPS: 60, idleTime: 5000 }
+        }
+    }
+
+    printJankinessResult(result, log)
     expect(log.mock.calls).toMatchSnapshot()
 })
 
@@ -235,4 +250,30 @@ test('getBudgetMetrics', () => {
     } catch (error) {
         expect(error.message).toMatchSnapshot()
     }
+})
+
+test('sanitizeMetric', () => {
+    expect(sanitizeMetric('load', 5000)).toMatchSnapshot()
+    expect(sanitizeMetric('score', 0.50)).toMatchSnapshot()
+    expect(sanitizeMetric('jankiness', 80)).toMatchSnapshot()
+    expect(sanitizeMetric('memoryUsageDiff', 10027708)).toMatchSnapshot()
+    expect(sanitizeMetric('averageFPS', 60)).toBe(60)
+})
+
+test('validateJankinessValue', () => {
+    expect(validateJankinessValue('50')).toMatchSnapshot()
+    expect(validateJankinessValue([50, 100])).toMatchSnapshot()
+    expect(validateJankinessValue('[50, 100]')).toMatchSnapshot()
+    try {
+        validateJankinessValue(120)
+        expect(true).toBe(false)
+    } catch (error) {
+        expect(error.message).toMatchSnapshot()
+    }
+})
+
+test('getJankiness', () => {
+    expect(getJankiness({ jankiness: 50 })).toMatchSnapshot()
+    expect(getJankiness({ }, { jankiness: 50 })).toMatchSnapshot()
+    expect(getJankiness()).toBe(null)
 })

@@ -18,8 +18,7 @@ const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
 
 const SAUCE_CONNECT_LOG_FILENAME = 'speedo-sauce-connect.log'
 
-
-const sanitizeMetric = function (metric, value) {
+export const sanitizeMetric = function (metric, value) {
     if (SCORE_METRICS.includes(metric)) {
         const scoreValue = value < 1 ? Math.round(value * 100) : value
         return scoreValue + '/100'
@@ -35,7 +34,6 @@ const sanitizeMetric = function (metric, value) {
 
     return value ? prettyMs(value) : value
 }
-
 
 /**
  * print jankiness results of cli run
@@ -371,7 +369,7 @@ export const prepareBudgetData = (budget) => (
  * validate score value and prepare data in baseline format
  * @param  {Object}
  */
-export const validateScore = (scoreValue) => {
+export const validateJankinessValue = (scoreValue) => {
     let parsedScoreValue = scoreValue
 
     if (!Array.isArray(scoreValue)) {
@@ -400,11 +398,11 @@ export const validateScore = (scoreValue) => {
  * @return {number}           jankiness score
  */
 export const getJankiness = function (argv, budget) {
-    if (argv.jankiness) {
-        return validateScore(argv.jankiness)
+    if (argv && argv.jankiness) {
+        return validateJankinessValue(argv.jankiness)
     }
     if (budget && budget.jankiness) {
-        return validateScore(budget.jankiness)
+        return validateJankinessValue(budget.jankiness)
     }
     return null
 }
