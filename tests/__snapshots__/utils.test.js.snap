@@ -61,7 +61,7 @@ Array [
 ]
 `;
 
-exports[`getBudgetMetrics 2`] = `"You've provided invalid metrics in budget: foo; only the following metrics are available: estimatedInputLatency, timeToFirstByte, domContentLoaded, firstVisualChange, firstPaint, firstContentfulPaint, firstMeaningfulPaint, lastVisualChange, firstCPUIdle, firstInteractive, load, speedIndex, score"`;
+exports[`getBudgetMetrics 2`] = `"You've provided invalid metrics in budget: foo; only the following metrics are available: estimatedInputLatency, timeToFirstByte, domContentLoaded, firstVisualChange, firstPaint, firstContentfulPaint, firstMeaningfulPaint, lastVisualChange, firstCPUIdle, firstInteractive, load, speedIndex, score, jankiness"`;
 
 exports[`prepareBudgetData 1`] = `
 Object {
