@@ -1,5 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should check jankiness 1`] = `
+Object {
+  "loaderId": "1cfbee70-f4a3-11e9-9108-e7aacbba72d3",
+  "score": 0.8813205294283949,
+  "timestamp": 1571731701463,
+  "type": "scroll",
+  "url": "https://www.saucedemo.com/",
+  "value": Object {
+    "diagnostics": Object {
+      "fpsScore": 1,
+      "idleDurationScore": 0.9674039580908033,
+      "layoutUpdateScore": 1,
+      "memoryUsageScore": 0.9936344788683276,
+    },
+    "metrics": Object {
+      "averageFPS": 62.637486770808955,
+      "forcedReflowWarningCounts": 0,
+      "idleTime": 4986,
+      "memoryUsageDiff": 10027708,
+      "otherTime": 168,
+      "paintingTime": 3,
+      "renderingTime": -1,
+      "scriptingTime": -2,
+      "scrollTime": 5154,
+    },
+  },
+}
+`;
+
+exports[`should check jankiness 2`] = `
+Object {
+  "result": "pass",
+}
+`;
+
 exports[`should fail if captured values are out of budget 1`] = `
 Object {
   "details": Object {
@@ -12,6 +47,48 @@ Object {
       "actual": 1143,
       "lowerLimit": 500,
       "upperLimit": 1000,
+    },
+  },
+  "result": "failed",
+}
+`;
+
+exports[`should fail if jankiness score is out of budget 1`] = `
+Object {
+  "loaderId": "1cfbee70-f4a3-11e9-9108-e7aacbba72d3",
+  "score": 0.8813205294283949,
+  "timestamp": 1571731701463,
+  "type": "scroll",
+  "url": "https://www.saucedemo.com/",
+  "value": Object {
+    "diagnostics": Object {
+      "fpsScore": 1,
+      "idleDurationScore": 0.9674039580908033,
+      "layoutUpdateScore": 1,
+      "memoryUsageScore": 0.9936344788683276,
+    },
+    "metrics": Object {
+      "averageFPS": 62.637486770808955,
+      "forcedReflowWarningCounts": 0,
+      "idleTime": 4986,
+      "memoryUsageDiff": 10027708,
+      "otherTime": 168,
+      "paintingTime": 3,
+      "renderingTime": -1,
+      "scriptingTime": -2,
+      "scrollTime": 5154,
+    },
+  },
+}
+`;
+
+exports[`should fail if jankiness score is out of budget 2`] = `
+Object {
+  "details": Object {
+    "jankiness": Object {
+      "actual": 88,
+      "lowerLimit": 90,
+      "upperLimit": 100,
     },
   },
   "result": "failed",

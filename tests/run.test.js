@@ -6,14 +6,17 @@ import { handler } from '../src/commands/run'
 import runPerformanceTest from '../src/runner'
 import {
     waitFor, getMetricParams, getJobUrl, startTunnel, getBudgetMetrics,
-    getConfig, getLigthouseReportUrl, prepareBudgetData, printResult
+    getConfig, getLigthouseReportUrl, prepareBudgetData, printResult,
+    printJankinessResult, getJankiness,
 } from '../src/utils'
+import { JANKINESS_RESULT } from './__fixtures__/jankiness'
 
 jest.mock('../src/runner')
 jest.mock('../src/utils')
 jest.mock('../src/constants', () => ({
     TUNNEL_SHUTDOWN_TIMEOUT: 100,
-    REQUIRED_TESTS_FOR_BASELINE_COUNT: 10
+    REQUIRED_TESTS_FOR_BASELINE_COUNT: 10,
+    JANKINESS_METRIC: 'jankiness'
 }))
 jest.mock('fs')
 
@@ -33,6 +36,7 @@ beforeEach(() => {
         userAgent: 'chrome'
     }))
     printResult.mockImplementation((argv) => argv)
+    printJankinessResult.mockImplementation((argv) => argv)
     prepareBudgetData.mockImplementation(({ load }) => ( load === 1000 ? {
         load: [{ l: 0, u: 1000 }],
         speedIndex: [{ l: 500, u: 1000 }]
@@ -40,6 +44,14 @@ beforeEach(() => {
         load: [{ l: 0, u: 2000 }],
         speedIndex: [{ l: 1000, u: 1500 }]
     }))
+    getJankiness.mockImplementation(({ jankiness }) => {
+        if (!jankiness) {
+            return null
+        }
+        return jankiness === 50 ?
+            { jankiness: [{ l: 50, u: 100 }] } :
+            { jankiness: [{ l: 90, u: 100 }] }
+    })
     getBudgetMetrics.mockImplementation((budget) => Object.keys(budget))
 })
 
@@ -265,6 +277,46 @@ test('should fail build if performance test fails', async () => {
     expect(process.exit).toBeCalledWith(1)
 })
 
+test('should check jankiness', async () => {
+    runPerformanceTest.mockImplementation(() => ({
+        sessionId: 'foobar123',
+        result: { result: 'pass' },
+        benchmark: 1234,
+        userAgent: 'chrome',
+        jankinessResult: JANKINESS_RESULT
+    }))
+    await handler({
+        user: 'foo',
+        key: 'bar',
+        site: 'mypage',
+        jankiness: 50
+    })
+    
+    expect(printJankinessResult.mock.calls[0][0]).toMatchSnapshot()
+    expect(printResult.mock.calls[0][0]).toMatchSnapshot()
+    expect(process.exit).toBeCalledWith(0)
+})
+
+test('should fail if jankiness score is out of budget', async () => {
+    runPerformanceTest.mockImplementation(() => ({
+        sessionId: 'foobar123',
+        result: { result: 'pass' },
+        benchmark: 1234,
+        userAgent: 'chrome',
+        jankinessResult: JANKINESS_RESULT
+    }))
+    await handler({
+        user: 'foo',
+        key: 'bar',
+        site: 'mypage',
+        jankiness: [90, 100]
+    })
+    
+    expect(printJankinessResult.mock.calls[0][0]).toMatchSnapshot()
+    expect(printResult.mock.calls[0][0]).toMatchSnapshot()
+    expect(process.exit).toBeCalledWith(1)
+})
+
 afterEach(() => {
     process.exit.mockRestore()
     ora.mockClear()
@@ -277,4 +329,6 @@ afterEach(() => {
     printResult.mockClear()
     prepareBudgetData.mockClear()
     getBudgetMetrics.mockClear()
+    printJankinessResult.mockClear()
+    getJankiness.mockClear()
 })
