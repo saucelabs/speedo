@@ -137,7 +137,6 @@ export const RUN_CLI_PARAMS ={
         hidden: true
     },
     jankiness: {
-        alias: 'j',
         description: 'jankiness performance score to test jankiness'
     },
 }

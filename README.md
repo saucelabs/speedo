@@ -170,6 +170,10 @@ module.exports = {
 }
 ```
 
+##### `jankiness`
+
+Provide jankiness score threshold value between 0 to 100 either as params or in `budget` in `speedo.config.js` file to check jankiness of page and assert jankiness score against provided threshold. `minimum` and `maximum` threshold can be set same as shown in `budget` section
+
 #### Run Speedo with a Config File
 
 As mentioned above Speedo looks for a `speedo.config.js` in the directory where you run the command. In this file you can define all parameters for your performance test run. Additional command line arguments will overwrite the parameters from the config, e.g.:
