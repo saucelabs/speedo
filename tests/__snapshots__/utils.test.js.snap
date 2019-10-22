@@ -226,4 +226,4 @@ Object {
 }
 `;
 
-exports[`validateJankinessValue 4`] = `"Jankiness score value should be between 0 to 100you have provided 120"`;
+exports[`validateJankinessValue 4`] = `"Jankiness score value should be between 0 to 100 you have provided 120"`;

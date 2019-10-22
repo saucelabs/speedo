@@ -386,7 +386,7 @@ export const validateJankinessValue = (scoreValue) => {
     if (!isValidValue) {
         throw new Error(
             `Jankiness score value should be between ${SCORE_THRESHOLD[0]} to ${SCORE_THRESHOLD[1]}` +
-            `you have provided ${parsedScoreValue}`)
+            ` you have provided ${parsedScoreValue}`)
     }
     return prepareBudgetData({ jankiness: parsedScoreValue })
 }
