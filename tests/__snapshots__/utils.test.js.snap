@@ -67,8 +67,8 @@ exports[`getJankinessParam 1`] = `
 Object {
   "jankiness": Array [
     Object {
-      "l": 0,
-      "u": 50,
+      "l": 50,
+      "u": 100,
     },
   ],
 }
@@ -78,8 +78,8 @@ exports[`getJankinessParam 2`] = `
 Object {
   "jankiness": Array [
     Object {
-      "l": 0,
-      "u": 50,
+      "l": 50,
+      "u": 100,
     },
   ],
 }
@@ -197,8 +197,8 @@ exports[`validateJankinessValue 1`] = `
 Object {
   "jankiness": Array [
     Object {
-      "l": 0,
-      "u": 50,
+      "l": 50,
+      "u": 100,
     },
   ],
 }
