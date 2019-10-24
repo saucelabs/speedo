@@ -5,7 +5,7 @@ import ultradumbBenchmarkScript from './scripts/benchmark'
 import userAgentScript from './scripts/userAgent'
 import speedoPkg from '../package.json'
 import { getMetricParams, getThrottleNetworkParam } from './utils'
-import { MOBILE_DEVICES } from './constants'
+import { MOBILE_DEVICES, JANKINESS_COMMAND } from './constants'
 
 const MAX_RETRIES = 3
 const speedoUserAgent = `webdriver/${webdriverPkg.version} (Speedo/${speedoPkg.version})`
@@ -21,7 +21,9 @@ const speedoUserAgent = `webdriver/${webdriverPkg.version} (Speedo/${speedoPkg.v
  * @param  {String} logDir     path to directory to store logs
  * @return {Object}            containing result and detail information of performance test
  */
-export default async function runPerformanceTest(username, accessKey, argv, name, build, logDir, retryCnt = 0) {
+export default async function runPerformanceTest(
+    username, accessKey, argv, name, build, logDir, checkJankiness, retryCnt = 0
+) {
     const { site, platformName, browserVersion, tunnelIdentifier, parentTunnel, crmuxdriverVersion } = argv
     const metrics = getMetricParams(argv)
     const networkCondition = getThrottleNetworkParam(argv)
@@ -114,9 +116,10 @@ export default async function runPerformanceTest(username, accessKey, argv, name
         const result = await browser.assertPerformance(name, metrics)
         const benchmark = await browser.execute(ultradumbBenchmarkScript)
         const userAgent = await browser.execute(userAgentScript)
+        const jankinessResult = checkJankiness ? await browser.execute(JANKINESS_COMMAND) : null
 
         await browser.deleteSession()
-        return { sessionId, result, benchmark, userAgent }
+        return { sessionId, result, benchmark, userAgent, jankinessResult }
     } catch (e) {
         await browser.deleteSession()
 
@@ -131,6 +134,6 @@ export default async function runPerformanceTest(username, accessKey, argv, name
          * log data couldn't be fetched due to a tracing issue
          * run test again:
          */
-        return runPerformanceTest(username, accessKey, argv, name, build, logDir, ++retryCnt)
+        return runPerformanceTest(username, accessKey, argv, name, build, logDir, checkJankiness, ++retryCnt)
     }
 }

@@ -61,7 +61,29 @@ Array [
 ]
 `;
 
-exports[`getBudgetMetrics 2`] = `"You've provided invalid metrics in budget: foo; only the following metrics are available: estimatedInputLatency, timeToFirstByte, domContentLoaded, firstVisualChange, firstPaint, firstContentfulPaint, firstMeaningfulPaint, lastVisualChange, firstCPUIdle, firstInteractive, load, speedIndex, score"`;
+exports[`getBudgetMetrics 2`] = `"You've provided invalid metrics in budget: foo; only the following metrics are available: estimatedInputLatency, timeToFirstByte, domContentLoaded, firstVisualChange, firstPaint, firstContentfulPaint, firstMeaningfulPaint, lastVisualChange, firstCPUIdle, firstInteractive, load, speedIndex, score, jankiness"`;
+
+exports[`getJankinessParam 1`] = `
+Object {
+  "jankiness": Array [
+    Object {
+      "l": 0,
+      "u": 50,
+    },
+  ],
+}
+`;
+
+exports[`getJankinessParam 2`] = `
+Object {
+  "jankiness": Array [
+    Object {
+      "l": 0,
+      "u": 50,
+    },
+  ],
+}
+`;
 
 exports[`prepareBudgetData 1`] = `
 Object {
@@ -140,6 +162,68 @@ Object {
 }
 `;
 
+exports[`printJankinessResult 1`] = `
+Array [
+  Array [
+    "
+Jankiness Results
+===================",
+  ],
+  Array [
+    "averageFPS: 60",
+  ],
+  Array [
+    "idleTime: 5s",
+  ],
+  Array [
+    "score: 98/100",
+  ],
+]
+`;
+
 exports[`printResult 1`] = `Array []`;
 
 exports[`printResult when test passes 1`] = `Array []`;
+
+exports[`sanitizeMetric 1`] = `"5s"`;
+
+exports[`sanitizeMetric 2`] = `"50/100"`;
+
+exports[`sanitizeMetric 3`] = `"80/100"`;
+
+exports[`sanitizeMetric 4`] = `"10.03MB"`;
+
+exports[`validateJankinessValue 1`] = `
+Object {
+  "jankiness": Array [
+    Object {
+      "l": 0,
+      "u": 50,
+    },
+  ],
+}
+`;
+
+exports[`validateJankinessValue 2`] = `
+Object {
+  "jankiness": Array [
+    Object {
+      "l": 50,
+      "u": 100,
+    },
+  ],
+}
+`;
+
+exports[`validateJankinessValue 3`] = `
+Object {
+  "jankiness": Array [
+    Object {
+      "l": 50,
+      "u": 100,
+    },
+  ],
+}
+`;
+
+exports[`validateJankinessValue 4`] = `"Jankiness score value should be between 0 to 100 you have provided 120"`;

@@ -11,11 +11,12 @@ import runPerformanceTest from '../runner'
 import {
     printResult, waitFor, getMetricParams, getJobUrl,
     getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark,
-    startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData, getBudgetMetrics
+    startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData,
+    getBudgetMetrics, getJankinessParam, printJankinessResult
 } from '../utils'
 import {
     ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT,
-    RUN_CLI_PARAMS, TUNNEL_SHUTDOWN_TIMEOUT
+    RUN_CLI_PARAMS, TUNNEL_SHUTDOWN_TIMEOUT, JANKINESS_METRIC
 } from '../constants'
 
 export const command = 'run [params...] <site>'
@@ -30,7 +31,7 @@ export const handler = async (argv) => {
     const buildName = config.build || `${jobName} - ${(new Date()).toString()}`
     const budget = config ? config.budget : null
     const metrics = budget ? getBudgetMetrics(budget) : getMetricParams(config)
-
+    const jankinessScore = getJankinessParam(argv, budget)
     /**
      * check if username and access key are available
      */
@@ -107,8 +108,8 @@ export const handler = async (argv) => {
      * run single test
      */
     status.start('Run performance test...')
-    let { result, sessionId, benchmark, userAgent } = await runPerformanceTest(
-        username, accessKey, config, jobName, buildName, logDir)
+    let { result, sessionId, benchmark, userAgent, jankinessResult } = await runPerformanceTest(
+        username, accessKey, config, jobName, buildName, logDir, jankinessScore)
 
     /**
      * retry performance test
@@ -120,10 +121,11 @@ export const handler = async (argv) => {
             status.text = `Run performance test (${ordinal(retry)} retry)...`
 
             const retriedResult = await runPerformanceTest(
-                username, accessKey, config, jobName, buildName, logDir)
+                username, accessKey, config, jobName, buildName, logDir, jankinessScore)
 
             result = retriedResult.result
             sessionId = retriedResult.sessionId
+            jankinessResult = retriedResult.jankinessResult
 
             /**
              * continue command if job has finally passed
@@ -254,7 +256,7 @@ export const handler = async (argv) => {
             /**
              * don't fail if - metric is within budget
              */
-            if (actual <= upperLimit && actual >= lowerLimit) {
+            if (actual <= upperLimit && actual >= lowerLimit || metric === JANKINESS_METRIC) {
                 continue
             }
 
@@ -265,6 +267,30 @@ export const handler = async (argv) => {
                 upperLimit,
                 lowerLimit,
             }
+        }
+    }
+
+    if (jankinessScore) {
+        status.stopAndPersist({
+            text: 'Asserting against jankinessScore',
+            symbol: '🧐 '
+        })
+
+        if (!jankinessResult) {
+            status.fail('Couldn\'t capture jankiness result')
+        } else {
+            const capturedJankinessScore = Math.round(jankinessResult.score * 100)
+            const [{ l: lowerLimit, u: upperLimit }] = jankinessScore[JANKINESS_METRIC]
+            if (capturedJankinessScore > upperLimit || capturedJankinessScore < lowerLimit) {
+                result.result = 'failed'
+                result.details = result.details || {}
+                result.details[JANKINESS_METRIC] = {
+                    actual: capturedJankinessScore,
+                    upperLimit,
+                    lowerLimit,
+                }
+            }
+            printJankinessResult(jankinessResult)
         }
     }
 

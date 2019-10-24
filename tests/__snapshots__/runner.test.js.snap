@@ -3,6 +3,7 @@
 exports[`runPerformanceTest 1`] = `
 Object {
   "benchmark": undefined,
+  "jankinessResult": null,
   "result": Object {
     "value": Object {
       "metrics": Object {
@@ -81,6 +82,7 @@ Array [
 exports[`runPerformanceTest w/ parentTunnel 1`] = `
 Object {
   "benchmark": undefined,
+  "jankinessResult": null,
   "result": Object {
     "value": Object {
       "metrics": Object {
@@ -134,6 +136,7 @@ Array [
 exports[`runPerformanceTest without args 1`] = `
 Object {
   "benchmark": undefined,
+  "jankinessResult": null,
   "result": Object {
     "value": Object {
       "metrics": Object {

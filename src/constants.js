@@ -135,6 +135,11 @@ export const RUN_CLI_PARAMS ={
         default: 'stable',
         description: 'Sauce Labs internal driver version (don\'t modify this if you don\'t know what you are doing)',
         hidden: true
+    },
+    jankiness: {
+        description: 'jankiness performance score to test jankiness',
+        type: 'boolean',
+        default: false
     }
 }
 
@@ -488,3 +493,11 @@ export const MOBILE_DEVICES = {
         }
     }
 }
+
+export const JANKINESS_METRIC = 'jankiness'
+export const BUDGET_METRICS = [...PERFORMANCE_METRICS, JANKINESS_METRIC]
+export const JANKINESS_COMMAND = 'sauce:jankinessCheck'
+export const SCORE_THRESHOLD = [0, 100]
+export const SCORE_METRICS = ['score', JANKINESS_METRIC]
+export const MB_UNIT_METRICS = ['memoryUsageDiff']
+export const NO_UNIT_METRICS = ['averageFPS']

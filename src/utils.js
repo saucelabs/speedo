@@ -8,7 +8,7 @@ import launchTunnel from 'sauce-connect-launcher'
 
 import {
     JOB_COMPLETED_TIMEOUT, JOB_COMPLETED_INTERVAL, PERFORMANCE_METRICS,
-    NETWORK_CONDITIONS, DEFAULT_CONFIG_NAME
+    NETWORK_CONDITIONS, DEFAULT_CONFIG_NAME, BUDGET_METRICS, SCORE_THRESHOLD, SCORE_METRICS, MB_UNIT_METRICS, NO_UNIT_METRICS
 } from './constants'
 
 /**
@@ -18,12 +18,35 @@ const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
 
 const SAUCE_CONNECT_LOG_FILENAME = 'speedo-sauce-connect.log'
 
-const sanitizeMetric = function (metric, value) {
-    if (metric === 'score') {
-        return Math.round(value * 100) + '/100'
+export const sanitizeMetric = function (metric, value) {
+    if (SCORE_METRICS.includes(metric)) {
+        const scoreValue = value < 1 ? Math.round(value * 100) : value
+        return scoreValue + '/100'
+    }
+
+    if (MB_UNIT_METRICS.includes(metric)) {
+        return (value / 10 ** 6).toFixed(2) + 'MB'
+    }
+
+    if (NO_UNIT_METRICS.includes(metric)) {
+        return value
     }
 
     return value ? prettyMs(value) : value
+}
+
+/**
+ * print jankiness results of cli run
+ * @param  {Object}   result            result of performance jankiness command
+ * @param  {Function} [log=console.log] log method (for testing purposes)
+ */
+export const printJankinessResult = function (result, /* istanbul ignore next */ log = console.log) { // eslint-disable-line no-console
+    log('\nJankiness Results\n===================')
+    const { value: { metrics }, score } = result
+    Object.entries(metrics).forEach(([ metric, value ]) => {
+        log(`${metric}: ${sanitizeMetric(metric, value || 0)}`)
+    })
+    log(`score: ${sanitizeMetric('score', score || 0)}`)
 }
 
 /**
@@ -135,11 +158,11 @@ export const getMetricParams = function (argv) {
  */
 export const getBudgetMetrics = function (budget) {
     const budgetMetrics = Object.keys(budget)
-    const invalidMetrics = budgetMetrics.filter((m) => !PERFORMANCE_METRICS.includes(m))
+    const invalidMetrics = budgetMetrics.filter((m) => !BUDGET_METRICS.includes(m))
     if (invalidMetrics.length) {
         throw new Error(
             `You've provided invalid metrics in budget: ${invalidMetrics.join(', ')}; ` +
-            `only the following metrics are available: ${PERFORMANCE_METRICS.join(', ')}`)
+            `only the following metrics are available: ${BUDGET_METRICS.join(', ')}`)
     }
 
     return budgetMetrics
@@ -341,3 +364,46 @@ export const prepareBudgetData = (budget) => (
         }]
     }), {})
 )
+
+/**
+ * validate score value and prepare data in baseline format
+ * we expect jankiness value in format of either `[min,max]` or just `max` as cli params
+ * @param  {Object|string|number} scoreValue jankiness score value
+ */
+export const validateJankinessValue = (scoreValue) => {
+    let parsedScoreValue = scoreValue
+
+    if (!Array.isArray(scoreValue)) {
+        try {
+            parsedScoreValue = JSON.parse(scoreValue)
+        } catch(e) {
+            throw new Error(`Unable to parse score value: ${scoreValue}`)
+        }
+    }
+    const isValidValue = (Array.isArray(parsedScoreValue)) ?
+        !parsedScoreValue.some((value) => value < SCORE_THRESHOLD[0] || value > SCORE_THRESHOLD[1]) :
+        parsedScoreValue >= SCORE_THRESHOLD[0] && parsedScoreValue <= SCORE_THRESHOLD[1]
+    
+    if (!isValidValue) {
+        throw new Error(
+            `Jankiness score value should be between ${SCORE_THRESHOLD[0]} to ${SCORE_THRESHOLD[1]}` +
+            ` you have provided ${parsedScoreValue}`)
+    }
+    return prepareBudgetData({ jankiness: parsedScoreValue })
+}
+
+/**
+ * get jankiness value from cli params or budget
+ * @param  {Object} argv      cli params
+ * @param  {String} budget    budget from config file
+ * @return {number}           jankiness score
+ */
+export const getJankinessParam = function (argv, budget) {
+    if (argv && argv.jankiness) {
+        return validateJankinessValue(argv.jankiness)
+    }
+    if (budget && budget.jankiness) {
+        return validateJankinessValue(budget.jankiness)
+    }
+    return null
+}
