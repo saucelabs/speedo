@@ -137,7 +137,9 @@ export const RUN_CLI_PARAMS ={
         hidden: true
     },
     jankiness: {
-        description: 'jankiness performance score to test jankiness'
+        description: 'jankiness performance score to test jankiness',
+        type: 'boolean',
+        default: false
     }
 }
 
