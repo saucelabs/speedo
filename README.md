@@ -172,7 +172,16 @@ module.exports = {
 
 ##### `jankiness`
 
-Provide "jankiness" score threshold value either via CLI param or in `budget` in `speedo.config.js` file. The value should be between 0 to 100 as parameter and checks the smoothness of the page. `minimum` and `maximum` threshold can be set same as shown in `budget` section.
+Provide "jankiness" score threshold value either via CLI param or in `budget` in `speedo.config.js` file. The value should be between 0 to 100 as parameter and checks the smoothness of the page. `minimum` and `maximum` threshold can be set same as shown in `budget` section. Jankiness score threshold can be provided as CLI param in `"[minimum, maximum]"` or `"maximum"`  format as shown in below example.
+
+```sh
+$ speedo run https://google.org --jankiness "[50, 100]"
+```
+
+```sh
+$ speedo run https://google.org --jankiness "100"
+```
+
 
 #### Run Speedo with a Config File
 

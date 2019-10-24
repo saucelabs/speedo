@@ -367,6 +367,7 @@ export const prepareBudgetData = (budget) => (
 
 /**
  * validate score value and prepare data in baseline format
+ * we expect jankiness value in format of either `[min,max]` or just `max` as cli params
  * @param  {Object|string|number} scoreValue jankiness score value
  */
 export const validateJankinessValue = (scoreValue) => {

@@ -109,7 +109,7 @@ export const handler = async (argv) => {
      */
     status.start('Run performance test...')
     let { result, sessionId, benchmark, userAgent, jankinessResult } = await runPerformanceTest(
-        username, accessKey, config, jobName, buildName, logDir, 0, !!jankinessScore)
+        username, accessKey, config, jobName, buildName, logDir, jankinessScore)
 
     /**
      * retry performance test
@@ -121,7 +121,7 @@ export const handler = async (argv) => {
             status.text = `Run performance test (${ordinal(retry)} retry)...`
 
             const retriedResult = await runPerformanceTest(
-                username, accessKey, config, jobName, buildName, logDir, 0, !!jankinessScore)
+                username, accessKey, config, jobName, buildName, logDir, jankinessScore)
 
             result = retriedResult.result
             sessionId = retriedResult.sessionId

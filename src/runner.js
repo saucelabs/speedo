@@ -22,7 +22,7 @@ const speedoUserAgent = `webdriver/${webdriverPkg.version} (Speedo/${speedoPkg.v
  * @return {Object}            containing result and detail information of performance test
  */
 export default async function runPerformanceTest(
-    username, accessKey, argv, name, build, logDir, retryCnt = 0, checkJankiness = false
+    username, accessKey, argv, name, build, logDir, checkJankiness, retryCnt = 0
 ) {
     const { site, platformName, browserVersion, tunnelIdentifier, parentTunnel, crmuxdriverVersion } = argv
     const metrics = getMetricParams(argv)
@@ -134,6 +134,6 @@ export default async function runPerformanceTest(
          * log data couldn't be fetched due to a tracing issue
          * run test again:
          */
-        return runPerformanceTest(username, accessKey, argv, name, build, logDir, ++retryCnt)
+        return runPerformanceTest(username, accessKey, argv, name, build, logDir, checkJankiness, ++retryCnt)
     }
 }
