@@ -8,7 +8,7 @@ import {
     getJobUrl, analyzeReport, getJobName, getDeviceClassFromBenchmark,
     startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData,
     getBudgetMetrics, printJankinessResult, validateJankinessValue,
-    getJankiness, sanitizeMetric
+    getJankinessParam, sanitizeMetric
 } from '../src/utils'
 import { PERFORMANCE_METRICS } from '../src/constants'
 
@@ -272,8 +272,8 @@ test('validateJankinessValue', () => {
     }
 })
 
-test('getJankiness', () => {
-    expect(getJankiness({ jankiness: 50 })).toMatchSnapshot()
-    expect(getJankiness({ }, { jankiness: 50 })).toMatchSnapshot()
-    expect(getJankiness()).toBe(null)
+test('getJankinessParam', () => {
+    expect(getJankinessParam({ jankiness: 50 })).toMatchSnapshot()
+    expect(getJankinessParam({ }, { jankiness: 50 })).toMatchSnapshot()
+    expect(getJankinessParam()).toBe(null)
 })

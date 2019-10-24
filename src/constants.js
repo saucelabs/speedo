@@ -138,7 +138,7 @@ export const RUN_CLI_PARAMS ={
     },
     jankiness: {
         description: 'jankiness performance score to test jankiness'
-    },
+    }
 }
 
 export const ANALYZE_CLI_PARAMS = {

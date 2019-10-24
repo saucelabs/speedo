@@ -367,7 +367,7 @@ export const prepareBudgetData = (budget) => (
 
 /**
  * validate score value and prepare data in baseline format
- * @param  {Object}
+ * @param  {Object|string|number} scoreValue jankiness score value
  */
 export const validateJankinessValue = (scoreValue) => {
     let parsedScoreValue = scoreValue
@@ -397,7 +397,7 @@ export const validateJankinessValue = (scoreValue) => {
  * @param  {String} budget    budget from config file
  * @return {number}           jankiness score
  */
-export const getJankiness = function (argv, budget) {
+export const getJankinessParam = function (argv, budget) {
     if (argv && argv.jankiness) {
         return validateJankinessValue(argv.jankiness)
     }

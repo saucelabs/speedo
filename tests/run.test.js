@@ -7,7 +7,7 @@ import runPerformanceTest from '../src/runner'
 import {
     waitFor, getMetricParams, getJobUrl, startTunnel, getBudgetMetrics,
     getConfig, getLigthouseReportUrl, prepareBudgetData, printResult,
-    printJankinessResult, getJankiness,
+    printJankinessResult, getJankinessParam,
 } from '../src/utils'
 import { JANKINESS_RESULT } from './__fixtures__/jankiness'
 
@@ -44,7 +44,7 @@ beforeEach(() => {
         load: [{ l: 0, u: 2000 }],
         speedIndex: [{ l: 1000, u: 1500 }]
     }))
-    getJankiness.mockImplementation(({ jankiness }) => {
+    getJankinessParam.mockImplementation(({ jankiness }) => {
         if (!jankiness) {
             return null
         }
@@ -330,5 +330,5 @@ afterEach(() => {
     prepareBudgetData.mockClear()
     getBudgetMetrics.mockClear()
     printJankinessResult.mockClear()
-    getJankiness.mockClear()
+    getJankinessParam.mockClear()
 })

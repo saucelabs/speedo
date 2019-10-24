@@ -12,7 +12,7 @@ import {
     printResult, waitFor, getMetricParams, getJobUrl,
     getJobName, getThrottleNetworkParam, getDeviceClassFromBenchmark,
     startTunnel, getConfig, getLigthouseReportUrl, prepareBudgetData,
-    getBudgetMetrics, getJankiness, printJankinessResult
+    getBudgetMetrics, getJankinessParam, printJankinessResult
 } from '../utils'
 import {
     ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT,
@@ -31,7 +31,7 @@ export const handler = async (argv) => {
     const buildName = config.build || `${jobName} - ${(new Date()).toString()}`
     const budget = config ? config.budget : null
     const metrics = budget ? getBudgetMetrics(budget) : getMetricParams(config)
-    const jankinessScore = getJankiness(argv, budget)
+    const jankinessScore = getJankinessParam(argv, budget)
     /**
      * check if username and access key are available
      */
@@ -278,8 +278,7 @@ export const handler = async (argv) => {
 
         if (!jankinessResult) {
             status.fail('Couldn\'t capture jankiness result')
-        }
-        else {
+        } else {
             const capturedJankinessScore = Math.round(jankinessResult.score * 100)
             const [{ l: lowerLimit, u: upperLimit }] = jankinessScore[JANKINESS_METRIC]
             if (capturedJankinessScore > upperLimit || capturedJankinessScore < lowerLimit) {
