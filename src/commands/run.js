@@ -5,7 +5,7 @@ import path from 'path'
 import yargs from 'yargs'
 import ordinal from 'ordinal'
 import SauceLabs from 'saucelabs'
-import changeCase from 'change-case'
+import { camelCase } from 'change-case'
 
 import runPerformanceTest from '../runner'
 import {
@@ -172,7 +172,7 @@ export const handler = async (argv) => {
             orderIndex: item.order_index,
             loaderId: item.loader_id,
             metrics: Object.entries(item.metric_data).reduce((obj, [metricName, metricValue]) => {
-                obj[changeCase.camelCase(metricName)] = metricValue
+                obj[camelCase(metricName)] = metricValue
                 return obj
             }, {})
         }))

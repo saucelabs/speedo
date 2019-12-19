@@ -14,7 +14,7 @@ import {
 /**
  * disable colors in tests
  */
-const ctx = new chalk.constructor({enabled: process.env.NODE_ENV !== 'test'})
+const ctx = new chalk.Instance({ enabled: process.env.NODE_ENV !== 'test' })
 
 const SAUCE_CONNECT_LOG_FILENAME = 'speedo-sauce-connect.log'
 
@@ -383,7 +383,7 @@ export const validateJankinessValue = (scoreValue) => {
     const isValidValue = (Array.isArray(parsedScoreValue)) ?
         !parsedScoreValue.some((value) => value < SCORE_THRESHOLD[0] || value > SCORE_THRESHOLD[1]) :
         parsedScoreValue >= SCORE_THRESHOLD[0] && parsedScoreValue <= SCORE_THRESHOLD[1]
-    
+
     if (!isValidValue) {
         throw new Error(
             `Jankiness score value should be between ${SCORE_THRESHOLD[0]} to ${SCORE_THRESHOLD[1]}` +
