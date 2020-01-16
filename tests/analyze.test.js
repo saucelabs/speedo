@@ -63,7 +63,7 @@ test('should fail if job had an error', async () => {
 })
 
 test('should fail if it can not fetch performance metrics', async () => {
-    fixtures.getPerformanceMetrics = Promise.reject(new Error('buhhu'))
+    fixtures.getPerformanceMetricsByJobId = Promise.reject(new Error('buhhu'))
     await handler({ user: 'foo', key: 'bar' })
     expect(process.exit).toBeCalledTimes(1)
     expect(ora().fail.mock.calls[0][0]).toContain('Couldn\'t fetch performance results: Error: buhhu')
@@ -78,7 +78,7 @@ test('should run without errors', async () => {
 })
 
 test('should fail command if performance results do not pass', async () => {
-    fixtures.getPerformanceMetrics = PERFORMANCE_METRICS_FAILING
+    fixtures.getPerformanceMetricsByJobId = PERFORMANCE_METRICS_FAILING
     await handler({
         user: 'foo',
         key: 'bar',
@@ -88,7 +88,7 @@ test('should fail command if performance results do not pass', async () => {
 })
 
 test('should fail if asserting second order index', async () => {
-    fixtures.getPerformanceMetrics = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
+    fixtures.getPerformanceMetricsByJobId = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
     await handler({
         user: 'foo',
         key: 'bar',
@@ -100,7 +100,7 @@ test('should fail if asserting second order index', async () => {
 })
 
 test('should pass if asserting first page url', async () => {
-    fixtures.getPerformanceMetrics = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
+    fixtures.getPerformanceMetricsByJobId = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
     await handler({
         user: 'foo',
         key: 'bar',
@@ -113,7 +113,7 @@ test('should pass if asserting first page url', async () => {
 })
 
 test('should fail if captured values are out of budget', async () => {
-    fixtures.getPerformanceMetrics = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
+    fixtures.getPerformanceMetricsByJobId = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
     await handler({
         user: 'foo',
         key: 'bar',
@@ -129,7 +129,7 @@ test('should fail if captured values are out of budget', async () => {
 })
 
 test('should pass if captured values are within budget', async () => {
-    fixtures.getPerformanceMetrics = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
+    fixtures.getPerformanceMetricsByJobId = Object.assign({}, PERFORMANCE_METRICS_MULTIPLE)
     await handler({
         user: 'foo',
         key: 'bar',
@@ -141,7 +141,7 @@ test('should pass if captured values are within budget', async () => {
         }
     })
     expect(analyzeReport.mock.calls[0][0]).toMatchSnapshot()
-    expect(process.exit).toBeCalledWith(0)    
+    expect(process.exit).toBeCalledWith(0)
 })
 
 afterEach(() => {

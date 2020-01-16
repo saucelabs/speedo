@@ -125,7 +125,7 @@ test('should fail if job never completes', async () => {
 })
 
 test('should fail if performance logs can not be fetched', async () => {
-    fixtures.getPerformanceMetrics = Promise.reject(new Error('buhhu'))
+    fixtures.getPerformanceMetricsByJobId = Promise.reject(new Error('buhhu'))
     await handler({ user: 'foo', key: 'bar', site: 'mypage', metric: ['load', 'speedIndex'] })
     expect(process.exit).toBeCalledTimes(1)
     expect(ora().fail.mock.calls[0][0]).toContain('Couldn\'t download performance results due to: Error: buhhu')
@@ -175,7 +175,7 @@ test('should fail if captured values are out of budget', async () => {
         }
     })
     expect(printResult.mock.calls[0][0]).toMatchSnapshot()
-    expect(process.exit).toBeCalledWith(1)    
+    expect(process.exit).toBeCalledWith(1)
 })
 
 test('should pass if captured values are within budget', async () => {
@@ -189,7 +189,7 @@ test('should pass if captured values are within budget', async () => {
         }
     })
     expect(printResult.mock.calls[0][0]).toMatchSnapshot()
-    expect(process.exit).toBeCalledWith(0)    
+    expect(process.exit).toBeCalledWith(0)
 })
 
 test('should run successfully with tunnels', async () => {
@@ -291,7 +291,7 @@ test('should check jankiness', async () => {
         site: 'mypage',
         jankiness: 50
     })
-    
+
     expect(printJankinessResult.mock.calls[0][0]).toMatchSnapshot()
     expect(printResult.mock.calls[0][0]).toMatchSnapshot()
     expect(process.exit).toBeCalledWith(0)
@@ -311,7 +311,7 @@ test('should fail if jankiness score is out of budget', async () => {
         site: 'mypage',
         jankiness: [90, 100]
     })
-    
+
     expect(printJankinessResult.mock.calls[0][0]).toMatchSnapshot()
     expect(printResult.mock.calls[0][0]).toMatchSnapshot()
     expect(process.exit).toBeCalledWith(1)

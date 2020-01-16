@@ -161,7 +161,7 @@ export const handler = async (argv) => {
     try {
         status.start('Download performance logs...')
         const perfMetrics = await waitFor(
-            () => user.getPerformanceMetrics(sessionId),
+            () => user.getPerformanceMetricsByJobId(sessionId),
             /* istanbul ignore next */
             (performanceMetrics) => performanceMetrics.items.length !== 0,
             'Couldn\'t receive any performance metrics'

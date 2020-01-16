@@ -9,7 +9,7 @@ const defaultFixtures = {
     listBuildJobs: BUILD_JOBS,
     getJob: TEST_DETAIL,
     downloadJobAsset: JOB_ASSET,
-    getPerformanceMetrics: PERFORMANCE_METRICS_PASSING,
+    getPerformanceMetricsByJobId: PERFORMANCE_METRICS_PASSING,
     getBaselineHistory: BASELINE_HISTORY,
     listTunnels: TUNNELS,
     getTunnel: TUNNEL,
@@ -22,7 +22,7 @@ const resetSauceLabsFixtures = () => {
     fixtures.listBuildJobs = defaultFixtures.listBuildJobs
     fixtures.getJob = defaultFixtures.getJob
     fixtures.downloadJobAsset = defaultFixtures.downloadJobAsset
-    fixtures.getPerformanceMetrics = defaultFixtures.getPerformanceMetrics
+    fixtures.getPerformanceMetricsByJobId = defaultFixtures.getPerformanceMetricsByJobId
     fixtures.getBaselineHistory = defaultFixtures.getBaselineHistory
     fixtures.listTunnels = defaultFixtures.listTunnels
     fixtures.getTunnel = defaultFixtures.getTunnel
@@ -40,7 +40,7 @@ export default class SauceLabsMock {
         this.getJob = jest.fn().mockImplementation(() => fixtures.getJob)
         this.downloadJobAsset = jest.fn().mockImplementation(() => fixtures.downloadJobAsset)
         this.updateJob = jest.fn().mockImplementation(() => fixtures.updateJob)
-        this.getPerformanceMetrics = jest.fn().mockImplementation(() => fixtures.getPerformanceMetrics)
+        this.getPerformanceMetricsByJobId = jest.fn().mockImplementation(() => fixtures.getPerformanceMetricsByJobId)
         this.getBaselineHistory = jest.fn().mockImplementation(() => fixtures.getBaselineHistory)
         this.listTunnels = jest.fn().mockImplementation(() => fixtures.listTunnels)
         this.getTunnel = jest.fn().mockImplementation(() => fixtures.getTunnel)
