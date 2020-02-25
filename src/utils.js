@@ -242,7 +242,7 @@ export const getJobUrl = function (argv, sessionId) {
  */
 export const getLigthouseReportUrl = function (argv, sessionId, loaderId) {
     const hostname = (!argv.region || !argv.region.includes('eu') ? 'us-west-1.' : 'eu-central-1.') + 'saucelabs.com'
-    return `https://eds.${hostname}/${sessionId}/performance/${loaderId}/lhr.html`
+    return `https://api.${hostname}/v1/eds/${sessionId}/performance/${loaderId}/lhr.html`
 }
 
 /**

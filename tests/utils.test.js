@@ -135,11 +135,11 @@ test('getJobUrl', () => {
 
 test('getLigthouseReportUrl', () => {
     expect(getLigthouseReportUrl({}, 'foobar', 'barfoo'))
-        .toEqual('https://eds.us-west-1.saucelabs.com/foobar/performance/barfoo/lhr.html')
+        .toEqual('https://api.us-west-1.saucelabs.com/v1/eds/foobar/performance/barfoo/lhr.html')
     expect(getLigthouseReportUrl({ region: 'eu' }, 'foobar', 'barfoo'))
-        .toEqual('https://eds.eu-central-1.saucelabs.com/foobar/performance/barfoo/lhr.html')
+        .toEqual('https://api.eu-central-1.saucelabs.com/v1/eds/foobar/performance/barfoo/lhr.html')
     expect(getLigthouseReportUrl({ region: 'what?' }, 'foobar', 'barfoo'))
-        .toEqual('https://eds.us-west-1.saucelabs.com/foobar/performance/barfoo/lhr.html')
+        .toEqual('https://api.us-west-1.saucelabs.com/v1/eds/foobar/performance/barfoo/lhr.html')
 })
 
 test('analyzeReport', () => {
@@ -211,14 +211,14 @@ test('getConfig', () => {
 test('prepareBudgetData', () => {
     const performanceBudget = {
         estimatedInputLatency: 20,
-        timeToFirstByte: [50, 100], 
+        timeToFirstByte: [50, 100],
         domContentLoaded: [200, 300],
         firstVisualChange: 100,
         firstPaint: 300,
         firstContentfulPaint: 300,
-        firstMeaningfulPaint: 300, 
-        lastVisualChange: 400, 
-        firstCPUIdle: 400,   
+        firstMeaningfulPaint: 300,
+        lastVisualChange: 400,
+        firstCPUIdle: 400,
         firstInteractive: 400,
         load: [50, 500],
         speedIndex: [100, 500],
@@ -230,14 +230,14 @@ test('prepareBudgetData', () => {
 test('getBudgetMetrics', () => {
     const performanceBudget = {
         estimatedInputLatency: 20,
-        timeToFirstByte: [50, 100], 
+        timeToFirstByte: [50, 100],
         domContentLoaded: [200, 300],
         firstVisualChange: 100,
         firstPaint: 300,
         firstContentfulPaint: 300,
-        firstMeaningfulPaint: 300, 
-        lastVisualChange: 400, 
-        firstCPUIdle: 400,   
+        firstMeaningfulPaint: 300,
+        lastVisualChange: 400,
+        firstCPUIdle: 400,
         firstInteractive: 400,
         load: [50, 500],
         speedIndex: [100, 500],
