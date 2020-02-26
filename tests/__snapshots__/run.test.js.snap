@@ -147,7 +147,7 @@ Array [
   Array [
     Object {
       "symbol": "📔",
-      "text": "Check out Lighthouse Report at https://eds.us-west-1.saucelabs.com/foobar/performance/barfoo/lhr.html",
+      "text": "Check out Lighthouse Report at https://api.us-west-1.saucelabs.com/v1/eds/foobar/performance/barfoo/lhr.html",
     },
   ],
 ]

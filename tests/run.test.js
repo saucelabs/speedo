@@ -27,7 +27,7 @@ beforeEach(() => {
     getConfig.mockImplementation((argv) => argv)
     getMetricParams.mockImplementation(() => ['speedIndex', 'pageWeight'])
     getJobUrl.mockImplementation(() => 'https://saucelabs.com/performance/foobar/0')
-    getLigthouseReportUrl.mockImplementation(() => 'https://eds.us-west-1.saucelabs.com/foobar/performance/barfoo/lhr.html')
+    getLigthouseReportUrl.mockImplementation(() => 'https://api.us-west-1.saucelabs.com/v1/eds/foobar/performance/barfoo/lhr.html')
     waitFor.mockImplementation((condition) => condition())
     runPerformanceTest.mockImplementation(() => ({
         sessionId: 'foobar123',
