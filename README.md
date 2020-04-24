@@ -17,6 +17,18 @@ To download the tool you have to have Node.js installed on your machine. After y
 $ npm install -g speedo
 ```
 
+## Update
+
+```sh
+$ speedo --version
+// => 1.2.2
+
+$ npm install -g speedo@latest
+
+$ speedo --version
+// => 1.2.3
+```
+
 ## Usage
 
 If you call `speedo -h` you find the following help menu:
