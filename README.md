@@ -344,9 +344,3 @@ performance:
 ```
 
 For information on how to contribute to this project, see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-***
-
-<p align="center">Copyright 2019 © Sauce Labs</p>
-
-***
