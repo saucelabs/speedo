@@ -1,3 +1,8 @@
+import speedoPkg from '../package.json'
+import webdriverPkg from 'webdriver/package.json'
+
+export const SPEEDO_USER_AGENT = `webdriver/${webdriverPkg.version} (Speedo/${speedoPkg.version})`
+
 export const USAGE = `
 Speedo CLI runner`
 

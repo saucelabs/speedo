@@ -16,7 +16,7 @@ import {
 } from '../utils'
 import {
     ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT,
-    RUN_CLI_PARAMS, TUNNEL_SHUTDOWN_TIMEOUT, JANKINESS_METRIC
+    RUN_CLI_PARAMS, TUNNEL_SHUTDOWN_TIMEOUT, JANKINESS_METRIC, SPEEDO_USER_AGENT
 } from '../constants'
 
 export const command = 'run [params...] <site>'
@@ -54,7 +54,8 @@ export const handler = async (argv) => {
     const user = new SauceLabs({
         user: username,
         key: accessKey,
-        region: config.region
+        region: config.region,
+        headers: { 'User-Agent': SPEEDO_USER_AGENT },
     })
 
     /**

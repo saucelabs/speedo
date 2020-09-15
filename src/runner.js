@@ -1,14 +1,11 @@
 import { remote } from 'webdriverio'
-import webdriverPkg from 'webdriver/package.json'
 
 import ultradumbBenchmarkScript from './scripts/benchmark'
 import userAgentScript from './scripts/userAgent'
-import speedoPkg from '../package.json'
 import { getMetricParams, getThrottleNetworkParam } from './utils'
-import { MOBILE_DEVICES, JANKINESS_COMMAND } from './constants'
+import { MOBILE_DEVICES, JANKINESS_COMMAND, SPEEDO_USER_AGENT } from './constants'
 
 const MAX_RETRIES = 3
-const speedoUserAgent = `webdriver/${webdriverPkg.version} (Speedo/${speedoPkg.version})`
 
 /**
  * script that runs performance test on Sauce Labs
@@ -50,7 +47,7 @@ export default async function runPerformanceTest(
         region: argv.region,
         logLevel: 'trace',
         outputDir: logDir,
-        headers: { 'User-Agent': speedoUserAgent },
+        headers: { 'User-Agent': SPEEDO_USER_AGENT },
         capabilities: {
             browserName: 'chrome',
             platformName,
