@@ -16,7 +16,8 @@ jest.mock('../src/utils')
 jest.mock('../src/constants', () => ({
     TUNNEL_SHUTDOWN_TIMEOUT: 100,
     REQUIRED_TESTS_FOR_BASELINE_COUNT: 10,
-    JANKINESS_METRIC: 'jankiness'
+    JANKINESS_METRIC: 'jankiness',
+    SPEEDO_API_UA: 'Speedo/1.2.4 (nodejs darwin)'
 }))
 jest.mock('fs')
 
@@ -315,6 +316,18 @@ test('should fail if jankiness score is out of budget', async () => {
     expect(printJankinessResult.mock.calls[0][0]).toMatchSnapshot()
     expect(printResult.mock.calls[0][0]).toMatchSnapshot()
     expect(process.exit).toBeCalledWith(1)
+})
+
+test('should include header when using sauce rest API', async () => {
+    await handler({
+        user: 'foo',
+        key: 'bar',
+        site: 'mypage',
+        metric: ['load', 'speedIndex'],
+        traceLogs: true,
+        logDir: '/foo/bar'
+    })
+    expect(lastInstance.args[0].headers).toMatchSnapshot()
 })
 
 afterEach(() => {
