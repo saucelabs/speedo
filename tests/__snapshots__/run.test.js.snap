@@ -95,6 +95,12 @@ Object {
 }
 `;
 
+exports[`should include header when using sauce rest API 1`] = `
+Object {
+  "User-Agent": "Speedo/1.2.4 (nodejs darwin)",
+}
+`;
+
 exports[`should pass if captured values are within budget 1`] = `
 Object {
   "result": "pass",

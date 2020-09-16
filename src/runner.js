@@ -3,7 +3,7 @@ import { remote } from 'webdriverio'
 import ultradumbBenchmarkScript from './scripts/benchmark'
 import userAgentScript from './scripts/userAgent'
 import { getMetricParams, getThrottleNetworkParam } from './utils'
-import { MOBILE_DEVICES, JANKINESS_COMMAND, SPEEDO_USER_AGENT } from './constants'
+import { MOBILE_DEVICES, JANKINESS_COMMAND, SPEEDO_WD_UA } from './constants'
 
 const MAX_RETRIES = 3
 
@@ -47,7 +47,7 @@ export default async function runPerformanceTest(
         region: argv.region,
         logLevel: 'trace',
         outputDir: logDir,
-        headers: { 'User-Agent': SPEEDO_USER_AGENT },
+        headers: { 'User-Agent': SPEEDO_WD_UA },
         capabilities: {
             browserName: 'chrome',
             platformName,

@@ -16,7 +16,7 @@ import {
 } from '../utils'
 import {
     ERROR_MISSING_CREDENTIALS, REQUIRED_TESTS_FOR_BASELINE_COUNT,
-    RUN_CLI_PARAMS, TUNNEL_SHUTDOWN_TIMEOUT, JANKINESS_METRIC, SPEEDO_USER_AGENT
+    RUN_CLI_PARAMS, TUNNEL_SHUTDOWN_TIMEOUT, JANKINESS_METRIC, SPEEDO_API_UA
 } from '../constants'
 
 export const command = 'run [params...] <site>'
@@ -55,7 +55,7 @@ export const handler = async (argv) => {
         user: username,
         key: accessKey,
         region: config.region,
-        headers: { 'User-Agent': SPEEDO_USER_AGENT },
+        headers: { 'User-Agent': SPEEDO_API_UA },
     })
 
     /**
