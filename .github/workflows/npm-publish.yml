@@ -18,10 +18,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 10.15.1
+      - name: Install dependencies
+        run: npm install
       - name: Run tests
         run: npm test
       - name: Build package
-        run: npm build
+        run: npm run build
 
   release:
     needs: build
