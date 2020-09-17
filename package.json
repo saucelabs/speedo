@@ -66,6 +66,7 @@
     "eslint": "^4.7.2",
     "eslint-plugin-import": "^2.8.0",
     "jest": "^24.1.0",
+    "jest-snapshot-serializer-ansi": "^1.0.0",
     "np": "^2.18.2",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.2",
@@ -93,6 +94,9 @@
     ],
     "coveragePathIgnorePatterns": [
       "src/scripts"
+    ],
+    "snapshotSerializers": [
+      "jest-snapshot-serializer-ansi"
     ]
   },
   "dependencies": {
