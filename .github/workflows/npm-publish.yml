@@ -1,0 +1,40 @@
+name: Manual NPM Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseType:
+        description: 'Release type - major, minor or patch'
+        required: true
+        default: 'patch'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v2
+      - name: Setup Node version
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.1
+      - name: Run tests
+        run: npm test
+      - name: Build package
+        run: npm build
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v2
+      - name: Setup Node version
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.1
+          registry-url: https://registry.npmjs.org/
+      - name: Release
+        run: npm release:${{github.event.inputs.releaseType}}
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
