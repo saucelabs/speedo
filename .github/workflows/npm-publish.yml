@@ -24,7 +24,7 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Run tests
         run: npm test
 
@@ -44,7 +44,7 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Build package
         run: npm run build
       - name: Upload built package
@@ -70,7 +70,7 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Download built package
         uses: actions/download-artifact@v2
         with:
