@@ -1,0 +1,27 @@
+name: Push Docker Image
+
+# trigger when a new tag is pushed
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v2
+      - uses: olegtarasov/get-tag@v2
+        id: tagName
+      - name: Setup Node version
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.1
+      - name: Install dependencies
+        run: npm ci
+      - run: npm run docker
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+          npm_package_version: ${{ steps.tagName.outputs.tag }}
