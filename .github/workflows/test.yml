@@ -26,3 +26,5 @@ jobs:
           SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
           SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
       - run: ./node_modules/.bin/codecov
+        env:
+          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
