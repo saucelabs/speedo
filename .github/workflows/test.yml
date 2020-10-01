@@ -15,6 +15,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - run: npm run build
+      - run: npx jest -u
       - name: Run tests
         run: npm test
       - run: ./bin/speedo run http://www.saucedemo.com -n "Speedo CI Build"
