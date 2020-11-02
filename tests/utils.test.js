@@ -147,7 +147,7 @@ test('getLigthouseReportUrl', () => {
 
 test('analyzeReport', () => {
     const log = jest.fn()
-    analyzeReport(performanceResults , ['speedIndex', 'load', 'pageWeight'], log)
+    analyzeReport(performanceResults , ['speedIndex', 'load', 'timeToFirstInteractive'], log)
     expect(log.mock.calls).toMatchSnapshot()
 })
 
