@@ -20,7 +20,10 @@ const performanceLog = {
     IdontexistMetric: 42,
     speedIndex: 10,
     pageWeight: 1000,
-    score: 0.879935214
+    score: 0.879935214,
+    largestContentfulPaint: 1240,
+    totalBlockingTime: 239,
+    cumulativeLayoutShift: 0
 }
 
 test('printResult when test passes', () => {
@@ -222,6 +225,9 @@ test('prepareBudgetData', () => {
         firstInteractive: 400,
         load: [50, 500],
         speedIndex: [100, 500],
+        largestContentfulPaint: [100, 500],
+        totalBlockingTime: 500,
+        cumulativeLayoutShift: 400
     }
 
     expect(prepareBudgetData(performanceBudget)).toMatchSnapshot()
@@ -241,6 +247,9 @@ test('getBudgetMetrics', () => {
         firstInteractive: 400,
         load: [50, 500],
         speedIndex: [100, 500],
+        largestContentfulPaint: [100, 500],
+        totalBlockingTime: 500,
+        cumulativeLayoutShift: 400
     }
 
     expect(getBudgetMetrics(performanceBudget)).toMatchSnapshot()

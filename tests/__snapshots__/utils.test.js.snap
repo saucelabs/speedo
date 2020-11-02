@@ -15,17 +15,6 @@ Performance Results
     "╔═══╤═════════════════════════╤══════════════════════════════╗
 ║ # │ Url                     │ Metrics                      ║
 ╟───┼─────────────────────────┼──────────────────────────────╢
-║ 1 │ https://www.yahoo.com/  │ ✅ load: 9.8s                ║
-║   │                         │ ✅ speedIndex: 1.3s          ║
-║   │                         │ timeToFirstInteractive: 3.1s ║
-║   │                         │ perceptualSpeedIndex: 2s     ║
-║   │                         │ pageWeightEncoded: 8m 48.2s  ║
-║   │                         │ timeToFirstByte: 502ms       ║
-║   │                         │ domContentLoaded: 3.1s       ║
-║   │                         │ firstPaint: 1.2s             ║
-║   │                         │ firstContentfulPaint: 1.7s   ║
-║   │                         │ firstMeaningfulPaint: 2s     ║
-╟───┼─────────────────────────┼──────────────────────────────╢
 ║ 0 │ https://www.amazon.com/ │ ✅ load: 4.9s                ║
 ║   │                         │ ✅ speedIndex: 2s            ║
 ║   │                         │ timeToFirstInteractive: 3s   ║
@@ -36,6 +25,17 @@ Performance Results
 ║   │                         │ firstPaint: 1.4s             ║
 ║   │                         │ firstContentfulPaint: 1.4s   ║
 ║   │                         │ firstMeaningfulPaint: 1.7s   ║
+╟───┼─────────────────────────┼──────────────────────────────╢
+║ 1 │ https://www.yahoo.com/  │ ✅ load: 9.8s                ║
+║   │                         │ ✅ speedIndex: 1.3s          ║
+║   │                         │ timeToFirstInteractive: 3.1s ║
+║   │                         │ perceptualSpeedIndex: 2s     ║
+║   │                         │ pageWeightEncoded: 8m 48.2s  ║
+║   │                         │ timeToFirstByte: 502ms       ║
+║   │                         │ domContentLoaded: 3.1s       ║
+║   │                         │ firstPaint: 1.2s             ║
+║   │                         │ firstContentfulPaint: 1.7s   ║
+║   │                         │ firstMeaningfulPaint: 2s     ║
 ╚═══╧═════════════════════════╧══════════════════════════════╝
 ",
     "👀 Check out job at https://app.saucelabs.com/performance/83d526a5d20040a7b854a2cbef64c067/0
@@ -58,10 +58,13 @@ Array [
   "firstInteractive",
   "load",
   "speedIndex",
+  "largestContentfulPaint",
+  "totalBlockingTime",
+  "cumulativeLayoutShift",
 ]
 `;
 
-exports[`getBudgetMetrics 2`] = `"You've provided invalid metrics in budget: foo; only the following metrics are available: estimatedInputLatency, timeToFirstByte, domContentLoaded, firstVisualChange, firstPaint, firstContentfulPaint, firstMeaningfulPaint, lastVisualChange, firstCPUIdle, firstInteractive, load, speedIndex, score, jankiness"`;
+exports[`getBudgetMetrics 2`] = `"You've provided invalid metrics in budget: foo; only the following metrics are available: estimatedInputLatency, timeToFirstByte, domContentLoaded, firstVisualChange, firstPaint, firstContentfulPaint, firstMeaningfulPaint, lastVisualChange, firstCPUIdle, firstInteractive, largestContentfulPaint, totalBlockingTime, cumulativeLayoutShift, load, speedIndex, score, jankiness"`;
 
 exports[`getJankinessParam 1`] = `
 Object {
@@ -87,6 +90,12 @@ Object {
 
 exports[`prepareBudgetData 1`] = `
 Object {
+  "cumulativeLayoutShift": Array [
+    Object {
+      "l": 0,
+      "u": 400,
+    },
+  ],
   "domContentLoaded": Array [
     Object {
       "l": 200,
@@ -135,6 +144,12 @@ Object {
       "u": 100,
     },
   ],
+  "largestContentfulPaint": Array [
+    Object {
+      "l": 100,
+      "u": 500,
+    },
+  ],
   "lastVisualChange": Array [
     Object {
       "l": 0,
@@ -157,6 +172,12 @@ Object {
     Object {
       "l": 50,
       "u": 100,
+    },
+  ],
+  "totalBlockingTime": Array [
+    Object {
+      "l": 0,
+      "u": 500,
     },
   ],
 }

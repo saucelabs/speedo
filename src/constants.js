@@ -21,6 +21,9 @@ export const PERFORMANCE_METRICS = [
     'lastVisualChange',
     'firstCPUIdle',
     'firstInteractive',
+    'largestContentfulPaint',
+    'totalBlockingTime',
+    'cumulativeLayoutShift',
     'load',
     'speedIndex',
     'score'
