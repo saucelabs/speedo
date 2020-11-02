@@ -92,6 +92,9 @@ Speedo allow you to assert on the following performance metrics:
 - perceptualSpeedIndex
 - pageWeight
 - pageWeightEncoded
+- largestContentfulPaint
+- totalBlockingTime
+- cumulativeLayoutShift
 
 #### Parameters
 
@@ -127,7 +130,7 @@ _default:_ `"Performance test for <your-site-url> (on "Good 3G" and 4x CPU throt
 
 ##### `metric` (short: `-m`)
 
-Define the metric that you want to check (multiple possible). Available performance metrics are `estimatedInputLatency`, `timeToFirstByte`, `domContentLoaded`, `firstVisualChange`, `firstPaint`, `firstContentfulPaint`, `firstMeaningfulPaint`, `lastVisualChange`, `firstCPUIdle`, `firstInteractive`, `load`, `speedIndex`, `score`.
+Define the metric that you want to check (multiple possible). Available performance metrics are `estimatedInputLatency`, `timeToFirstByte`, `domContentLoaded`, `firstVisualChange`, `firstPaint`, `firstContentfulPaint`, `firstMeaningfulPaint`, `lastVisualChange`, `firstCPUIdle`, `firstInteractive`, `load`, `speedIndex`, `score`, `largestContentfulPaint`, `totalBlockingTime`, `cumulativeLayoutShift`.
 
 _default:_ `"score"` ([Lighthouse Performance Score](https://developers.google.com/web/tools/lighthouse/scoring))
 
