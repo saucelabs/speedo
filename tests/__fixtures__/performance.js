@@ -41,7 +41,10 @@ export const PERFORMANCE_METRICS_PASSING = {
             firstContentfulPaint: 1092,
             firstMeaningfulPaint: 1092,
             estimatedInputLatency: 16,
-            mainDocumentTransferSize: 7881
+            mainDocumentTransferSize: 7881,
+            largestContentfulPaint: 1240,
+            totalBlockingTime: 239,
+            cumulativeLayoutShift: 0
         },
         page_url: 'http://saucelabs.com/',
         order_index: 0,
@@ -95,7 +98,10 @@ export const PERFORMANCE_METRICS_MULTIPLE = {
             firstContentfulPaint: 1092,
             firstMeaningfulPaint: 1092,
             estimatedInputLatency: 16,
-            mainDocumentTransferSize: 7881
+            mainDocumentTransferSize: 7881,
+            largestContentfulPaint: 1240,
+            totalBlockingTime: 239,
+            cumulativeLayoutShift: 0
         },
         page_url: 'http://saucelabs-fast.com/',
         order_index: 0,
@@ -144,7 +150,10 @@ export const PERFORMANCE_METRICS_MULTIPLE = {
             firstContentfulPaint: 1092,
             firstMeaningfulPaint: 1092,
             estimatedInputLatency: 16,
-            mainDocumentTransferSize: 7881
+            mainDocumentTransferSize: 7881,
+            largestContentfulPaint: 1240,
+            totalBlockingTime: 239,
+            cumulativeLayoutShift: 0
         },
         page_url: 'http://saucelabs-slow.com/',
         order_index: 1,
@@ -198,7 +207,10 @@ export const PERFORMANCE_METRICS_FAILING = {
             firstContentfulPaint: 1092,
             firstMeaningfulPaint: 1092,
             estimatedInputLatency: 16,
-            mainDocumentTransferSize: 7881
+            mainDocumentTransferSize: 7881,
+            largestContentfulPaint: 1240,
+            totalBlockingTime: 239,
+            cumulativeLayoutShift: 0
         },
         page_url: 'http://saucelabs.com/',
         order_index: 0,

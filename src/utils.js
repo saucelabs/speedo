@@ -258,7 +258,7 @@ export const analyzeReport = function (jobResult, metrics, /* istanbul ignore ne
     const data = []
     data.push(['#', 'Url', 'Metrics'])
 
-    for (const pageResult of jobResult.results.sort((a, b) => a.orderIndex > b.orderIndex)) {
+    for (const pageResult of jobResult.results.sort((a, b) => a.orderIndex - b.orderIndex)) {
         const orderIndex = pageResult.orderIndex
         const url = pageResult.url
         const metricsOutput = Object.values(pageResult.metrics)
