@@ -283,7 +283,7 @@ Define the url of the page you have opened in that test (ignores `--orderIndex` 
 
 ##### `metric` (short: `-m`)
 
-Define the metric that you want to check (multiple possible). Available performance metrics are `estimatedInputLatency`, `timeToFirstByte`, `domContentLoaded`, `firstVisualChange`, `firstPaint`, `firstContentfulPaint`, `firstMeaningfulPaint`, `lastVisualChange`, `firstCPUIdle`, `firstInteractive`, `load`, `speedIndex`, `score`.
+Define the metric that you want to check (multiple possible). Available performance metrics are `estimatedInputLatency`, `timeToFirstByte`, `domContentLoaded`, `firstVisualChange`, `firstPaint`, `firstContentfulPaint`, `firstMeaningfulPaint`, `lastVisualChange`, `firstCPUIdle`, `firstInteractive`, `load`, `speedIndex`, `score`, `largestContentfulPaint`, `totalBlockingTime`, `cumulativeLayoutShift`.
 
 _default:_ `"score"` ([Lighthouse Performance Score](https://developers.google.com/web/tools/lighthouse/scoring))
 
