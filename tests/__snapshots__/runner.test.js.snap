@@ -40,6 +40,8 @@ Array [
           "tunnelIdentifier": "foobar",
         },
       },
+      "connectionRetryCount": 1,
+      "connectionRetryTimeout": 180000,
       "headers": Object {
         "User-Agent": "webdriver/5.13.1 (Speedo/1.1.1)",
       },
@@ -120,6 +122,8 @@ Array [
           "tunnelIdentifier": "foobar",
         },
       },
+      "connectionRetryCount": 1,
+      "connectionRetryTimeout": 180000,
       "headers": Object {
         "User-Agent": "webdriver/5.13.1 (Speedo/1.1.1)",
       },
@@ -172,6 +176,8 @@ Array [
           "seleniumVersion": "3.141.59",
         },
       },
+      "connectionRetryCount": 1,
+      "connectionRetryTimeout": 180000,
       "headers": Object {
         "User-Agent": "webdriver/5.13.1 (Speedo/1.1.1)",
       },

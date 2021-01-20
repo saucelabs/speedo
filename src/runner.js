@@ -48,6 +48,8 @@ export default async function runPerformanceTest(
         logLevel: 'trace',
         outputDir: logDir,
         headers: { 'User-Agent': SPEEDO_WD_UA },
+        connectionRetryCount: 1,
+        connectionRetryTimeout: 180000,
         capabilities: {
             browserName: 'chrome',
             platformName,
