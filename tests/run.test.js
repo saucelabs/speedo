@@ -193,6 +193,26 @@ test('should pass if captured values are within budget', async () => {
     expect(process.exit).toBeCalledWith(0)
 })
 
+test('should skip tunnel checking if parentTunnel is available', async () => {
+    const opts = {
+        user: 'foo',
+        key: 'bar',
+        site: 'mypage',
+        metric: ['load', 'speedIndex'],
+        tunnelIdentifier: 'foobar',
+        parentTunnel: 'xyz'
+    }
+    const tunnelMock = {
+        close: jest.fn().mockImplementation((cb) => setTimeout(cb, 100))
+    }
+    startTunnel.mockReturnValue(Promise.resolve(tunnelMock))
+
+    await handler(opts)
+    expect(process.exit).toBeCalledWith(0)
+    expect(startTunnel).toBeCalledTimes(0)
+    expect(tunnelMock.close).toBeCalledTimes(0)
+})
+
 test('should run successfully with tunnels', async () => {
     const opts = {
         user: 'foo',
