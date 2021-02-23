@@ -77,7 +77,7 @@ export const handler = async (argv) => {
      * start Sauce Connect if not done by user
      */
     let tunnelProcess
-    if (config.tunnelIdentifier) {
+    if (!config.parentTunnel && config.tunnelIdentifier) {
         status.start(`Checking for Sauce Connect tunnel with identifier "${config.tunnelIdentifier}"`)
         try {
             tunnelProcess = await startTunnel(user, accessKey, logDir, config.tunnelIdentifier)
