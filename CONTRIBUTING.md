@@ -29,12 +29,6 @@ You can find the coverage report when opening [localhost:8080](http://localhost:
 
 ## Release Package
 
-Ensure you have publish rights for the [NPM package](https://www.npmjs.com/package/speedo). Then, pull the latest commits from the `master` branch and run the release script:
-
-```sh
-$ npm run release # patch release
-# $ npm run release:minor # minor release
-# $ npm run release:major # major release
-```
-
-The Docker image is released as part of the CI/CD process.
+- Open the [GitHub Workflow](https://github.com/saucelabs/speedo/actions/workflows/npm-publish.yml) package to running releases
+- Click on `Run workflow` drop down button
+- Enter a release type (`patch`, `minor` or `major`) - please follow [semver](https://semver.org/) semantics
