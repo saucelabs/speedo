@@ -11,15 +11,12 @@ Speedo CLI runner`
 export const EPILOG = 'Copyright 2019 © Sauce Labs'
 
 export const PERFORMANCE_METRICS = [
-    'estimatedInputLatency',
-    'timeToFirstByte',
     'domContentLoaded',
     'firstVisualChange',
     'firstPaint',
     'firstContentfulPaint',
     'firstMeaningfulPaint',
     'lastVisualChange',
-    'firstCPUIdle',
     'firstInteractive',
     'largestContentfulPaint',
     'totalBlockingTime',

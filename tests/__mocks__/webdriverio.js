@@ -1,7 +1,6 @@
 const assertPerformanceResult = {
     value: {
         metrics: {
-            timeToFirstByte: 123,
             load: 321,
             speedIndex: 10,
             pageWeight: 1000
