@@ -81,7 +81,6 @@ speedo run https://google.com --retry 3
 
 Speedo allow you to assert on the following performance metrics:
 
-- timeToFirstByte
 - firstPaint
 - firstContentfulPaint
 - firstMeaningfulPaint
@@ -130,7 +129,7 @@ _default:_ `"Performance test for <your-site-url> (on "Good 3G" and 4x CPU throt
 
 ##### `metric` (short: `-m`)
 
-Define the metric that you want to check (multiple possible). Available performance metrics are `estimatedInputLatency`, `timeToFirstByte`, `domContentLoaded`, `firstVisualChange`, `firstPaint`, `firstContentfulPaint`, `firstMeaningfulPaint`, `lastVisualChange`, `firstCPUIdle`, `firstInteractive`, `load`, `speedIndex`, `score`, `largestContentfulPaint`, `totalBlockingTime`, `cumulativeLayoutShift`.
+Define the metric that you want to check (multiple possible). Available performance metrics are `domContentLoaded`, `firstVisualChange`, `firstPaint`, `firstContentfulPaint`, `firstMeaningfulPaint`, `lastVisualChange`, `firstInteractive`, `load`, `speedIndex`, `score`, `largestContentfulPaint`, `totalBlockingTime`, `cumulativeLayoutShift`.
 
 _default:_ `"score"` ([Lighthouse Performance Score](https://developers.google.com/web/tools/lighthouse/scoring))
 
@@ -283,7 +282,7 @@ Define the url of the page you have opened in that test (ignores `--orderIndex` 
 
 ##### `metric` (short: `-m`)
 
-Define the metric that you want to check (multiple possible). Available performance metrics are `estimatedInputLatency`, `timeToFirstByte`, `domContentLoaded`, `firstVisualChange`, `firstPaint`, `firstContentfulPaint`, `firstMeaningfulPaint`, `lastVisualChange`, `firstCPUIdle`, `firstInteractive`, `load`, `speedIndex`, `score`, `largestContentfulPaint`, `totalBlockingTime`, `cumulativeLayoutShift`.
+Define the metric that you want to check (multiple possible). Available performance metrics are `domContentLoaded`, `firstVisualChange`, `firstPaint`, `firstContentfulPaint`, `firstMeaningfulPaint`, `lastVisualChange`, `firstInteractive`, `load`, `speedIndex`, `score`, `largestContentfulPaint`, `totalBlockingTime`, `cumulativeLayoutShift`.
 
 _default:_ `"score"` ([Lighthouse Performance Score](https://developers.google.com/web/tools/lighthouse/scoring))
 

@@ -13,7 +13,6 @@ import {
 import { PERFORMANCE_METRICS } from '../src/constants'
 
 const performanceLog = {
-    timeToFirstByte: 123,
     firstContentfulPaint: 200,
     firstMeaningfulPaint: 222,
     load: 321,
@@ -29,7 +28,7 @@ const performanceLog = {
 test('printResult when test passes', () => {
     const log = jest.fn()
     const result = { result: 'pass', details: {} }
-    printResult(result, { metrics: performanceLog } , ['speedIndex', 'load', 'timeToFirstByte', 'score'], log)
+    printResult(result, { metrics: performanceLog } , ['speedIndex', 'load', 'score'], log)
     expect(log.mock.calls).toMatchSnapshot()
 })
 
@@ -213,15 +212,12 @@ test('getConfig', () => {
 
 test('prepareBudgetData', () => {
     const performanceBudget = {
-        estimatedInputLatency: 20,
-        timeToFirstByte: [50, 100],
         domContentLoaded: [200, 300],
         firstVisualChange: 100,
         firstPaint: 300,
         firstContentfulPaint: 300,
         firstMeaningfulPaint: 300,
         lastVisualChange: 400,
-        firstCPUIdle: 400,
         firstInteractive: 400,
         load: [50, 500],
         speedIndex: [100, 500],
@@ -235,15 +231,12 @@ test('prepareBudgetData', () => {
 
 test('getBudgetMetrics', () => {
     const performanceBudget = {
-        estimatedInputLatency: 20,
-        timeToFirstByte: [50, 100],
         domContentLoaded: [200, 300],
         firstVisualChange: 100,
         firstPaint: 300,
         firstContentfulPaint: 300,
         firstMeaningfulPaint: 300,
         lastVisualChange: 400,
-        firstCPUIdle: 400,
         firstInteractive: 400,
         load: [50, 500],
         speedIndex: [100, 500],

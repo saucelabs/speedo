@@ -8,21 +8,6 @@
             "url": "https://www.yahoo.com/",
             "passed": true,
             "metrics": {
-                "timeToFirstByte": {
-                    "metric": "timeToFirstByte",
-                    "passed": true,
-                    "value": 502,
-                    "baseline": {
-                        "b": 502,
-                        "u": 502,
-                        "l": 502,
-                        "r": 502,
-                        "datetime": "2019-03-17T17:36:22Z",
-                        "new_regime": 0,
-                        "accepted": 0,
-                        "job_id": "83d526a5d20040a7b854a2cbef64c067"
-                    }
-                },
                 "firstPaint": {
                     "metric": "firstPaint",
                     "passed": true,
@@ -165,21 +150,6 @@
             "url": "https://www.amazon.com/",
             "passed": true,
             "metrics": {
-                "timeToFirstByte": {
-                    "metric": "timeToFirstByte",
-                    "passed": true,
-                    "value": 693,
-                    "baseline": {
-                        "b": 693,
-                        "u": 693,
-                        "l": 693,
-                        "r": 693,
-                        "datetime": "2019-03-17T17:36:22Z",
-                        "new_regime": 0,
-                        "accepted": 0,
-                        "job_id": "83d526a5d20040a7b854a2cbef64c067"
-                    }
-                },
                 "firstPaint": {
                     "metric": "firstPaint",
                     "passed": true,

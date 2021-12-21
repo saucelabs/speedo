@@ -20,7 +20,6 @@ Performance Results
 ║   │                         │ ✅ speedIndex: 2s               ║
 ║   │                         │ perceptualSpeedIndex: 2.2s      ║
 ║   │                         │ pageWeightEncoded: 9m 54.7s     ║
-║   │                         │ timeToFirstByte: 693ms          ║
 ║   │                         │ domContentLoaded: 3s            ║
 ║   │                         │ firstPaint: 1.4s                ║
 ║   │                         │ firstContentfulPaint: 1.4s      ║
@@ -31,7 +30,6 @@ Performance Results
 ║   │                         │ ✅ speedIndex: 1.3s             ║
 ║   │                         │ perceptualSpeedIndex: 2s        ║
 ║   │                         │ pageWeightEncoded: 8m 48.2s     ║
-║   │                         │ timeToFirstByte: 502ms          ║
 ║   │                         │ domContentLoaded: 3.1s          ║
 ║   │                         │ firstPaint: 1.2s                ║
 ║   │                         │ firstContentfulPaint: 1.7s      ║
@@ -46,15 +44,12 @@ Performance Results
 
 exports[`getBudgetMetrics 1`] = `
 Array [
-  "estimatedInputLatency",
-  "timeToFirstByte",
   "domContentLoaded",
   "firstVisualChange",
   "firstPaint",
   "firstContentfulPaint",
   "firstMeaningfulPaint",
   "lastVisualChange",
-  "firstCPUIdle",
   "firstInteractive",
   "load",
   "speedIndex",
@@ -64,7 +59,7 @@ Array [
 ]
 `;
 
-exports[`getBudgetMetrics 2`] = `"You've provided invalid metrics in budget: foo; only the following metrics are available: estimatedInputLatency, timeToFirstByte, domContentLoaded, firstVisualChange, firstPaint, firstContentfulPaint, firstMeaningfulPaint, lastVisualChange, firstCPUIdle, firstInteractive, largestContentfulPaint, totalBlockingTime, cumulativeLayoutShift, load, speedIndex, score, jankiness"`;
+exports[`getBudgetMetrics 2`] = `"You've provided invalid metrics in budget: foo; only the following metrics are available: domContentLoaded, firstVisualChange, firstPaint, firstContentfulPaint, firstMeaningfulPaint, lastVisualChange, firstInteractive, largestContentfulPaint, totalBlockingTime, cumulativeLayoutShift, load, speedIndex, score, jankiness"`;
 
 exports[`getJankinessParam 1`] = `
 Object {
@@ -100,18 +95,6 @@ Object {
     Object {
       "l": 200,
       "u": 300,
-    },
-  ],
-  "estimatedInputLatency": Array [
-    Object {
-      "l": 0,
-      "u": 20,
-    },
-  ],
-  "firstCPUIdle": Array [
-    Object {
-      "l": 0,
-      "u": 400,
     },
   ],
   "firstContentfulPaint": Array [
@@ -166,12 +149,6 @@ Object {
     Object {
       "l": 100,
       "u": 500,
-    },
-  ],
-  "timeToFirstByte": Array [
-    Object {
-      "l": 50,
-      "u": 100,
     },
   ],
   "totalBlockingTime": Array [
