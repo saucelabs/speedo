@@ -1,7 +1,3 @@
-<p align="center">
-    <img src="./docs/saucebot.png" alt="Speedo Saucebot" />
-</p>
-
 Speedo ![Test Changes](https://github.com/saucelabs/speedo/workflows/Test%20Changes/badge.svg?branch=main) [![codecov](https://codecov.io/gh/saucelabs/speedo/branch/main/graph/badge.svg)](https://codecov.io/gh/saucelabs/speedo)
 ======
 
