@@ -1,5 +1,7 @@
-Speedo ![Test Changes](https://github.com/saucelabs/speedo/workflows/Test%20Changes/badge.svg?branch=main) [![codecov](https://codecov.io/gh/saucelabs/speedo/branch/main/graph/badge.svg)](https://codecov.io/gh/saucelabs/speedo)
+Speedo 
 ======
+
+## This project is not maintained anymore. To use Frontend Performance Testing at Sauce Labs, please take a look at the official [documentation](https://docs.saucelabs.com/insights/debug/).
 
 Sauce Labs provides a [Frontend Performance Testing](https://wiki.saucelabs.com/display/DOCS/Getting+Started+with+Sauce+Front-End+Performance) offering that allows you to check for crucial performance regression on your website. `Speedo` is a simple to use CLI tool that allows you to integrate this into your CI/CD pipeline. All you need to do is download and run it, just like that:
 
