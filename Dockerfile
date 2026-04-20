@@ -1,4 +1,4 @@
-FROM node:10.16.0
+FROM node:lts-bullseye
 
 WORKDIR /speedo
 ADD . /speedo
